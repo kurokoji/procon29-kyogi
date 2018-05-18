@@ -1,0 +1,7 @@
+BasedOnStyle: Google
+PointerAlignment: Left
+AllowShortIfStatementsOnASingleLine: true
+AllowShortLoopsOnASingleLine: true
+AllowShortFunctionsOnASingleLine: Inline
+ColumnLimit: 120
+AccessModifierOffset: -2
