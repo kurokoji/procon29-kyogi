@@ -1,3 +1,14 @@
+//====================================================
+//
+//  mikuru
+//
+//  Copyright (c) 2018 Shu Kakihana
+//
+//  This software is released under the MIT License.
+//  https://opensource.org/licenses/mit-license.php
+//
+//====================================================
+
 #ifndef MIKURU_TYPES_H_
 #define MIKURU_TYPES_H_
 
@@ -20,4 +31,5 @@ using char8 = char;
 using char16 = char16_t;
 using char32 = char32_t;
 } // namespace mikuru
+
 #endif
