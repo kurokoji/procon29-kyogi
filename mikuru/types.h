@@ -30,6 +30,12 @@ using int64 = std::int_fast64_t;
 using char8 = char;
 using char16 = char16_t;
 using char32 = char32_t;
+
+/*
+ * Score type
+ */
+
+using score_type = int32;
 } // namespace mikuru
 
 #endif
