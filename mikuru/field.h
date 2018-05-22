@@ -12,7 +12,27 @@
 #ifndef MIKURU_FIELD_H_
 #define MIKURU_FIELD_H_
 
+#include "types.h"
+#include <array>
+#include <istream>
+#include <ostream>
+
 namespace mikuru {
+class Field {
+private:
+  static size_t constexpr MAX_FIELD_SIZE = 12;
+  size_t height_, width_;
+  std::array<std::array<score_type, MAX_FIELD_SIZE>, MAX_FIELD_SIZE> field_;
+
+public:
+  Field() noexcept;
+  Field(size_t, size_t) noexcept;
+  score_type at(size_t, size_t) const;
+  score_type& at(size_t, size_t);
+
+  friend std::ostream& operator<<(std::ostream&, Field const&);
+  friend void operator>>(std::istream&, Field&);
+};
 } // namespace mikuru
 
 #endif
