@@ -27,6 +27,8 @@ private:
 public:
   Field() noexcept;
   Field(size_t, size_t) noexcept;
+  size_t height() const;
+  size_t width() const;
   score_type at(size_t, size_t) const;
   score_type& at(size_t, size_t);
 
