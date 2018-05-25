@@ -19,9 +19,11 @@
 
 namespace mikuru {
 class Field {
-private:
+protected:
   static size_t constexpr MAX_FIELD_SIZE = 12;
   size_t height_, width_;
+
+private:
   std::array<std::array<score_type, MAX_FIELD_SIZE>, MAX_FIELD_SIZE> field_;
 
 public:
