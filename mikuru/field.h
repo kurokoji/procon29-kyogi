@@ -31,8 +31,8 @@ public:
   Field(size_t, size_t) noexcept;
   size_t height() const;
   size_t width() const;
-  score_type at(size_t, size_t) const;
-  score_type& at(size_t, size_t);
+  auto at(size_t h, size_t w) const -> decltype(field_.at(h).at(w));
+  auto at(size_t h, size_t w) -> decltype(field_.at(h).at(w))&;
 
   friend std::ostream& operator<<(std::ostream&, Field const&);
   friend void operator>>(std::istream&, Field&);
