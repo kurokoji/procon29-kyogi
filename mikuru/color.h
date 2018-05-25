@@ -13,6 +13,12 @@
 #define MIKURU_COLOR_H
 
 namespace mikuru {
+/*
+ * BLANK(0) -> まだ埋められていない
+ * BLUE(1) -> 自チームのマス
+ * RED(2) -> 相手チームのマス
+ */
+enum class Color { BLANK, BLUE, RED };
 } // namespace mikuru
 
 #endif
