@@ -26,7 +26,7 @@ public:
   ColorField(size_t, size_t) noexcept;
 
   friend std::ostream& operator<<(std::ostream&, ColorField const&);
-  friend void operator>>(std::istream&, ColorField&);
+  friend std::istream& operator>>(std::istream&, ColorField&);
 };
 } // namespace mikuru
 
