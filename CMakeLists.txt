@@ -15,4 +15,7 @@ include_directories(
 
 add_executable(mikuru
   ./mikuru/field.cc
-  ./mikuru/mikuru.cc)
+  ./mikuru/mikuru.cc
+  ./mikuru/field.cc
+  ./mikuru/color_field.cc
+  ./mikuru/problem_state.cc)
