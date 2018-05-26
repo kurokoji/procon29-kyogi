@@ -25,8 +25,8 @@ auto Field::at(size_t h, size_t w) const -> decltype(field_.at(h).at(w)) {
 auto Field::at(size_t h, size_t w) -> decltype(field_.at(h).at(w))& {
   return field_.at(h).at(w);
 }
-size_t Field::height() const { return height_; }
-size_t Field::width() const { return width_; }
+size_t Field::getHeight() const { return height_; }
+size_t Field::getWidth() const { return width_; }
 std::ostream& operator<<(std::ostream& os, Field const& field) {
   os << field.height_ << " " << field.width_ << '\n';
   for (size_t h = 0; h < field.height_; ++h) {

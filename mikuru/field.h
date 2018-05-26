@@ -29,8 +29,8 @@ private:
 public:
   Field() noexcept;
   Field(size_t, size_t) noexcept;
-  size_t height() const;
-  size_t width() const;
+  size_t getHeight() const;
+  size_t getWidth() const;
   auto at(size_t h, size_t w) const -> decltype(field_.at(h).at(w));
   auto at(size_t h, size_t w) -> decltype(field_.at(h).at(w))&;
 
