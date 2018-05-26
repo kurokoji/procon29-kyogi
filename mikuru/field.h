@@ -35,7 +35,7 @@ public:
   auto at(size_t h, size_t w) -> decltype(field_.at(h).at(w))&;
 
   friend std::ostream& operator<<(std::ostream&, Field const&);
-  friend void operator>>(std::istream&, Field&);
+  friend std::istream& operator>>(std::istream&, Field&);
 };
 } // namespace mikuru
 

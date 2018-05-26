@@ -37,12 +37,13 @@ std::ostream& operator<<(std::ostream& os, Field const& field) {
   os.flush();
   return os;
 }
-void operator>>(std::istream& is, Field& field) {
+std::istream& operator>>(std::istream& is, Field& field) {
   is >> field.height_ >> field.width_;
   for (size_t h = 0; h < field.height_; ++h) {
     for (size_t w = 0; w < field.width_; ++w) {
       is >> field.at(h, w);
     }
   }
+  return is;
 }
 } // namespace mikuru
