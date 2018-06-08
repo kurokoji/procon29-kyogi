@@ -12,7 +12,7 @@
 #ifndef MIKURU_FIELD_H_
 #define MIKURU_FIELD_H_
 
-#include "types.h"
+#include "types.hpp"
 #include <array>
 #include <istream>
 #include <ostream>

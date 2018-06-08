@@ -12,10 +12,10 @@
 #ifndef MIKURU_PROBLEM_STATE_H_
 #define MIKURU_PROBLEM_STATE_H_
 
-#include "color.h"
-#include "color_field.h"
-#include "field.h"
-#include "types.h"
+#include "color.hpp"
+#include "color_field.hpp"
+#include "field.hpp"
+#include "types.hpp"
 #include <array>
 #include <istream>
 #include <ostream>

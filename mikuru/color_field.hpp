@@ -12,8 +12,8 @@
 #ifndef MIKURU_COLOR_FIELD_H_
 #define MIKURU_COLOR_FIELD_H_
 
-#include "color.h"
-#include "field.h"
+#include "color.hpp"
+#include "field.hpp"
 #include <array>
 
 namespace mikuru {

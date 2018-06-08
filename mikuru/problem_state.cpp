@@ -9,7 +9,7 @@
 //
 //====================================================
 
-#include "problem_state.h"
+#include "problem_state.hpp"
 #include <cmath>
 #include <cstdlib>
 

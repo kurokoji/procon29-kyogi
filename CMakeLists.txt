@@ -14,8 +14,8 @@ include_directories(
   ${LIBMIKURU_INCLUDE_DIRS})
 
 add_executable(mikuru
-  ./mikuru/field.cc
-  ./mikuru/mikuru.cc
-  ./mikuru/field.cc
-  ./mikuru/color_field.cc
-  ./mikuru/problem_state.cc)
+  ./mikuru/field.cpp
+  ./mikuru/mikuru.cpp
+  ./mikuru/field.cpp
+  ./mikuru/color_field.cpp
+  ./mikuru/problem_state.cpp)
