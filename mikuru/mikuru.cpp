@@ -33,5 +33,34 @@ int main(int argc, char* argv[]) {
   std::string res;
   cv::Mat frame, gray;
   while (true) {
+    cap >> frame;
+    cv::imshow("Camera", frame);
+
+    cv::cvtColor(frame, frame, cv::COLOR_BGR2RGB);
+    cv::cvtColor(frame, gray, cv::COLOR_RGB2GRAY);
+
+    size_t const width = frame.cols, height = frame.rows;
+    auto const raw = gray.data;
+
+    zbar::Image zbar_image(width, height, "Y800", raw, width * height);
+    size_t const symbol_num = image_scanner.scan(zbar_image);
+
+    auto get_symbol = [&]() -> bool {
+      for (auto itr = zbar_image.symbol_begin(); itr != zbar_image.symbol_end();
+           ++itr) {
+        res = itr->get_data();
+        return true;
+      }
+      return false;
+    };
+
+    // QRコードがあった場合はbreak
+    if (symbol_num && get_symbol())
+      break;
+
+    // 'q'が押された場合はbreak
+    mikuru::int32 const key = cv::waitKey(60);
+    if (key == 'q')
+      break;
   }
 }
