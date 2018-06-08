@@ -10,6 +10,28 @@
 //====================================================
 
 #include <iostream>
-#include <vector>
+#include <string>
+#include <sstream>
+#include <zbar.h>
+#include <opencv2/opencv.hpp>
 
-int main(int argc, char* argv[]) {}
+#include "problem_state.hpp"
+#include "types.hpp"
+
+int main(int argc, char* argv[]) {
+  cv::VideoCapture cap(0);
+
+  if (!cap.isOpened()) {
+    std::cerr << "Can't open camera." << std::endl;
+    std::exit(1);
+  }
+
+  zbar::ImageScanner image_scanner;
+  image_scanner.set_config(zbar::ZBAR_NONE, zbar::ZBAR_CFG_ENABLE, 1);
+
+  mikuru::ProblemState problem;
+  std::string res;
+  cv::Mat frame, gray;
+  while (true) {
+  }
+}
