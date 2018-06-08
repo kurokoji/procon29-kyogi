@@ -46,8 +46,9 @@ std::istream& operator>>(std::istream& is, ProblemState& problem) {
     blue_w = static_cast<size_t>(w);
 
     red_h = static_cast<size_t>(h);
-    red_w = static_cast<size_t>(
-        std::abs(static_cast<int32>(problem.field_.getWidth()) - w - 1)) % problem.field_.getWidth();
+    red_w = static_cast<size_t>(std::abs(
+                static_cast<int32>(problem.field_.getWidth()) - w - 1)) %
+            problem.field_.getWidth();
   }
   return is;
 }
