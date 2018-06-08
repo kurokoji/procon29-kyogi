@@ -63,4 +63,17 @@ int main(int argc, char* argv[]) {
     if (key == 'q')
       break;
   }
+
+  if (res == "") {
+    std::cerr << "Empty result." << std::endl;
+    std::exit(1);
+  }
+  // コロンを取り除く
+  std::replace(std::begin(res), std::end(res), ':', ' ');
+  std::stringstream ss(res);
+
+  std::cerr << res << std::endl;
+
+  ss >> problem;
+  std::cout << problem << std::endl;
 }
