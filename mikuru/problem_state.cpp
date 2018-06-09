@@ -18,8 +18,8 @@ namespace mikuru {
  * public
  */
 
-ProblemState::ProblemState() {}
-std::ostream& operator<<(std::ostream& os, ProblemState const& problem) {
+problem_state::problem_state() {}
+std::ostream& operator<<(std::ostream& os, problem_state const& problem) {
   os << problem.field_;
 
   for (const auto& e : problem.blue_) {
@@ -32,7 +32,7 @@ std::ostream& operator<<(std::ostream& os, ProblemState const& problem) {
 
   return os;
 }
-std::istream& operator>>(std::istream& is, ProblemState& problem) {
+std::istream& operator>>(std::istream& is, problem_state& problem) {
   is >> problem.field_;
 
   for (size_t i = 0; i < 2; ++i) {

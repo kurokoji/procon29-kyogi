@@ -18,7 +18,7 @@ namespace mikuru {
  * BLUE(1) -> 自チームのマス
  * RED(2) -> 相手チームのマス
  */
-enum class Color { BLANK, BLUE, RED };
+enum class color { BLANK, BLUE, RED };
 } // namespace mikuru
 
 #endif

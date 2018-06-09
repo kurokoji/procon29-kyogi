@@ -15,9 +15,9 @@ namespace mikuru {
 /*
  * public
  */
-ColorField::ColorField() noexcept {}
-ColorField::ColorField(size_t h, size_t w) noexcept : Field(h, w) {}
-std::ostream& operator<<(std::ostream& os, ColorField const& field) {
+color_field::color_field() noexcept {}
+color_field::color_field(size_t h, size_t w) noexcept : field(h, w) {}
+std::ostream& operator<<(std::ostream& os, color_field const& field) {
   os << field.height_ << " " << field.width_ << '\n';
   for (size_t h = 0; h < field.height_; ++h) {
     for (size_t w = 0; w < field.width_; ++w) {
@@ -27,7 +27,7 @@ std::ostream& operator<<(std::ostream& os, ColorField const& field) {
   os.flush();
   return os;
 }
-std::istream& operator>>(std::istream& is, ColorField& field) {
+std::istream& operator>>(std::istream& is, color_field& field) {
   is >> field.height_ >> field.width_;
   for (size_t h = 0; h < field.height_; ++h) {
     for (size_t w = 0; w < field.width_; ++w) {

@@ -22,17 +22,17 @@
 #include <utility>
 
 namespace mikuru {
-class ProblemState {
+class problem_state {
 private:
-  Field field_;
-  ColorField color_field_;
+  field field_;
+  field color_field_;
   std::array<std::pair<size_t, size_t>, 2> blue_, red_;
 
 public:
-  ProblemState();
+  problem_state();
 
-  friend std::ostream& operator<<(std::ostream&, ProblemState const&);
-  friend std::istream& operator>>(std::istream&, ProblemState&);
+  friend std::ostream& operator<<(std::ostream&, problem_state const&);
+  friend std::istream& operator>>(std::istream&, problem_state&);
 };
 } // namespace mikuru
 

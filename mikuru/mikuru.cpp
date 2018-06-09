@@ -29,7 +29,7 @@ int main(int argc, char* argv[]) {
   zbar::ImageScanner image_scanner;
   image_scanner.set_config(zbar::ZBAR_NONE, zbar::ZBAR_CFG_ENABLE, 1);
 
-  mikuru::ProblemState problem;
+  mikuru::problem_state problem;
   std::string res;
   cv::Mat frame, gray;
   while (true) {
