@@ -9,16 +9,13 @@
 //
 //====================================================
 
-#ifndef MIKURU_COLOR_H
-#define MIKURU_COLOR_H
+#ifndef MIKURU_QR_H_
+#define MIKURU_QR_H_
+
+#include <string>
 
 namespace mikuru {
-/*
- * BLANK(0) -> まだ埋められていない
- * BLUE(1) -> 自チームのマス
- * RED(2) -> 相手チームのマス
- */
-enum class color { BLANK, BLUE, RED };
+std::string get_qr_string(size_t cam_num = 0);
 } // namespace mikuru
 
 #endif

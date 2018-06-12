@@ -17,16 +17,16 @@
 #include <array>
 
 namespace mikuru {
-class ColorField : public Field {
+class color_field : public field {
 private:
-  std::array<std::array<Color, MAX_FIELD_SIZE>, MAX_FIELD_SIZE> field_;
+  std::array<std::array<color, MAX_FIELD_SIZE>, MAX_FIELD_SIZE> field_;
 
 public:
-  ColorField() noexcept;
-  ColorField(size_t, size_t) noexcept;
+  color_field() noexcept;
+  color_field(size_t, size_t) noexcept;
 
-  friend std::ostream& operator<<(std::ostream&, ColorField const&);
-  friend std::istream& operator>>(std::istream&, ColorField&);
+  friend std::ostream& operator<<(std::ostream&, color_field const&);
+  friend std::istream& operator>>(std::istream&, color_field&);
 };
 } // namespace mikuru
 

@@ -14,7 +14,8 @@ add_executable(mikuru
   ./mikuru/field.cpp
   ./mikuru/mikuru.cpp
   ./mikuru/color_field.cpp
-  ./mikuru/problem_state.cpp)
+  ./mikuru/problem_state.cpp
+  ./mikuru/qr.cpp)
 
 link_directories(
   ${LIBMIKURU_LIBRARY_DIRS})

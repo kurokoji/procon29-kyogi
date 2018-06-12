@@ -17,17 +17,17 @@ namespace mikuru {
  * public
  */
 
-Field::Field() noexcept : height_(0), width_(0) {}
-Field::Field(size_t h, size_t w) noexcept : height_(h), width_(w) {}
-auto Field::at(size_t h, size_t w) const -> decltype(field_.at(h).at(w)) {
+field::field() noexcept : height_(0), width_(0) {}
+field::field(size_t h, size_t w) noexcept : height_(h), width_(w) {}
+auto field::at(size_t h, size_t w) const -> decltype(field_.at(h).at(w)) {
   return field_.at(h).at(w);
 }
-auto Field::at(size_t h, size_t w) -> decltype(field_.at(h).at(w))& {
+auto field::at(size_t h, size_t w) -> decltype(field_.at(h).at(w))& {
   return field_.at(h).at(w);
 }
-size_t Field::getHeight() const { return height_; }
-size_t Field::getWidth() const { return width_; }
-std::ostream& operator<<(std::ostream& os, Field const& field) {
+size_t field::getHeight() const { return height_; }
+size_t field::getWidth() const { return width_; }
+std::ostream& operator<<(std::ostream& os, field const& field) {
   os << field.height_ << " " << field.width_ << '\n';
   for (size_t h = 0; h < field.height_; ++h) {
     for (size_t w = 0; w < field.width_; ++w) {
@@ -37,7 +37,7 @@ std::ostream& operator<<(std::ostream& os, Field const& field) {
   os.flush();
   return os;
 }
-std::istream& operator>>(std::istream& is, Field& field) {
+std::istream& operator>>(std::istream& is, field& field) {
   is >> field.height_ >> field.width_;
   for (size_t h = 0; h < field.height_; ++h) {
     for (size_t w = 0; w < field.width_; ++w) {
