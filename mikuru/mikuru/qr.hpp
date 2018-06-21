@@ -9,13 +9,13 @@
 //
 //====================================================
 
-#ifndef MIKURU_QR_H_
-#define MIKURU_QR_H_
+#ifndef PROCON29_MIKURU_QR_HPP_
+#define PROCON29_MIKURU_QR_HPP_
 
 #include <string>
 
 namespace mikuru {
 std::string get_qr_string(size_t cam_num = 0);
-} // namespace mikuru
+}  // namespace mikuru
 
 #endif

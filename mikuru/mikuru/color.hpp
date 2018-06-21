@@ -9,8 +9,8 @@
 //
 //====================================================
 
-#ifndef MIKURU_COLOR_H
-#define MIKURU_COLOR_H
+#ifndef PROCON29_MIKURU_COLOR_HPP_
+#define PROCON29_MIKURU_COLOR_HPP_
 
 namespace mikuru {
 /*
@@ -19,6 +19,6 @@ namespace mikuru {
  * RED(2) -> 相手チームのマス
  */
 enum class color { BLANK, BLUE, RED };
-} // namespace mikuru
+}  // namespace mikuru
 
 #endif
