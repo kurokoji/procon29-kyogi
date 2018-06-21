@@ -30,6 +30,8 @@ public:
   field(u32 h, u32 w) noexcept : height_(h), width_(w) {}
   u32 get_height() const { return height_; }
   u32 get_width() const { return width_; }
+  T at(u32 h, u32 w) const { return field_.at(h).at(w); }
+  T& at(u32 h, u32 w) { return field_.at(h).at(w); }
 };
 }  // namespace nagato
 
