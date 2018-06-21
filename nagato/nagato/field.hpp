@@ -14,6 +14,8 @@
 
 #include "types.hpp"
 #include <array>
+#include <istream>
+#include <ostream>
 
 namespace nagato {
 template <typename T>
@@ -32,6 +34,27 @@ public:
   u32 get_width() const { return width_; }
   T at(u32 h, u32 w) const { return field_.at(h).at(w); }
   T& at(u32 h, u32 w) { return field_.at(h).at(w); }
+
+  friend std::ostream& operator<<(std::ostream& os, const field& field) {
+    os << field.height_ << " " << field.width_ << '\n';
+    for (u32 h = 0; h < field.height_; ++h) {
+      for (u32 w = 0; w < field.width_; ++w) {
+        os << field.at(h, w) << (w == field.width_ - 1 ? '\n' : ' ');
+      }
+    }
+
+    return os;
+  }
+  friend std::istream& operator>>(std::istream& is, field& field) {
+    is >> field.height_ >> field.width_;
+    for (u32 h = 0; h < field.height_; ++h) {
+      for (u32 w = 0; w < field.width_; ++w) {
+        is >> field.at(h, w);
+      }
+    }
+
+    return is;
+  }
 };
 }  // namespace nagato
 
