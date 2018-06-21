@@ -13,30 +13,31 @@
 #define NAGATO_TYPES_HPP_
 
 #include <cstdint>
+#include <cmath>
 
 namespace nagato {
 /*
  * Integer types
  */
 
-using int8 = std::int_fast8_t;
-using int16 = std::int_fast16_t;
-using int32 = std::int_fast32_t;
-using int64 = std::int_fast64_t;
+using i8 = std::int_fast8_t;
+using i16 = std::int_fast16_t;
+using i32 = std::int_fast32_t;
+using i64 = std::int_fast64_t;
 
 /*
  * Character types
  */
 
-using char8 = char;
-using char16 = char16_t;
-using char32 = char32_t;
+using c8 = char;
+using c16 = char16_t;
+using c32 = char32_t;
 
 /*
  * Score type
  */
 
-using score_type = int32;
+using score_type = i64;
 } // namespace nagato
 
 #endif
