@@ -9,8 +9,8 @@
 //
 //====================================================
 
-#ifndef MIKURU_FIELD_H_
-#define MIKURU_FIELD_H_
+#ifndef PROCON29_MIKURU_FIELD_HPP_
+#define PROCON29_MIKURU_FIELD_HPP_
 
 #include "types.hpp"
 #include <array>
@@ -37,6 +37,6 @@ public:
   friend std::ostream& operator<<(std::ostream&, field const&);
   friend std::istream& operator>>(std::istream&, field&);
 };
-} // namespace mikuru
+}  // namespace mikuru
 
 #endif
