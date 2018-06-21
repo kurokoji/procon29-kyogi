@@ -28,6 +28,8 @@ private:
 public:
   field() noexcept : height_(0), width_(0) {}
   field(u32 h, u32 w) noexcept : height_(h), width_(w) {}
+  u32 get_height() const { return height_; }
+  u32 get_width() const { return width_; }
 };
 }  // namespace nagato
 
