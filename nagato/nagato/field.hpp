@@ -9,8 +9,8 @@
 //
 //====================================================
 
-#ifndef NAGATO_FIELD_HPP_
-#define NAGATO_FIELD_HPP_
+#ifndef PROCON29_NAGATO_FIELD_HPP_
+#define PROCON29_NAGATO_FIELD_HPP_
 
 #include "types.hpp"
 #include <array>

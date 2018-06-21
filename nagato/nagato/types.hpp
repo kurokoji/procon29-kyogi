@@ -9,8 +9,8 @@
 //
 //====================================================
 
-#ifndef NAGATO_TYPES_HPP_
-#define NAGATO_TYPES_HPP_
+#ifndef PROCON29_NAGATO_TYPES_HPP_
+#define PROCON29_NAGATO_TYPES_HPP_
 
 #include <cstdint>
 #include <cmath>
