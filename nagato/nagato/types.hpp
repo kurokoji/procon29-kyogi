@@ -49,6 +49,6 @@ using c32 = char32_t;
  */
 
 using score_type = i64;
-} // namespace nagato
+}  // namespace nagato
 
 #endif

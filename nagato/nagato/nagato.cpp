@@ -9,6 +9,6 @@
 //
 //====================================================
 
-namespace nagato {} // namespace nagato
+namespace nagato {}  // namespace nagato
 
 int main() {}
