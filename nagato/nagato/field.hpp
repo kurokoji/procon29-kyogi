@@ -12,7 +12,12 @@
 #ifndef NAGATO_FIELD_HPP_
 #define NAGATO_FIELD_HPP_
 
+#include "types.hpp"
+
 namespace nagato {
+template <typename T>
+class field {
+};
 }  // namespace nagato
 
 #endif
