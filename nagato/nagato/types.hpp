@@ -30,6 +30,13 @@ using ui32 = std::uint_fast32_t;
 using ui64 = std::uint_fast64_t;
 
 /*
+ * Float types
+ */
+
+using f32 = std::float_t;
+using f64 = std::double_t;
+
+/*
  * Character types
  */
 
