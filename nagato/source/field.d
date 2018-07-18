@@ -57,4 +57,11 @@ struct Field(T)
     }
 }
 
+unittest
+{
+    auto f = Field!int(2, 2, [[1, 2], [3, 4]]);
+    assert(f.height == 2);
+    assert(f.width == 2);
+    assert(f.toString() == "2 2\n1 2\n3 4");
+}
 
