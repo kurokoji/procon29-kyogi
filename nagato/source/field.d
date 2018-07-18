@@ -13,6 +13,33 @@ module nagato.field;
 
 struct Field(T)
 {
+    import std.array;
+
+    private
+    {
+        T[][] _field;
+        uint _height, _width;
+    }
+
+    this(uint height, uint width, T[][] ar)
+    {
+        _height = height;
+        _width = width;
+        _field = ar;
+    }
+
+    @property
+    {
+        uint height() const
+        {
+            return _height;
+        }
+        uint width() const
+        {
+            return _width;
+        }
+    }
+
 }
 
 
