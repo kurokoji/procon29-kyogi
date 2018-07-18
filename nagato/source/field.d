@@ -40,6 +40,21 @@ struct Field(T)
         }
     }
 
+    string toString() const
+    {
+        import std.format : format;
+        import std.string : chomp;
+        string ret;
+        ret ~= format("%s %s\n", _height, _width);
+        foreach (e; _field)
+        {
+            foreach (i, v; e)
+            {
+                ret ~= format("%s%s", v, i == _width - 1 ? '\n' : ' ');
+            }
+        }
+        return ret.chomp;
+    }
 }
 
 
