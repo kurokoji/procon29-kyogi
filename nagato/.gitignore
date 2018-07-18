@@ -12,3 +12,5 @@ nagato-test-*
 *.o
 *.obj
 *.lst
+nagato
+dub.selections.json
