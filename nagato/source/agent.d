@@ -13,4 +13,27 @@ module nagato.agent;
 
 struct Agent
 {
+    private
+    {
+        int _y, _x;
+    }
+
+    this(int y, int x)
+    {
+        _y = y;
+        _x = x;
+    }
+
+    @property
+    {
+        int y() const
+        {
+            return _y;
+        }
+
+        int x() const
+        {
+            return _x;
+        }
+    }
 }
