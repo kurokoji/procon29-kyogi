@@ -36,4 +36,11 @@ struct Agent
             return _x;
         }
     }
+
+    string toString() const
+    {
+        import std.format : format;
+
+        return format("%s %s", _y, _x);
+    }
 }
