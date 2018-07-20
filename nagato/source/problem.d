@@ -51,4 +51,25 @@ struct Problem
             e = Agent(y, x);
         }
     }
+
+    string toString()
+    {
+        import std.format : format;
+        import std.string : chomp;
+        string res;
+
+        res ~= _field.toString() ~ '\n';
+
+        foreach (const ref e; own)
+        {
+            res ~= e.toString() ~ '\n';
+        }
+
+        foreach (const ref e; opponent)
+        {
+            res ~= e.toString() ~ '\n';
+        }
+
+        return res.chomp;
+    }
 }
