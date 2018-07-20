@@ -17,8 +17,11 @@ struct Problem
     import nagato.agent;
 
     alias ScoreType = int;
-    Field!ScoreType _field;
-    Agent[2] own, opponent;
+    private
+    {
+        Field!ScoreType _field;
+        Agent[2] own, opponent;
+    }
 
     this(const ref string s)
     {
