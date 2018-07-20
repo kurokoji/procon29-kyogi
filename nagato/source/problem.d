@@ -73,3 +73,11 @@ struct Problem
         return res.chomp;
     }
 }
+
+unittest
+{
+    string s = "2 2\n1 2\n3 4\n1 1\n2 1\n1 1\n2 2";
+    auto problem = Problem(s);
+    import std.stdio : writeln;
+    assert(problem.toString() == s);
+}
