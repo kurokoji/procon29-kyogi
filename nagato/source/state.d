@@ -9,9 +9,9 @@
 //
 //====================================================
 
-module nagato.problem;
+module nagato.state;
 
-struct Problem
+struct State
 {
     import nagato.field;
     import nagato.agent;
@@ -80,7 +80,7 @@ struct Problem
 unittest
 {
     string s = "2 2\n1 2\n3 4\n1 1\n2 1\n1 1\n2 2";
-    auto problem = Problem(s);
+    auto state = State(s);
     import std.stdio : writeln;
-    assert(problem.toString() == s);
+    assert(state.toString() == s);
 }
