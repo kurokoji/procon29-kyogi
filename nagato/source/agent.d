@@ -44,3 +44,10 @@ struct Agent
         return format("%s %s", _y, _x);
     }
 }
+
+unittest
+{
+    auto a = Agent(1, 2);
+    assert(a.y == 1 && a.x == 2);
+    assert(a.toString() == "1 2");
+}
