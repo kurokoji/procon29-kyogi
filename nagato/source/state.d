@@ -15,11 +15,13 @@ struct State
 {
     import nagato.field;
     import nagato.agent;
+    import nagato.field_state;
 
     alias ScoreType = int;
     private
     {
         Field!ScoreType _field;
+        FieldState _fieldState;
         Agent[2] own, opponent;
     }
 
