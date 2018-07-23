@@ -19,6 +19,9 @@ if [ "${OS}" = "Linux" ]; then
   curl -L -o siv3d_v0.2.3_alpha_Linux.tar.bz2 "https://drive.google.com/uc?export=download&id=1yHSy7ZrcGBbfZAIme1MVZaxqDm9KJ7VO"
   tar -jxvf siv3d_v0.2.3_alpha_Linux.tar.bz2
   rm siv3d_v0.2.3_alpha_Linux.tar.bz2
+  cd ./siv3d_v0.2.3_alpha_Linux/kyon
+  rm CMakeLists.txt
+  ln -sf ../../project_config/CMakeLists.txt .
 
 elif [ "${OS}" = "Mac" ]; then
   FILE_ID=1DGGEBVydakUV-7Si297-vLVP0JUpjXu3
@@ -30,4 +33,7 @@ elif [ "${OS}" = "Mac" ]; then
   tar -jxvf siv3d_v0.2.6_macOS.tar.bz2
   rm siv3d_v0.2.6_macOS.tar.bz2
 
+  cd ./siv3d_v0.2.6_macOS/kyon/kyon/
+  rm -r kyon.xcodeproj
+  ln -sf ../../../project_config/kyon.xcodeproj .
 fi
