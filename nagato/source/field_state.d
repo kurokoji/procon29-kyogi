@@ -11,6 +11,13 @@
 
 module nagato.field_state;
 
+enum FieldStateType
+{
+    white = 0,
+    own,
+    opponent
+}
+
 struct FieldState
 {
 }
