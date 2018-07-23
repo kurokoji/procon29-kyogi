@@ -6,7 +6,6 @@
 struct Button : public Rect {
   int clicknum = 0;
   Rect rect = Rect(0, 0, 60, 60);
-  bool canClick();
   int click();
 };
 
