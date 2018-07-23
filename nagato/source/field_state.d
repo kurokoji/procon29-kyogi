@@ -39,4 +39,9 @@ struct FieldState
     {
         return _states[h][w];
     }
+
+    void changeFieldState(uint h, uint w, FieldStateType state)
+    {
+        _states[h][w] = state;
+    }
 }
