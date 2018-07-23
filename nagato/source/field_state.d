@@ -34,4 +34,9 @@ struct FieldState
             }
         }
     }
+
+    FieldStateType getFieldState(uint h, uint w)
+    {
+        return _states[h][w];
+    }
 }
