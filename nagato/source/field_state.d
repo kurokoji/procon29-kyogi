@@ -20,4 +20,18 @@ enum FieldStateType
 
 struct FieldState
 {
+    uint _height, _width;
+    FieldStateType[][] _states;
+
+    this(uint h, uint w)
+    {
+        _state = new FieldStateType[][](h, w);
+        foreach (i; 0 .. h)
+        {
+            foreach (j; 0 .. w)
+            {
+                _states[i][j] = FieldStateType.WHITE;
+            }
+        }
+    }
 }
