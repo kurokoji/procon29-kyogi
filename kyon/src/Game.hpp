@@ -1,6 +1,5 @@
-#ifndef PROCON29_KYON_Game_HPP_
-#define PROCON29_KYON_Game_HPP_
-#endif
+#ifndef PROCON29_KYON_GAME_HPP_
+#define PROCON29_KYON_GAME_HPP_
 
 #include <Siv3D.hpp>
 #include <HamFramework.hpp>
@@ -29,3 +28,5 @@ public:
         Rect(120, 120, 40, 40).draw();
     }
 };
+
+#endif
