@@ -4,7 +4,7 @@
 #include <Siv3D.hpp>
 
 struct Button : public Rect {
-  int clicknum = 0;
+  int clickNum = 0;
   Rect rect = Rect(0, 0, 60, 60);
   int click();
 };

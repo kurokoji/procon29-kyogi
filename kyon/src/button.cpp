@@ -3,12 +3,12 @@
 
 int Button::click() {
   if (rect.leftClicked()) {
-    clicknum++;
+    clickNum++;
   }
 
-  if (clicknum == 3) {
-    clicknum = 0;
+  if (clickNum == 3) {
+    clickNum = 0;
   }
 
-  return clicknum;
+  return clickNum;
 }
