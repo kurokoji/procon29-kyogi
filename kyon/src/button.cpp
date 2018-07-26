@@ -3,12 +3,16 @@
 
 int Button::click() {
   if (rect.leftClicked()) {
-    clicknum++;
+    clickNum++;
   }
 
-  if (clicknum == 3) {
-    clicknum = 0;
+  if (clickNum == 3) {
+    clickNum = 0;
   }
 
-  return clicknum;
+  return clickNum;
+}
+
+void Button::dispSquareNum(int32 onSquareNum, int32 x, int32 y) {
+  font(onSquareNum).draw(x, y, Palette::Black);
 }
