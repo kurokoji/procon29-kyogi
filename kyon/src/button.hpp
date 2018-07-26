@@ -4,9 +4,11 @@
 #include <Siv3D.hpp>
 
 struct Button : public Rect {
-  int clicknum = 0;
+  int32 clickNum = 0;
+  Font font = Font(40);
   Rect rect = Rect(0, 0, 60, 60);
-  int click();
+  void dispSquareNum(int32 onSquareNum, int32 x, int32 y);
+  int32 click();
 };
 
 #endif
