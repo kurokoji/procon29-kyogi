@@ -40,6 +40,11 @@ struct Field(T)
         }
     }
 
+    ref T opIndex(uint i, uint j)
+    {
+        return _field[i][j];
+    }
+
     string toString() const
     {
         import std.format : format;
