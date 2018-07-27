@@ -49,6 +49,11 @@ struct FieldState
         _states[h][w] = state;
     }
 
+    ref SquareColor opIndex(uint i, uint j)
+    {
+        return _states[i][j];
+    }
+
     @property
     {
         uint height() const
