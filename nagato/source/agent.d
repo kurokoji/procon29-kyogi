@@ -52,6 +52,16 @@ struct Agent
         }
     }
 
+    void trans(int y, int x)
+    {
+        _point += Point(y, x);
+    }
+
+    void trans(const ref Point trans)
+    {
+        _point += trans;
+    }
+
     string toString() const
     {
         import std.format : format;
