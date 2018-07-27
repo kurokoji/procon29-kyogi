@@ -1,18 +1,20 @@
 #include "button.hpp"
 #include <Siv3D.hpp>
 
-int Button::click() {
-  if (rect.leftClicked()) {
-    clickNum++;
-  }
+Button::Button() : rect(0, 0, 60, 60), font(40), pos(60, 60) {}
+Button::Button(const Rect& rect, const Font& font) : rect(rect), font(font) {}
+Button::Button(uint32 h, uint32 w) : rect(0, 0, h, w), font(40), pos(h, w) {}
 
-  if (clickNum == 3) {
-    clickNum = 0;
-  }
-
-  return clickNum;
+Button& Button::setPos(uint32 x, uint32 y) {
+    pos = Vec2(x, y);
+    rect.setPos(x, y);
+    //font.draw(x, y, Palette::White);
+    return *this;
 }
 
-void Button::dispSquareNum(int32 onSquareNum, int32 x, int32 y) {
-  font(onSquareNum).draw(x, y, Palette::Black);
+Button& Button::draw(const String& str, const ColorF& color) {
+    rect.draw(color);
+    font(str).draw(pos, Palette::White);
+    return *this;
 }
+
