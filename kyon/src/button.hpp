@@ -3,12 +3,17 @@
 
 #include <Siv3D.hpp>
 
-struct Button : public Rect {
-  int32 clickNum = 0;
-  Font font = Font(40);
-  Rect rect = Rect(0, 0, 60, 60);
-  void dispSquareNum(int32 onSquareNum, int32 x, int32 y);
-  int32 click();
+struct Button {
+  Rect rect;
+  Font font;
+  Vec2 pos;
+
+  Button();
+  Button(const Rect& rect, const Font& font);
+  Button(uint32 h, uint32 w);
+
+  Button& setPos(uint32 x, uint32 y);
+  Button& draw(const String& str, const ColorF& color = Palette::White);
 };
 
 #endif
