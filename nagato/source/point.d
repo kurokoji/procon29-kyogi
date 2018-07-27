@@ -24,6 +24,13 @@ struct Point(T = uint)
         _x = x;
     }
 
+    string toString() const
+    {
+        import std.format : format;
+
+        return format("%s %s", _y, _x);
+    }
+
     @property
     {
         ref T y()
