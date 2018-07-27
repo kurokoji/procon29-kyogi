@@ -7,7 +7,7 @@
 // 全てのシーンからアクセスできるデータ
 // getData().memberNameで利用できる
 struct GameData {
-    int32 hoge = 0;
+    // int32 memberName = 0;
 };
 
 using App = SceneManager<String, GameData>;
