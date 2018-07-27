@@ -74,7 +74,7 @@ public:
             fieldPoints.push_back(v);
         }
 
-        return std::make_tuple(h, w, fieldPoints);
+        return {h, w, fieldPoints};
     }
 };
 
