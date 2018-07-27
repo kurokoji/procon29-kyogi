@@ -3,6 +3,8 @@
 #include <HamFramework.hpp>
 
 void Main() {
+    Window::Resize(1280, 780);
+
     // 画面遷移のマネージャー
     App manager;
     manager.setFadeColor(ColorF(1.0, 1.0, 1.0));
