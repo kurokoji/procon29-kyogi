@@ -48,7 +48,7 @@ public:
         return fieldData;
     }
 
-    std::tuple<int32, int32, std::vector<std::vector<int32>>> parseFieldData(String fieldData) {
+    std::tuple<int32, int32, std::vector<std::vector<int32>>> parseFieldData(const String& fieldData) {
         std::stringstream ss;
         std::string line;
 
