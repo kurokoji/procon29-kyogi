@@ -11,29 +11,44 @@
 
 module nagato.agent;
 
+enum AgentTeam
+{
+    none = 0,
+    own,
+    opponent
+}
+
 struct Agent
 {
+    import nagato.point;
     private
     {
-        int _y, _x;
+        Point _point;
+        AgentTeam _agentTeam;
     }
 
-    this(int y, int x)
+    this(int y, int x, AgentTeam t)
     {
-        _y = y;
-        _x = x;
+        _point = Point(y, x);
+        _agentTeam = t;
+    }
+
+    this(const ref Point point, AgentTeam t)
+    {
+        _point = point;
+        _agentTeam = t;
     }
 
     @property
     {
-        int y() const
+        ref Point point()
         {
-            return _y;
+            return _point;
         }
 
-        int x() const
+        AgentTeam agentTeam() const
         {
-            return _x;
+            return _agentTeam;
         }
     }
 
@@ -47,7 +62,7 @@ struct Agent
 
 unittest
 {
-    auto a = Agent(1, 2);
-    assert(a.y == 1 && a.x == 2);
+    auto a = Agent(1, 2, AgentTeam.own);
+    assert(a.y == 1 && a.x == 2 && a.agentTeam == AgentTeam.own);
     assert(a.toString() == "1 2");
 }
