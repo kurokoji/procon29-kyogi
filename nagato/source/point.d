@@ -13,4 +13,27 @@ module nagato.point;
 
 struct Point(T = uint)
 {
+    private
+    {
+        T _y, _x;
+    }
+
+    this(T y, T x)
+    {
+        _y = y;
+        _x = x;
+    }
+
+    @property
+    {
+        ref T y()
+        {
+            return _y;
+        }
+
+        ref T x()
+        {
+            return _x;
+        }
+    }
 }
