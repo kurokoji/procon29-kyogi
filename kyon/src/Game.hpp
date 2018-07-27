@@ -1,8 +1,13 @@
 #ifndef PROCON29_KYON_GAME_HPP_
 #define PROCON29_KYON_GAME_HPP_
 
+#include <iostream>
+#include <tuple>
+#include <string>
+#include <sstream>
 #include <Siv3D.hpp>
 #include <HamFramework.hpp>
+#include "button.hpp"
 
 // 全てのシーンからアクセスできるデータ
 // getData().memberNameで利用できる
@@ -41,6 +46,35 @@ public:
                             1 2 3 4 4 3 2 1";
         
         return fieldData;
+    }
+
+    std::tuple<int32, int32, std::vector<std::vector<int32>>> parseFieldData(String fieldData) {
+        std::stringstream ss;
+        std::string line;
+
+        ss << fieldData;
+        std::getline(ss, line);
+
+        int32 h, w;
+        std::stringstream ssLine;
+        std::vector<std::vector<int32>> fieldPoints;
+
+        ssLine << line;
+        ssLine >> h >> w;
+
+        while (std::getline(ss, line)) {
+            std::vector<int32> v;
+            ssLine << line;
+
+            while (!ssLine.eof()) {
+                int tmp;
+                ssLine >> tmp;
+                v.push_back(tmp);
+            }
+            fieldPoints.push_back(v);
+        }
+
+        return std::make_tuple(h, w, fieldPoints);
     }
 };
 
