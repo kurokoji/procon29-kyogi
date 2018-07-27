@@ -48,4 +48,17 @@ struct FieldState
     {
         _states[h][w] = state;
     }
+
+    @property
+    {
+        uint height() const
+        {
+            return _height;
+        }
+
+        uint width() const
+        {
+            return _width;
+        }
+    }
 }
