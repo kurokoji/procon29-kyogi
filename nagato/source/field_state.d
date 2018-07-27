@@ -66,4 +66,21 @@ struct FieldState
             return _width;
         }
     }
+
+    string toString() const
+    {
+        string ret;
+        import std.format : format;
+        import std.string : chomp;
+
+        foreach (i; 0 .. _height)
+        {
+            foreach (j; 0 .. _width)
+            {
+                ret ~= format("%s%s", j == _width - 1 ? '\n' : ' ');
+            }
+        }
+
+        return ret.chomp;
+    }
 }
