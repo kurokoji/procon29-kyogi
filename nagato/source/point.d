@@ -31,6 +31,12 @@ struct Point(T = uint)
         return format("%s %s", _y, _x);
     }
 
+    // 2項間の演算子を定義
+    Point opBinary(string op)(Point rhs)
+    {
+        return Point(mixin("_y" ~ op ~ "rhs.y"), mixin("_x" ~ "rhs.x"));
+    }
+
     @property
     {
         ref T y()
