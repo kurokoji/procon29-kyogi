@@ -11,36 +11,40 @@
 
 module nagato.field_state;
 
-enum FieldStateType
+enum SquareColor
 {
     white = 0,
     own,
     opponent
 }
 
+// Fieldが塗られているかどうかなどの状態を示す
 struct FieldState
 {
-    uint _height, _width;
-    FieldStateType[][] _states;
+    private
+    {
+        uint _height, _width;
+        SquareColor[][] _states;
+    }
 
     this(uint h, uint w)
     {
-        _state = new FieldStateType[][](h, w);
+        _states = new SquareColor[][](h, w);
         foreach (i; 0 .. h)
         {
             foreach (j; 0 .. w)
             {
-                _states[i][j] = FieldStateType.WHITE;
+                _states[i][j] = SquareColor.white;
             }
         }
     }
 
-    FieldStateType getFieldState(uint h, uint w)
+    SquareColor getSquareColor(uint h, uint w)
     {
         return _states[h][w];
     }
 
-    void changeFieldState(uint h, uint w, FieldStateType state)
+    void changeSquareColor(uint h, uint w, SquareColor state)
     {
         _states[h][w] = state;
     }
