@@ -67,7 +67,7 @@ public:
             ssLine << line;
 
             while (!ssLine.eof()) {
-                int tmp;
+                int32 tmp;
                 ssLine >> tmp;
                 v.push_back(tmp);
             }
