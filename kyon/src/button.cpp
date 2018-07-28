@@ -23,14 +23,8 @@ Button& Button::draw(const String& str) {
   return *this;
 }
 
-Button& Button::click() {
+void Button::update() {
   if (rect.leftClicked()) {
-    clickNum++;
+    clickNum = (clickNum + 1) % 3;
   }
-
-  if (clickNum == 3) {
-    clickNum = 0;
-  }
-
-  return *this;
 }
