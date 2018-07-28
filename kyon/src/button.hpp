@@ -15,7 +15,7 @@ struct Button {
 
   Button& setPos(uint32 x, uint32 y);
   Button& draw(const String& str);
-  Button& click();
+  void update();
 };
 
 #endif
