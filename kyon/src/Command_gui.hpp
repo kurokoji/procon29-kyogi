@@ -1,23 +1,22 @@
-#ifndef COMMAND_GUI_HPP
-#define COMMAND_GUI_HPP
+#ifndef PROCON29_KYON_COMMAND_GUI_HPP_
+#define PROCON29_KYON_COMMAND_GUI_HPP_
 
 #include <iostream>
 #include <sstream>
 #include <string>
 #include <Siv3D.hpp>
 
-class Command_gui {
+class CommandGUI {
   public:
-    Command_gui::Command_gui(int32 rect_x, int32 rect_y){
-    }
+    CommandGUI::CommandGUI(int32, int32);
   private:
     std::stringstream ss;
     Filepath r_path, l_path;
     int32 x, y, cmd;
 
-    void conv_int(std::string s);
-    void select_img(in32 cmd);
-    void disp_cmd();
+    void convInt(std::string s);
+    void selectImg(in32 cmd);
+    void dispCmd();
 };
 
 #endif
