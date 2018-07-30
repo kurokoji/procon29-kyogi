@@ -30,6 +30,8 @@ struct FieldState
     this(uint h, uint w)
     {
         _states = new SquareColor[][](h, w);
+        _height = h;
+        _width = w;
         foreach (i; 0 .. h)
         {
             foreach (j; 0 .. w)
@@ -39,7 +41,7 @@ struct FieldState
         }
     }
 
-    SquareColor getSquareColor(uint h, uint w)
+    SquareColor getSquareColor(uint h, uint w) const
     {
         return _states[h][w];
     }
@@ -77,10 +79,18 @@ struct FieldState
         {
             foreach (j; 0 .. _width)
             {
-                ret ~= format("%s%s", j == _width - 1 ? '\n' : ' ');
+                ret ~= format("%s%s", cast(int)_states[i][j], j == _width - 1 ? '\n' : ' ');
             }
         }
 
         return ret.chomp;
     }
+}
+
+unittest
+{
+    auto st = FieldState(2, 2);
+    st.changeSquareColor(1, 1, SquareColor.own);
+    assert(st[1, 1] == SquareColor.own);
+    assert(st.toString() == "0 0\n0 1");
 }
