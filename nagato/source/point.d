@@ -11,17 +11,17 @@
 
 module nagato.point;
 
-struct Point(T = uint)
+struct Point(T)
 {
     private
     {
         T _y, _x;
     }
 
-    this(T y, T x)
+    this(T _y, T _x)
     {
-        _y = y;
-        _x = x;
+        this._y = _y;
+        this._x = _x;
     }
 
     string toString() const
@@ -32,19 +32,27 @@ struct Point(T = uint)
     }
 
     // 2項間の演算子を定義
-    Point opBinary(string op)(Point rhs)
+    Point!T opBinary(string op)(Point!T rhs)
     {
-        return Point(mixin("_y" ~ op ~ "rhs.y"), mixin("_x" ~ "rhs.x"));
+        return Point!T(mixin("_y" ~ op ~ "rhs.y"), mixin("_x" ~ op ~ "rhs.x"));
+    }
+
+    ref Point!T opOpAssign(string op)(Point!T rhs)
+    {
+        mixin("_y" ~ op ~ "=" ~ "rhs.y;");
+        mixin("_x" ~ op ~ "=" ~ "rhs.x;");
+
+        return this;
     }
 
     @property
     {
-        ref T y()
+        T y() const
         {
             return _y;
         }
 
-        ref T x()
+        T x() const
         {
             return _x;
         }
