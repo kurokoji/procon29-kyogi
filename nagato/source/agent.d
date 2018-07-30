@@ -23,17 +23,17 @@ struct Agent
     import nagato.point;
     private
     {
-        Point _point;
+        Point!int _point;
         AgentTeam _agentTeam;
     }
 
     this(int y, int x, AgentTeam t)
     {
-        _point = Point(y, x);
+        _point = Point!int(y, x);
         _agentTeam = t;
     }
 
-    this(const ref Point point, AgentTeam t)
+    this(const ref Point!int point, AgentTeam t)
     {
         _point = point;
         _agentTeam = t;
@@ -41,12 +41,22 @@ struct Agent
 
     @property
     {
-        ref Point point()
+        Point!int point()
         {
             return _point;
         }
 
-        AgentTeam agentTeam() const
+        int y()
+        {
+            return _point.y;
+        }
+
+        int x()
+        {
+            return _point.x;
+        }
+
+        AgentTeam agentTeam()
         {
             return _agentTeam;
         }
@@ -54,10 +64,10 @@ struct Agent
 
     void trans(int y, int x)
     {
-        _point += Point(y, x);
+        _point += Point!int(y, x);
     }
 
-    void trans(const ref Point trans)
+    void trans(const ref Point!int trans)
     {
         _point += trans;
     }
@@ -66,7 +76,7 @@ struct Agent
     {
         import std.format : format;
 
-        return format("%s %s", _y, _x);
+        return format("%s %s", _point.y, _point.x);
     }
 }
 
