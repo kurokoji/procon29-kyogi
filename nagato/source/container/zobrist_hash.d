@@ -45,4 +45,20 @@ class ZobristHash
             }
         }
     }
+
+    import nagato.state;
+
+    ulong update(ref State st)
+    {
+        ulong ret;
+        foreach (i; 0 .. _height)
+        {
+            foreach (j; 0 .. _width)
+            {
+                ret ^= _hash[i][j][st.fieldState[i, j]][st.agentExists(i, j)];
+            }
+        }
+
+        return ret;
+    }
 }
