@@ -1,19 +1,20 @@
-﻿#include <Siv3D.hpp> // OpenSiv3D v0.2.6
+﻿#include "Game.hpp"
+#include <Siv3D.hpp> // OpenSiv3D v0.2.6
+#include <HamFramework.hpp>
 
 void Main() {
-  Graphics::SetBackground(ColorF(0.8, 0.9, 1.0));
+    Window::Resize(1280, 780);
 
-  const Font font(50);
+    // 画面遷移のマネージャー
+    App manager;
+    manager.setFadeColor(ColorF(1.0, 1.0, 1.0));
+    manager.add<Game>(U"Game");
 
-  const Texture textureCat(Emoji(U"🐈"), TextureDesc::Mipped);
+    const Font font(50);
 
-  while (System::Update()) {
-    font(U"Hello, Siv3D!🐣").drawAt(Window::Center(), Palette::Black);
-
-    font(Cursor::Pos()).draw(20, 400, ColorF(0.6));
-
-    textureCat.resized(80).draw(540, 380);
-
-    Circle(Cursor::Pos(), 60).draw(ColorF(1, 0, 0, 0.5));
-  }
+    while (System::Update()) {
+        if (!manager.update()) {
+            break;
+        }
+    }
 }
