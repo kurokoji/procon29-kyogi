@@ -1,0 +1,13 @@
+{
+	"name": "nagato",
+	"authors": [
+		"Shu Kakihana"
+	],
+	"dependencies": {
+		"nephele": "~>0.0.2",
+		"colored-logger": "~>0.1.0"
+	},
+	"description": "procon29-kyogi's solver",
+	"copyright": "Copyright © 2018, Shu Kakihana",
+	"license": "GPL-3.0"
+}

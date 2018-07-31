@@ -9,6 +9,6 @@
 //
 //====================================================
 
-namespace nagato {} // namespace nagato
+module nagato.container;
 
-int main() {}
+public import nagato.container.zobrist_hash;

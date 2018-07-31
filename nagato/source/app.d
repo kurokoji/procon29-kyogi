@@ -9,4 +9,8 @@
 //
 //====================================================
 
-namespace nagato {} // namespace nagato
+import std.stdio;
+
+void main()
+{
+}
