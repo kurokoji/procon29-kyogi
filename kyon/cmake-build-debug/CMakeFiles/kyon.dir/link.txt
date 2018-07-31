@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/kyon.dir/src/button.cpp.o CMakeFiles/kyon.dir/src/CommandGUI.cpp.o CMakeFiles/kyon.dir/src/Main.cpp.o  -o kyon 

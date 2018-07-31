@@ -14,40 +14,40 @@ void CommandGUI::convInt(std::string s){
 void CommandGUI::selectImg(int32 cmd){
   switch(cmd){
     case 0:
-      r_path = path_to_img;
-      l_path = path_to_img;
+      rPath = U"../image/HandR00.png";
+      lPath = U"../image/HandL00.png";
       break;
     case 1:
-      r_path = path_to_img;
-      l_path = path_to_img;
+      rPath = U"../image/HandR01.png";
+      lPath = U"../image/HandL00.png";
       break;
     case 2:
-      r_path = path_to_img;
-      l_path = path_to_img;
+      rPath = U"../image/HandR02.png";
+      lPath = U"../image/HandL00.png";
       break;
     case 3:
-      r_path = path_to_img;
-      l_path = path_to_img;
+      rPath = U"../image/HandR03.png";
+      lPath = U"../image/HandL00.png";
       break;
     case 4:
-      r_path = path_to_img;
-      l_path = path_to_img;
+      rPath = U"../image/HandR04.png";
+      lPath = U"../image/HandL00.png";
       break;
     case 5:
-      r_path = path_to_img;
-      l_path = path_to_img;
+      rPath = U"../image/HandR05.png";
+      lPath = U"../image/HandL00.png";
       break;
     case 6:
-      r_path = path_to_img;
-      l_path = path_to_img;
+      rPath = U"../image/HandR05.png";
+      lPath = U"../image/HandL01.png";
       break;
     case 7:
-      r_path = path_to_img;
-      l_path = path_to_img;
+      rPath = U"../image/HandR05.png";
+      lPath = U"../image/HandL02.png";
       break;
     case 8:
-      r_path = path_to_img;
-      l_path = path_to_img;
+      rPath = U"../image/HandR05.png";
+      lPath = U"../image/HandL03.png";
       break;
     default:
       break;
@@ -55,18 +55,18 @@ void CommandGUI::selectImg(int32 cmd){
 }
 
 void CommandGUI::dispCmd(){
-  const Rect rect();
-  const Texture r_img(r_path);
-  const Texture l_img(l_path);
-  const Font r_upp();
-  const Font l_upp();
+  const Rect rect(x, y, x + 770, y + 430);
+  const Texture rImg(rPath);
+  const Texture lImg(lPath);
+  const Font rUpp(50);
+  const Font lUpp(50);
 
-  rect().draw();
-  
-  r_img.draw();
-  l_img.draw();
+  rect.draw(Palette::Skyblue);
 
-  r_upp.draw();
-  l_upp.draw();
+  rImg.draw(x + 510, y + 140);
+  lImg.draw(x + 130, y + 140);
+
+  rUpp(U'R').draw(x + 380, y, Palette::Black);
+  lUpp(U'L').draw(x, y, Palette::Black);
 }  
 
