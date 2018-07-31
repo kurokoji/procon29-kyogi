@@ -11,6 +11,21 @@
 
 module nagato.solver;
 
+enum SolverStrategy
+{
+    random,
+    greedy,
+    beamSearch
+}
+
 struct Solver
 {
+    import nagato.state;
+
+    State _state;
+
+    this(ref in State st)
+    {
+        _state = cast(State)st;
+    }
 }
