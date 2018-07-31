@@ -1,9 +1,9 @@
 #include "CommandGUI.hpp"
 #include <Siv3D.hpp>
 
-CommandGUI::CommandGUI(int32 rec_x, int32 rec_y){
-  x = rec_x;
-  y = rec_y;
+CommandGUI::CommandGUI(int32 recX, int32 recY){
+  x = recX;
+  y = recY;
 }
 
 void CommandGUI::convInt(std::string s){
