@@ -72,10 +72,10 @@ struct State
     }
 
     /+
-        与えられた座標にAgentが存在するか
-        存在する場合，そのエージェントの列挙型AgentTeamの値が返る
-        存在しない場合，SquareColor.noneが返る
-    +/
+		与えられた座標にAgentが存在するか
+		存在する場合，そのエージェントの列挙型AgentTeamの値が返る
+		存在しない場合，SquareColor.noneが返る
+	+/
     AgentTeam agentExists(int ny, int nx) const
     {
         auto point = Point!int(ny, nx);
