@@ -21,6 +21,7 @@ enum AgentTeam
 struct Agent
 {
     import nagato.point;
+
     private
     {
         Point!int _point;

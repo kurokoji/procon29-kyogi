@@ -19,7 +19,31 @@
 #include "types.hpp"
 #include "qr.hpp"
 
+#include <boost/asio.hpp>
+
+namespace mikuru {
+namespace tcp {
+namespace GET {
+const std::string problem = "GET problem";
+const std::string answer = "GET answer";
+}  // namespace GET
+
+namespace POST {
+const std::string problem = "POST problem";
+const std::string answer = "POST answer";
+}  // namespace POST
+}  // namespace tcp
+}  // namespace mikuru
+
 int main(int argc, char* argv[]) {
+  if (argc < 2) {
+    std::cerr << "argument error" << std::endl;
+    return -1;
+  }
+
+  namespace asio = boost::asio;
+  using asio::ip::tcp;
+
   mikuru::problem_state problem;
 
   std::string&& res = mikuru::get_qr_string();
@@ -30,5 +54,24 @@ int main(int argc, char* argv[]) {
   std::cerr << res << std::endl;
 
   ss >> problem;
-  std::cout << problem << std::endl;
+
+  ss << problem;
+
+  // TCP通信(送信)
+
+  asio::io_service io_service;
+  tcp::socket socket(io_service);
+  boost::system::error_code err;
+
+  socket.connect(tcp::endpoint(asio::ip::address::from_string(argv[1]), 20000));
+
+  asio::write(socket, asio::buffer(mikuru::tcp::POST::problem + "\n"), err);
+
+  std::string send_message = ss.str();
+
+  std::cout << send_message << std::endl;
+
+  if (!err) {
+    asio::write(socket, asio::buffer(send_message), err);
+  }
 }

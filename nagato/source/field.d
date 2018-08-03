@@ -34,6 +34,7 @@ struct Field(T)
         {
             return _height;
         }
+
         uint width() const
         {
             return _width;
@@ -49,6 +50,7 @@ struct Field(T)
     {
         import std.format : format;
         import std.string : chomp;
+
         string ret;
         ret ~= format("%s %s\n", _height, _width);
         foreach (e; _field)
@@ -69,4 +71,3 @@ unittest
     assert(f.width == 2);
     assert(f.toString() == "2 2\n1 2\n3 4");
 }
-

@@ -26,6 +26,6 @@ struct Solver
 
     this(ref in State st)
     {
-        _state = cast(State)st;
+        _state = cast(State) st;
     }
 }

@@ -79,7 +79,7 @@ struct FieldState
         {
             foreach (j; 0 .. _width)
             {
-                ret ~= format("%s%s", cast(int)_states[i][j], j == _width - 1 ? '\n' : ' ');
+                ret ~= format("%s%s", cast(int) _states[i][j], j == _width - 1 ? '\n' : ' ');
             }
         }
 
