@@ -1,27 +1,40 @@
 require 'socket'
 require './procon29_protocol.rb'
+require 'logger'
 
+# ポート
 Port = 20000
 
 def main()
   include Procon29
+  # 問題データ文字列
   problem_str = ''
+
+  # TCPサーバ
   server = TCPServer.open(Port)
 
+  # Loggerの設定
+  logger = Logger.new(STDOUT)
+  logger.info('Program Start...')
+
   loop do
+    # 接続待ち
     client = server.accept
-    puts 'start'
+
+    # 文字列取得
     while res = client.gets
-      puts res
-      res.chomp!
-      if res == Protocol::POST::Problem
-          problem_str = ''
+      logger.info('Protocol >> ' + res)
+
+      # 問題のPOST要求(mikuru -> haruhi)
+      if res.chomp == Protocol::POST::Problem
+        problem_str = ''
         while buf = client.gets
           problem_str << buf
         end
       end
 
-      if res == Protocol::GET::Problem
+      # 問題のGET要求(haruhi -> nagato, kyon)
+      if res.chomp == Protocol::GET::Problem
         if problem_str != ''
           client.puts(problem_str)
         else
@@ -29,6 +42,10 @@ def main()
         end
       end
     end
+
+    # 問題データの表示
+    logger.info('Problem Data >> ' + problem_str)
+    # 接続終了
     client.close
   end
 end
