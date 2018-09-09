@@ -65,7 +65,7 @@ struct State
 
     @property
     {
-        ref FieldState fieldState()
+        ref inout(FieldState) fieldState() inout
         {
             return _fieldState;
         }
@@ -91,7 +91,7 @@ struct State
     }
 
     /+ ditto +/
-    AgentTeam agentExists(ref in Point!int point) const
+    inout(AgentTeam) agentExists(ref in Point!int point) inout
     {
         foreach (e; _own ~ _opponent)
         {

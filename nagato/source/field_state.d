@@ -51,7 +51,7 @@ struct FieldState
         _states[h][w] = state;
     }
 
-    ref SquareColor opIndex(uint i, uint j)
+    ref inout(SquareColor) opIndex(uint i, uint j) inout
     {
         return _states[i][j];
     }

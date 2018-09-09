@@ -46,12 +46,12 @@ struct Agent
             return _point;
         }
 
-        int y()
+        int y() const
         {
             return _point.y;
         }
 
-        int x()
+        int x() const
         {
             return _point.x;
         }
