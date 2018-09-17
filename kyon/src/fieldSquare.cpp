@@ -26,8 +26,8 @@ FieldSquare& FieldSquare::draw(const String& str, bool& hasAgent) {
   return *this;
 }
 
-void FieldSquare::update(bool& hasAgent) {
-  if (hasAgent) {
+void FieldSquare::update(bool& canMove) {
+  if (canMove) {
     if (rect.leftClicked() || isSquareDisp == true) {
       isSquareDisp = true;
       choiceWhiteSquare.draw(Palette::White).drawFrame(0, 5, Palette::Yellow);
@@ -36,15 +36,15 @@ void FieldSquare::update(bool& hasAgent) {
 
       if (choiceWhiteSquare.leftClicked()) {
         clickNum = 0;
-        hasAgent = false;
+        canMove = false;
         isSquareDisp = false;
       } else if (choiceRedSquare.leftClicked()) {
         clickNum = 1;
-        hasAgent = false;
+        canMove = false;
         isSquareDisp = false;
       } else if (choiceBlueSquare.leftClicked()) {
         clickNum = 2;
-        hasAgent = false;
+        canMove = false;
         isSquareDisp = false;
       }
     }
