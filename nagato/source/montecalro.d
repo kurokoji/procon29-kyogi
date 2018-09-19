@@ -107,6 +107,6 @@ class MonteClaroTreeSearch {
 
     import std.algorithm : maxElement;
 
-    return childNodes.maxElement!"a.winCount";
+    return childNodes.maxElement!("a.winCount").st;
   }
 }
