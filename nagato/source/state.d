@@ -17,6 +17,8 @@ struct State
     import nagato.agent;
     import nagato.field_state;
     import nagato.point;
+    import nagato.color : Color;
+    import std.typecons : Tuple, tuple;
 
     alias ScoreType = int;
     private
@@ -52,14 +54,14 @@ struct State
         {
             int y, x;
             sc.scan(y, x);
-            e = Agent(y, x, AgentTeam.own);
+            e = Agent(y, x, Color.own);
         }
 
         foreach (ref e; _opponent)
         {
             int y, x;
             sc.scan(y, x);
-            e = Agent(y, x, AgentTeam.opponent);
+            e = Agent(y, x, Color.opponent);
         }
     }
 

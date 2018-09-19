@@ -11,47 +11,42 @@
 
 module nagato.field_state;
 
-enum SquareColor
-{
-    white = 0,
-    own,
-    opponent
-}
-
 // Fieldが塗られているかどうかなどの状態を示す
 struct FieldState
 {
+    import nagato.color : Color;
+
     private
     {
         uint _height, _width;
-        SquareColor[][] _states;
+        Color[][] _states;
     }
 
     this(uint h, uint w)
     {
-        _states = new SquareColor[][](h, w);
+        _states = new Color[][](h, w);
         _height = h;
         _width = w;
         foreach (i; 0 .. h)
         {
             foreach (j; 0 .. w)
             {
-                _states[i][j] = SquareColor.white;
+                _states[i][j] = Color.none;
             }
         }
     }
 
-    SquareColor getSquareColor(uint h, uint w) const
+    Color getColor(uint h, uint w) const
     {
         return _states[h][w];
     }
 
-    void changeSquareColor(uint h, uint w, SquareColor state)
+    void changeColor(uint h, uint w, Color state)
     {
         _states[h][w] = state;
     }
 
-    ref inout(SquareColor) opIndex(uint i, uint j) inout
+    ref inout(Color) opIndex(uint i, uint j) inout
     {
         return _states[i][j];
     }
@@ -79,7 +74,7 @@ struct FieldState
         {
             foreach (j; 0 .. _width)
             {
-                ret ~= format("%s%s", cast(int)_states[i][j], j == _width - 1 ? '\n' : ' ');
+                ret ~= format("%s%s", cast(int) _states[i][j], j == _width - 1 ? '\n' : ' ');
             }
         }
 
@@ -89,8 +84,10 @@ struct FieldState
 
 unittest
 {
+    import nagato.color : Color;
+
     auto st = FieldState(2, 2);
-    st.changeSquareColor(1, 1, SquareColor.own);
-    assert(st[1, 1] == SquareColor.own);
+    st.changeColor(1, 1, Color.own);
+    assert(st[1, 1] == Color.own);
     assert(st.toString() == "0 0\n0 1");
 }
