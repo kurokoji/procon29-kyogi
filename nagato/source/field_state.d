@@ -12,68 +12,54 @@
 module nagato.field_state;
 
 // Fieldが塗られているかどうかなどの状態を示す
-struct FieldState
-{
+struct FieldState {
     import nagato.color : Color;
 
-    private
-    {
+    private {
         uint _height, _width;
         Color[][] _states;
     }
 
-    this(uint h, uint w)
-    {
+    this(uint h, uint w) {
         _states = new Color[][](h, w);
         _height = h;
         _width = w;
-        foreach (i; 0 .. h)
-        {
-            foreach (j; 0 .. w)
-            {
+        foreach (i; 0 .. h) {
+            foreach (j; 0 .. w) {
                 _states[i][j] = Color.none;
             }
         }
     }
 
-    Color getColor(uint h, uint w) const
-    {
+    Color getColor(uint h, uint w) const {
         return _states[h][w];
     }
 
-    void changeColor(uint h, uint w, Color state)
-    {
+    void changeColor(uint h, uint w, Color state) {
         _states[h][w] = state;
     }
 
-    ref inout(Color) opIndex(uint i, uint j) inout
-    {
+    ref inout(Color) opIndex(uint i, uint j) inout {
         return _states[i][j];
     }
 
-    @property
-    {
-        uint height() const
-        {
+    @property {
+        uint height() const {
             return _height;
         }
 
-        uint width() const
-        {
+        uint width() const {
             return _width;
         }
     }
 
-    string toString() const
-    {
+    string toString() const {
         string ret;
         import std.format : format;
         import std.string : chomp;
 
-        foreach (i; 0 .. _height)
-        {
-            foreach (j; 0 .. _width)
-            {
+        foreach (i; 0 .. _height) {
+            foreach (j; 0 .. _width) {
                 ret ~= format("%s%s", cast(int) _states[i][j], j == _width - 1 ? '\n' : ' ');
             }
         }
@@ -82,8 +68,7 @@ struct FieldState
     }
 }
 
-unittest
-{
+unittest {
     import nagato.color : Color;
 
     auto st = FieldState(2, 2);

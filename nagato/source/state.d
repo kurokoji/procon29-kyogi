@@ -11,8 +11,7 @@
 
 module nagato.state;
 
-struct State
-{
+struct State {
     import nagato.field;
     import nagato.agent;
     import nagato.field_state;
@@ -21,15 +20,13 @@ struct State
     import std.typecons : Tuple, tuple;
 
     alias ScoreType = int;
-    private
-    {
+    private {
         Field!ScoreType _field;
         FieldState _fieldState;
         Agent[2] _own, _opponent;
     }
 
-    this(ref in string s)
-    {
+    this(ref in string s) {
         import std.conv : to;
         import std.algorithm : map;
         import std.string : split;
@@ -43,47 +40,39 @@ struct State
 
         ScoreType[][] ar = new ScoreType[][](h, w);
 
-        foreach (i; 0 .. h)
-        {
+        foreach (i; 0 .. h) {
             ar[i] = sc.nextArray!ScoreType(w);
         }
 
         _field = Field!ScoreType(h, w, ar);
 
-        foreach (ref e; _own)
-        {
+        foreach (ref e; _own) {
             int y, x;
             sc.scan(y, x);
             e = Agent(y, x, Color.own);
         }
 
-        foreach (ref e; _opponent)
-        {
+        foreach (ref e; _opponent) {
             int y, x;
             sc.scan(y, x);
             e = Agent(y, x, Color.opponent);
         }
     }
 
-    @property
-    {
-        ref inout(FieldState) fieldState() inout
-        {
+    @property {
+        ref inout(FieldState) fieldState() inout {
             return _fieldState;
         }
 
-        ref inout(Field) field() inout
-        {
+        ref inout(Field) field() inout {
             return _field;
         }
 
-        ref inout(Agent[2]) own() inout
-        {
+        ref inout(Agent[2]) own() inout {
             return _own;
         }
 
-        ref inout(Agent[2]) opponent() inout
-        {
+        ref inout(Agent[2]) opponent() inout {
             return _opponent;
         }
     }
@@ -93,13 +82,10 @@ struct State
         存在する場合，そのエージェントの列挙型Colorの値が返る
         存在しない場合，SquareColor.noneが返る
         +/
-    Color agentExists(int ny, int nx) const
-    {
+    Color agentExists(int ny, int nx) const {
         auto point = Point!int(ny, nx);
-        foreach (e; _own ~ _opponent)
-        {
-            if (e.point == point)
-            {
+        foreach (e; _own ~ _opponent) {
+            if (e.point == point) {
                 return e.agentTeam;
             }
         }
@@ -108,12 +94,9 @@ struct State
     }
 
     /+ ditto +/
-    Color agentExists(ref in Point!int point) const
-    {
-        foreach (e; _own ~ _opponent)
-        {
-            if (e.point == point)
-            {
+    Color agentExists(ref in Point!int point) const {
+        foreach (e; _own ~ _opponent) {
+            if (e.point == point) {
                 return e.agentTeam;
             }
         }
@@ -122,12 +105,10 @@ struct State
     }
 
     // 正しい状態か
-    bool isValidState() const
-    {
+    bool isValidState() const {
         bool[Point!int] dic;
 
-        foreach (e; _own ~ _opponent)
-        {
+        foreach (e; _own ~ _opponent) {
             // field内にagentがいるかどうか
             if (!isInside(e.point))
                 return false;
@@ -146,33 +127,25 @@ struct State
         return true;
     }
 
-    bool isInside(Point!int p) const
-    {
+    bool isInside(Point!int p) const {
         return 0 <= p.y && p.y <= _field.height && 0 <= p.x && p.x <= _field.width;
     }
 
-    bool isInside(int y, int x) const
-    {
+    bool isInside(int y, int x) const {
         return 0 <= y && y <= _field.height && 0 <= x && x <= _field.width;
     }
 
-    Tuple!(ScoreType, "own", ScoreType, "opponent") getScoreSum()
-    {
+    Tuple!(ScoreType, "own", ScoreType, "opponent") getScoreSum() {
         ScoreType own, opponent;
 
         // タイルポイント
-        foreach (i; 0 .. fieldState.height)
-        {
-            foreach (j; 0 .. fieldState.width)
-            {
+        foreach (i; 0 .. fieldState.height) {
+            foreach (j; 0 .. fieldState.width) {
                 Color c = fieldState.getColor(i, j);
                 ScoreType score = field.getScore(i, j);
-                if (c == Color.own)
-                {
+                if (c == Color.own) {
                     own += score;
-                }
-                else if (c == Color.opponent)
-                {
+                } else if (c == Color.opponent) {
                     opponent += score;
                 }
             }
@@ -185,10 +158,8 @@ struct State
             auto visited = new bool[][](fieldState.height, fieldState.width);
             ScoreType ret;
 
-            foreach (i; fieldState.height)
-            {
-                foreach (j; fieldState.width)
-                {
+            foreach (i; fieldState.height) {
+                foreach (j; fieldState.width) {
                     // すでに調べたやつはskip
                     if (visited[i][j])
                         continue;
@@ -204,17 +175,14 @@ struct State
                     visited[i][j] = true;
 
                     ScoreType sum;
-                    while (!stack.empty)
-                    {
+                    while (!stack.empty) {
                         bool isSurrounded;
-                        foreach (k; 0 .. 4)
-                        {
+                        foreach (k; 0 .. 4) {
                             int ny = stack.back.y + dy[k], nx = stack.back.x + dx[k];
                             stack.popBack();
                             if (visited[ny][nx])
                                 continue;
-                            if (!isInside(ny, nx))
-                            {
+                            if (!isInside(ny, nx)) {
                                 sum = 0;
                                 isSurrounded = true;
                                 break;
@@ -246,8 +214,7 @@ struct State
         return tuple(own, opponent);
     }
 
-    string toString() const
-    {
+    string toString() const {
         import std.format : format;
         import std.string : chomp;
 
@@ -255,13 +222,11 @@ struct State
 
         res ~= _field.toString() ~ '\n';
 
-        foreach (const ref e; _own)
-        {
+        foreach (const ref e; _own) {
             res ~= e.toString() ~ '\n';
         }
 
-        foreach (const ref e; _opponent)
-        {
+        foreach (const ref e; _opponent) {
             res ~= e.toString() ~ '\n';
         }
 
@@ -270,8 +235,7 @@ struct State
 
 }
 
-unittest
-{
+unittest {
     string s = "2 2\n1 2\n3 4\n1 1\n2 1\n1 1\n2 2";
     auto state = State(s);
     assert(state.toString() == s);
