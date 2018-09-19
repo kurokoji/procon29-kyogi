@@ -71,6 +71,21 @@ struct State
         {
             return _fieldState;
         }
+
+        ref inout(Field) field() inout
+        {
+            return _field;
+        }
+
+        ref inout(Agent[2]) own() inout
+        {
+            return _own;
+        }
+
+        ref inout(Agent[2]) opponent() inout
+        {
+            return _opponent;
+        }
     }
 
     /+
