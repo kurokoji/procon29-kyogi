@@ -90,10 +90,10 @@ struct State
 
     /+
         与えられた座標にAgentが存在するか
-        存在する場合，そのエージェントの列挙型AgentTeamの値が返る
+        存在する場合，そのエージェントの列挙型Colorの値が返る
         存在しない場合，SquareColor.noneが返る
-    +/
-    AgentTeam agentExists(int ny, int nx) const
+        +/
+    Color agentExists(int ny, int nx) const
     {
         auto point = Point!int(ny, nx);
         foreach (e; _own ~ _opponent)
@@ -104,11 +104,11 @@ struct State
             }
         }
 
-        return AgentTeam.none;
+        return Color.none;
     }
 
     /+ ditto +/
-    inout(AgentTeam) agentExists(ref in Point!int point) inout
+    Color agentExists(ref in Point!int point) const
     {
         foreach (e; _own ~ _opponent)
         {
@@ -118,7 +118,7 @@ struct State
             }
         }
 
-        return AgentTeam.none;
+        return Color.none;
     }
 
     string toString() const
