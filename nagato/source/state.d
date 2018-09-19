@@ -156,6 +156,96 @@ struct State
         return 0 <= y && y <= _field.height && 0 <= x && x <= _field.width;
     }
 
+    Tuple!(ScoreType, "own", ScoreType, "opponent") getScoreSum()
+    {
+        ScoreType own, opponent;
+
+        // タイルポイント
+        foreach (i; 0 .. fieldState.height)
+        {
+            foreach (j; 0 .. fieldState.width)
+            {
+                Color c = fieldState.getColor(i, j);
+                ScoreType score = field.getScore(i, j);
+                if (c == Color.own)
+                {
+                    own += score;
+                }
+                else if (c == Color.opponent)
+                {
+                    opponent += score;
+                }
+            }
+        }
+
+        // 領域ポイント
+        auto countAreaPoint = (Color c) {
+            immutable int[] dy = [0, 1, 0, -1];
+            immutable int[] dx = [1, 0, -1, 0];
+            auto visited = new bool[][](fieldState.height, fieldState.width);
+            ScoreType ret;
+
+            foreach (i; fieldState.height)
+            {
+                foreach (j; fieldState.width)
+                {
+                    // すでに調べたやつはskip
+                    if (visited[i][j])
+                        continue;
+
+                    // 自分のマス以外のマスを調べたいので，自分のマスはskip
+                    if (c == Color.own && field.getColor(i, j) == Color.own)
+                        continue;
+                    if (c == Color.opponent && field.getColor(i, j) == Color.opponent)
+                        continue;
+
+                    Tuple!(int, "y", int, "x")[] stack;
+                    stack ~= tuple(i, j);
+                    visited[i][j] = true;
+
+                    ScoreType sum;
+                    while (!stack.empty)
+                    {
+                        bool isSurrounded;
+                        foreach (k; 0 .. 4)
+                        {
+                            int ny = stack.back.y + dy[k], nx = stack.back.x + dx[k];
+                            stack.popBack();
+                            if (visited[ny][nx])
+                                continue;
+                            if (!isInside(ny, nx))
+                            {
+                                sum = 0;
+                                isSurrounded = true;
+                                break;
+                            }
+                            // 自分のマス以外のマスを調べたいので，自分のマスはskip
+                            if (c == Color.own && field.getColor(ny, nx) == Color.own)
+                                continue;
+                            if (c == Color.opponent && field.getColor(ny, nx) == Color.opponent)
+                                continue;
+
+                            sum += field.getScore(ny, nx);
+                            visited[ny][nx] = true;
+                            stack ~= tuple(ny, nx);
+                        }
+
+                        if (isSurrounded)
+                            break;
+                    }
+                    ret += sum;
+                }
+            }
+
+            return ret;
+        };
+
+        own += countAreaPoint(Color.own);
+        opponent += countAreaPoint(Color.opponent);
+
+        return tuple(own, opponent);
+    }
+
     string toString() const
     {
         import std.format : format;
