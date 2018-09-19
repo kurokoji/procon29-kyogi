@@ -34,10 +34,16 @@ struct Field(T)
         {
             return _height;
         }
+
         uint width() const
         {
             return _width;
         }
+    }
+
+    T getScore(uint i, uint j) const
+    {
+        return _field[i][j];
     }
 
     ref T opIndex(uint i, uint j)
