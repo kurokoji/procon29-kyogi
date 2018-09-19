@@ -97,7 +97,7 @@ class MonteClaroTreeSearch {
     maxTurn = turn;
   }
 
-  State search() {
+  State solve() {
     foreach (e; childNodes) {
       foreach (i; 0 .. playoutN) {
         auto res = e.playout();
