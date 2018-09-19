@@ -12,4 +12,14 @@
 module nagato.monte_calro.d;
 
 class MonteClaroTreeSearch {
+  import nagato.state;
+
+  struct Node {
+  }
+
+  this(State s, uint tries, uint turn) {
+  }
+
+  State search() {
+  }
 }
