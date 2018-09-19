@@ -9,16 +9,15 @@
 //
 //====================================================
 
-module nagato.solver;
+module nagato.beam_searcher;
 
-enum SolverStrategy
 {
-    random,
-    greedy,
-    beamSearch
+    static ContextState*[] nextState(const ref State st)
+    {
+    }
 }
 
-struct Solver
+struct BeamSearcher(Strategy)
 {
     import nagato.state;
 
@@ -26,6 +25,5 @@ struct Solver
 
     this(ref in State st)
     {
-        _state = cast(State)st;
     }
 }
