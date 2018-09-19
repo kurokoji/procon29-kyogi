@@ -13,35 +13,28 @@ module nagato.beam_searcher;
 
 import nagato.state;
 
-struct ContextState
-{
+struct ContextState {
     State st;
     ContextState* node;
-    this()
-    {
+    this() {
     }
 
-    this(State s)
-    {
+    this(State s) {
         st = s;
     }
 
-    this(State s, ContextState* ptr)
-    {
+    this(State s, ContextState* ptr) {
         st = s;
         node = ptr;
     }
 }
 
-interface SolverStrategy
-{
+interface SolverStrategy {
     static ContextState*[] nextState(const ref State);
 }
 
-class AllStrategy : SolverStrategy
-{
-    static ContextState*[] nextState(const ref State st)
-    {
+class AllStrategy : SolverStrategy {
+    static ContextState*[] nextState(const ref State st) {
         import nagato.color : Color;
 
         ContextState*[] ret;
@@ -49,18 +42,15 @@ class AllStrategy : SolverStrategy
         foreach (i; 0 .. 9)
             foreach (j; 0 .. 9)
                 foreach (k; 0 .. 9)
-                    foreach (l; 0 .. 9)
-                    {
+                    foreach (l; 0 .. 9) {
                         auto next = st;
-                        with (next)
-                        {
+                        with (next) {
                             own[0].trans(i);
                             own[1].trans(j);
                             opponent[0].trans(k);
                             opponent[1].trans(l);
 
-                            if (isValidState())
-                            {
+                            if (isValidState()) {
                                 ret ~= new ContextState(next, &st);
                             }
                         }
@@ -70,18 +60,19 @@ class AllStrategy : SolverStrategy
     }
 }
 
-struct BeamSearcher(Strategy)
-{
+struct BeamSearcher(Strategy) {
     import nagato.state;
 
     State _state;
 
-    this(ref in State st)
-    {
+    this(ref in State st) {
         _state = cast(State) st;
     }
 
-    State solve(State st, uint beamWidth = 100)
-    {
+    State solve(State st, uint beamWidth = 100) {
+        import std.algorithm : partialSort;
+
+        State[] beam = Strategy.nextState(st);
+
     }
 }
