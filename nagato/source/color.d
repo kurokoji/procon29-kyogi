@@ -11,8 +11,7 @@
 
 module nagato.color;
 
-enum Color
-{
+enum Color {
     none = 0,
     own,
     opponent
