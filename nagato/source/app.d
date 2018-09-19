@@ -11,6 +11,6 @@
 
 import std.stdio;
 
-void main()
-{
+void main() {
+
 }
