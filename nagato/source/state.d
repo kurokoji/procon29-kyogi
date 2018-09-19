@@ -121,6 +121,41 @@ struct State
         return Color.none;
     }
 
+    // 正しい状態か
+    bool isValidState() const
+    {
+        bool[Point!int] dic;
+
+        foreach (e; _own ~ _opponent)
+        {
+            // field内にagentがいるかどうか
+            if (!isInside(e.point))
+                return false;
+
+            // agentが立っている場所が相手チームのマスではないか
+            if (e.agentTeam != _fieldState.getColor(e.y, e.x) && e.agentTeam != Color.none)
+                return false;
+
+            dic[e.point] = true;
+        }
+
+        // 複数のagentが同じマスにいないか
+        if (dic.length != 4)
+            return false;
+
+        return true;
+    }
+
+    bool isInside(Point!int p) const
+    {
+        return 0 <= p.y && p.y <= _field.height && 0 <= p.x && p.x <= _field.width;
+    }
+
+    bool isInside(int y, int x) const
+    {
+        return 0 <= y && y <= _field.height && 0 <= x && x <= _field.width;
+    }
+
     string toString() const
     {
         import std.format : format;
