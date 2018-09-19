@@ -67,6 +67,14 @@ struct Agent
         _point += trans;
     }
 
+    void trans(int n)
+    {
+        static immutable int[] dy = [0, 0, -1, -1, -1, 0, 1, 1, 1];
+        static immutable int[] dx = [0, -1, -1, 0, 1, 1, 1, 0, -1];
+
+        trans(dy[n], dx[n]);
+    }
+
     string toString() const
     {
         import std.format : format;
