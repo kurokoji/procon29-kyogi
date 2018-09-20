@@ -1,6 +1,6 @@
 #include "fieldSquare.hpp"
 
-FieldSquare::FieldSquare() : choiceWhiteSquare(0, 0, 30, 30), choiceRedSquare(0, 0, 30, 30), choiceBlueSquare(0, 0, 30, 30), isSquareDisp(false) {}
+FieldSquare::FieldSquare() : choiceWhiteSquare(0, 0, 30, 30), choiceRedSquare(0, 0, 30, 30), choiceBlueSquare(0, 0, 30, 30), isSquareDisp(false), canCancel(false) {}
 
 FieldSquare& FieldSquare::setPos(uint32 x, uint32 y) {
   pos = Vec2(x, y);
@@ -28,26 +28,36 @@ FieldSquare& FieldSquare::draw(const String& str, bool& hasAgent) {
 
 void FieldSquare::update(bool& canMove) {
   if (canMove) {
-    if (rect.leftClicked() || isSquareDisp == true) {
+    if (rect.leftClicked()) {
       isSquareDisp = true;
-      choiceWhiteSquare.draw(Palette::White).drawFrame(0, 5, Palette::Yellow);
-      choiceRedSquare.draw(Palette::Red).drawFrame(0, 5, Palette::Yellow);
-      choiceBlueSquare.draw(Palette::Blue).drawFrame(0, 5, Palette::Yellow);
-
-      if (choiceWhiteSquare.leftClicked()) {
-        clickNum = 0;
-        canMove = false;
-        isSquareDisp = false;
-      } else if (choiceRedSquare.leftClicked()) {
-        clickNum = 1;
-        canMove = false;
-        isSquareDisp = false;
-      } else if (choiceBlueSquare.leftClicked()) {
-        clickNum = 2;
-        canMove = false;
-        isSquareDisp = false;
-      }
+    } else if (isSquareDisp) {
+      canCancel = true;
+      choiceColor(canMove, isSquareDisp);
     }
+    if (canCancel && rect.leftClicked()) {
+      canCancel = false;
+      isSquareDisp = false;
+    }
+  }
+}
+
+void FieldSquare::choiceColor(bool& canMove, bool & isSquareDisp) {
+  choiceWhiteSquare.draw(Palette::White).drawFrame(0, 3, Palette::Yellow);
+  choiceRedSquare.draw(Palette::Red).drawFrame(0, 3, Palette::Yellow);
+  choiceBlueSquare.draw(Palette::Blue).drawFrame(0, 3, Palette::Yellow);
+
+  if (choiceWhiteSquare.leftClicked()) {
+    clickNum = 0;
+    canMove = false;
+    isSquareDisp = false;
+  } else if (choiceRedSquare.leftClicked()) {
+    clickNum = 1;
+    canMove = false;
+    isSquareDisp = false;
+  } else if (choiceBlueSquare.leftClicked()) {
+    clickNum = 2;
+    canMove = false;
+    isSquareDisp = false;
   }
 }
 
