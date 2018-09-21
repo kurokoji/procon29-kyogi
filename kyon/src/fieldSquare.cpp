@@ -28,51 +28,60 @@ FieldSquare& FieldSquare::draw(const String& str, bool& hasAgent) {
 
 void FieldSquare::update(String& whichAgent) {
   if (whichAgent == U"Red") {
-    if (rect.leftClicked()) {
-      isSquareDisp = true;
-    } else if (isSquareDisp) {
-      canCancel = true;
-      if(clickNum == 0) {
-        choiceRedSquare.draw(Palette::Red).drawFrame(0, 3, Palette::Yellow);
-        if (choiceRedSquare.leftClicked()) {
-          clickNum = 1;
-          isSquareDisp = false;
-        }
-      } else if (clickNum == 2) {
-        choiceWhiteSquare.draw(Palette::White).drawFrame(0, 3, Palette::Yellow);
-        if (choiceWhiteSquare.leftClicked()) {
-          clickNum = 0;
-          isSquareDisp = false;
-        }
-      }
-    }
-    if (canCancel && rect.leftClicked()) {
-      canCancel = false;
-      isSquareDisp = false;
-    }
+    choiceRedTeam();
+    dispCancel();
   } else if (whichAgent == U"Blue") {
-    if (rect.leftClicked()) {
-      isSquareDisp = true;
-    } else if (isSquareDisp) {
-      canCancel = true;
-      if(clickNum == 0) {
-        choiceBlueSquare.draw(Palette::Blue).drawFrame(0, 3, Palette::Yellow);
-        if (choiceBlueSquare.leftClicked()) {
-          clickNum = 2;
-          isSquareDisp = false;
-        }
-      } else if (clickNum == 1) {
-        choiceWhiteSquare.draw(Palette::White).drawFrame(0, 3, Palette::Yellow);
-        if (choiceWhiteSquare.leftClicked()) {
-          clickNum = 0;
-          isSquareDisp = false;
-        }
+    choiceBlueTeam();
+    dispCancel();
+  }
+}
+
+void FieldSquare::choiceRedTeam() {
+  if (rect.leftClicked()) {
+    isSquareDisp = true;
+  } else if (isSquareDisp) {
+    canCancel = true;
+    if(clickNum == 0) {
+      choiceRedSquare.draw(Palette::Red).drawFrame(0, 3, Palette::Yellow);
+      if (choiceRedSquare.leftClicked()) {
+        clickNum = 1;
+        isSquareDisp = false;
       }
+    } else if (clickNum == 2) {
+      choiceWhite();
     }
-    if (canCancel && rect.leftClicked()) {
-      canCancel = false;
-      isSquareDisp = false;
+  }
+}
+
+void FieldSquare::choiceBlueTeam() {
+  if (rect.leftClicked()) {
+    isSquareDisp = true;
+  } else if (isSquareDisp) {
+    canCancel = true;
+    if(clickNum == 0) {
+      choiceBlueSquare.draw(Palette::Blue).drawFrame(0, 3, Palette::Yellow);
+      if (choiceBlueSquare.leftClicked()) {
+        clickNum = 2;
+        isSquareDisp = false;
+      }
+    } else if (clickNum == 1) {
+      choiceWhite();
     }
+  }
+}
+
+void FieldSquare::choiceWhite() {
+  choiceWhiteSquare.draw(Palette::White).drawFrame(0, 3, Palette::Yellow);
+  if (choiceWhiteSquare.leftClicked()) {
+    clickNum = 0;
+    isSquareDisp = false;
+  }
+}
+
+void FieldSquare::dispCancel() {
+  if (canCancel && rect.leftClicked()) {
+    canCancel = false;
+    isSquareDisp = false;
   }
 }
 
