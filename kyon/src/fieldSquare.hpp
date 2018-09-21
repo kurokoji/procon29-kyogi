@@ -12,6 +12,5 @@ public:
   FieldSquare& setPos(uint32 x, uint32 y);
   FieldSquare& draw(const String& str, bool& hasAgent);
   void normalSquare();
-  void choiceColor(bool &canMove, bool& isSquareDisp);
-  void update(bool& canMove);
+  void update(String& whichAgent);
 };
