@@ -11,6 +11,10 @@ public:
   FieldSquare();
   FieldSquare& setPos(uint32 x, uint32 y);
   FieldSquare& draw(const String& str, bool& hasAgent);
+  void choiceRedTeam();
+  void choiceBlueTeam();
+  void choiceWhite();
+  void dispCancel();
   void normalSquare();
   void update(String& whichAgent);
 };
