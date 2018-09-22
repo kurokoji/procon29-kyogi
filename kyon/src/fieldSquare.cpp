@@ -26,7 +26,17 @@ FieldSquare& FieldSquare::draw(const String& str, bool& hasAgent) {
   return *this;
 }
 
-void FieldSquare::update(String& whichAgent) {
+void FieldSquare::update(const String& whichAgent) {
+  if (whichAgent == U"Red") {
+    choiceRedTeam();
+    dispCancel();
+  } else if (whichAgent == U"Blue") {
+    choiceBlueTeam();
+    dispCancel();
+  }
+}
+
+void FieldSquare::update(const String&& whichAgent) {
   if (whichAgent == U"Red") {
     choiceRedTeam();
     dispCancel();

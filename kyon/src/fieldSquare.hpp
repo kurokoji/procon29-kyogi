@@ -16,5 +16,6 @@ public:
   void choiceWhite();
   void dispCancel();
   void normalSquare();
-  void update(String& whichAgent);
+  void update(const String& whichAgent);
+  void update(const String&& whichAgent);
 };
