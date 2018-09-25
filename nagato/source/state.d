@@ -98,27 +98,27 @@ struct State {
     存在する場合，そのエージェントの列挙型Colorの値が返る
     存在しない場合，SquareColor.noneが返る
     +/
-    Color agentExists(int ny, int nx) const {
-      auto point = Point!int(ny, nx);
-      foreach (e; _own ~ _opponent) {
-        if (e.point == point) {
-          return e.agentTeam;
-        }
+  Color agentExists(int ny, int nx) const {
+    auto point = Point!int(ny, nx);
+    foreach (e; _own ~ _opponent) {
+      if (e.point == point) {
+        return e.agentTeam;
       }
-
-      return Color.none;
     }
+
+    return Color.none;
+  }
 
   /+ ditto +/
-    Color agentExists(ref in Point!int point) const {
-      foreach (e; _own ~ _opponent) {
-        if (e.point == point) {
-          return e.agentTeam;
-        }
+  Color agentExists(ref in Point!int point) const {
+    foreach (e; _own ~ _opponent) {
+      if (e.point == point) {
+        return e.agentTeam;
       }
-
-      return Color.none;
     }
+
+    return Color.none;
+  }
 
   // 正しい状態か
   bool isValidState() const {
@@ -144,11 +144,11 @@ struct State {
   }
 
   bool isInside(Point!int p) const {
-    return 0 <= p.y && p.y <= _field.height && 0 <= p.x && p.x <= _field.width;
+    return 0 <= p.y && p.y < _field.height && 0 <= p.x && p.x < _field.width;
   }
 
   bool isInside(int y, int x) const {
-    return 0 <= y && y <= _field.height && 0 <= x && x <= _field.width;
+    return 0 <= y && y < _field.height && 0 <= x && x < _field.width;
   }
 
   Tuple!(ScoreType, "own", ScoreType, "opponent") getScoreSum() {
@@ -169,49 +169,53 @@ struct State {
 
     // 領域ポイント
     auto countAreaPoint = (Color c) {
+      import std.array;
+
       immutable int[] dy = [0, 1, 0, -1];
       immutable int[] dx = [1, 0, -1, 0];
       auto visited = new bool[][](fieldState.height, fieldState.width);
       ScoreType ret;
 
-      foreach (i; fieldState.height) {
-        foreach (j; fieldState.width) {
+      foreach (i; 0 .. fieldState.height) {
+        foreach (j; 0 .. fieldState.width) {
           // すでに調べたやつはskip
           if (visited[i][j])
             continue;
 
           // 自分のマス以外のマスを調べたいので，自分のマスはskip
-          if (c == Color.own && field.getColor(i, j) == Color.own)
+          if (c == Color.own && fieldState.getColor(i, j) == Color.own)
             continue;
-          if (c == Color.opponent && field.getColor(i, j) == Color.opponent)
+          if (c == Color.opponent && fieldState.getColor(i, j) == Color.opponent)
             continue;
 
           Tuple!(int, "y", int, "x")[] stack;
-          stack ~= tuple(i, j);
+          stack ~= tuple!("y", "x")(cast(int) i, cast(int) j);
           visited[i][j] = true;
 
           ScoreType sum;
           while (!stack.empty) {
             bool isSurrounded;
             foreach (k; 0 .. 4) {
+              if (stack.empty)
+                break;
               int ny = stack.back.y + dy[k], nx = stack.back.x + dx[k];
               stack.popBack();
-              if (visited[ny][nx])
-                continue;
               if (!isInside(ny, nx)) {
                 sum = 0;
                 isSurrounded = true;
                 break;
               }
-              // 自分のマス以外のマスを調べたいので，自分のマスはskip
-              if (c == Color.own && field.getColor(ny, nx) == Color.own)
+              if (visited[ny][nx])
                 continue;
-              if (c == Color.opponent && field.getColor(ny, nx) == Color.opponent)
+              // 自分のマス以外のマスを調べたいので，自分のマスはskip
+              if (c == Color.own && fieldState.getColor(ny, nx) == Color.own)
+                continue;
+              if (c == Color.opponent && fieldState.getColor(ny, nx) == Color.opponent)
                 continue;
 
               sum += field.getScore(ny, nx);
               visited[ny][nx] = true;
-              stack ~= tuple(ny, nx);
+              stack ~= tuple!("y", "x")(ny, nx);
             }
 
             if (isSurrounded)
@@ -220,14 +224,13 @@ struct State {
           ret += sum;
         }
       }
-
       return ret;
     };
 
     own += countAreaPoint(Color.own);
     opponent += countAreaPoint(Color.opponent);
 
-    return tuple(own, opponent);
+    return tuple!("own", "opponent")(own, opponent);
   }
 
   string toString() const {
@@ -237,6 +240,7 @@ struct State {
     string res;
 
     res ~= _field.toString() ~ '\n';
+    res ~= _fieldState.toString() ~ '\n';
 
     foreach (const ref e; _own) {
       res ~= e.toString() ~ '\n';
@@ -252,7 +256,9 @@ struct State {
 }
 
 unittest {
-  string s = "2 2\n1 2\n3 4\n1 1\n2 1\n1 1\n2 2";
+  string s = "2 2\n1 2\n3 4\n1 1\n2 1\n1 2\n2 2";
   auto state = State(s);
   assert(state.toString() == s);
+  state.own[0].trans(1);
+  assert(state.own[0].y == 1 && state.own[0].x == 0);
 }

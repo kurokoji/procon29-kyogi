@@ -40,12 +40,20 @@ struct Point(T) {
   }
 
   @property {
-    T y() const {
+    ref inout(T) y() inout {
       return _y;
     }
 
-    T x() const {
+    ref inout(T) x() inout {
       return _x;
     }
   }
+}
+
+unittest {
+  auto p = Point!int(1, 2);
+  assert(p.y == 1 && p.x == 2);
+
+  p += Point!int(1, 1);
+  assert(p.y == 2 && p.x == 3);
 }
