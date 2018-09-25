@@ -22,7 +22,29 @@ struct Field(T) {
   this(uint height, uint width, T[][] ar) {
     _height = height;
     _width = width;
-    _field = ar;
+    _field = ar.dup;
+    foreach (i; 0 .. height) {
+      _field[i] = _field[i].dup;
+    }
+  }
+
+  this(this) {
+    _field = _field.dup;
+    foreach (i; 0 .. _height) {
+      _field[i] = _field[i].dup;
+    }
+  }
+
+  ref Field!T opAssign(ref Field!T s) {
+    _height = s.height;
+    _width = s.width;
+    _field = new T[][](_height, _width);
+    foreach (i; 0 .. _height) {
+      foreach (j; 0 .. _width) {
+        _field[i][j] = s.getScore(i, j);
+      }
+    }
+    return this;
   }
 
   @property {

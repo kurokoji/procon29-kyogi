@@ -31,6 +31,25 @@ struct FieldState {
     }
   }
 
+  this(this) {
+    _states = _states.dup;
+    foreach (i; 0 .. _height) {
+      _states[i] = _states[i].dup;
+    }
+  }
+
+  ref FieldState opAssign(ref FieldState s) {
+    _height = s.height;
+    _width = s.width;
+    _states = new Color[][](_height, _width);
+    foreach (i; 0 .. _height) {
+      foreach (j; 0 .. _width) {
+        _states[i][j] = s.getColor(i, j);
+      }
+    }
+    return this;
+  }
+
   Color getColor(uint h, uint w) const {
     return _states[h][w];
   }

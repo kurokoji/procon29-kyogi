@@ -50,13 +50,29 @@ struct State {
       int y, x;
       sc.scan(y, x);
       e = Agent(y, x, Color.own);
+      _fieldState.changeColor(y, x, Color.own);
     }
 
     foreach (ref e; _opponent) {
       int y, x;
       sc.scan(y, x);
       e = Agent(y, x, Color.opponent);
+      _fieldState.changeColor(y, x, Color.opponent);
     }
+
+  }
+
+  this(this) {
+    _own = _own.dup;
+    _opponent = _opponent.dup;
+  }
+
+  ref State opAssign(ref State s) {
+    _field = s.field;
+    _fieldState = s.fieldState;
+    _own = s.own.dup;
+    _opponent = s.opponent.dup;
+    return this;
   }
 
   @property {
@@ -64,7 +80,7 @@ struct State {
       return _fieldState;
     }
 
-    ref inout(Field) field() inout {
+    ref inout(Field!ScoreType) field() inout {
       return _field;
     }
 
