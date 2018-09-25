@@ -5,6 +5,7 @@ public:
   Rect choiceWhiteSquare;
   Rect choiceRedSquare;
   Rect choiceBlueSquare;
+  Circle agentMarker;
   bool isSquareDisp;
   bool canCancel;
 
