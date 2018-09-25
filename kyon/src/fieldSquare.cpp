@@ -1,10 +1,11 @@
 #include "fieldSquare.hpp"
 
-FieldSquare::FieldSquare() : choiceWhiteSquare(0, 0, 30, 30), choiceRedSquare(0, 0, 30, 30), choiceBlueSquare(0, 0, 30, 30), isSquareDisp(false), canCancel(false) {}
+FieldSquare::FieldSquare() : choiceWhiteSquare(0, 0, 30, 30), choiceRedSquare(0, 0, 30, 30), choiceBlueSquare(0, 0, 30, 30), agentMarker(10, 10, 10), isSquareDisp(false), canCancel(false) {}
 
 FieldSquare& FieldSquare::setPos(uint32 x, uint32 y) {
   pos = Vec2(x, y);
   rect.setPos(x, y);
+  agentMarker.setPos(x + 50, y + 50);
   choiceWhiteSquare.setPos(x + 60, y);
   choiceRedSquare.setPos(x + 60, y);
   choiceBlueSquare.setPos(x + 60, y);
@@ -14,10 +15,8 @@ FieldSquare& FieldSquare::setPos(uint32 x, uint32 y) {
 
 FieldSquare& FieldSquare::draw(const String& str, bool& hasAgent) {
   if (hasAgent) {
-    rect.draw(Palette::Green);
-    if (rect.leftClicked()) {
-      normalSquare();
-    }
+    normalSquare();
+    agentMarker.draw(Palette::Purple);
   } else {
     normalSquare();
   }
