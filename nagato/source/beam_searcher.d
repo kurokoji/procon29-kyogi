@@ -16,8 +16,6 @@ import nagato.state;
 struct ContextState {
   State st;
   ContextState* node;
-  this() {
-  }
 
   this(State s) {
     st = s;
@@ -34,7 +32,7 @@ interface SolverStrategy {
 }
 
 class AllStrategy : SolverStrategy {
-  static ContextState*[] nextState(const ref State st) {
+  static ContextState*[] nextState(ContextState* cst) {
     import nagato.color : Color;
 
     ContextState*[] ret;
@@ -43,7 +41,7 @@ class AllStrategy : SolverStrategy {
       foreach (j; 0 .. 9)
         foreach (k; 0 .. 9)
           foreach (l; 0 .. 9) {
-            auto next = st;
+            State next = cst.st;
             with (next) {
               own[0].trans(i);
               own[1].trans(j);
@@ -51,7 +49,7 @@ class AllStrategy : SolverStrategy {
               opponent[1].trans(l);
 
               if (isValidState()) {
-                ret ~= new ContextState(next, &st);
+                ret ~= new ContextState(next, cst);
               }
             }
           }
@@ -64,15 +62,17 @@ struct BeamSearcher(Strategy) {
   import nagato.state;
 
   State _state;
+  ContextState* root;
 
   this(ref in State st) {
     _state = cast(State) st;
+    root = new ContextState(st);
   }
 
   State solve(State st, uint beamWidth = 100) {
     import std.algorithm : partialSort;
 
-    State[] beam = Strategy.nextState(st);
+    State[] beam = Strategy.nextState(root);
 
   }
 }
