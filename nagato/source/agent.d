@@ -57,10 +57,17 @@ struct Agent {
   }
 
   void trans(int n) {
-    static immutable int[] dy = [0, 0, -1, -1, -1, 0, 1, 1, 1];
-    static immutable int[] dx = [0, -1, -1, 0, 1, 1, 1, 0, -1];
+    immutable int[] dy = [0, 0, -1, -1, -1, 0, 1, 1, 1];
+    immutable int[] dx = [0, -1, -1, 0, 1, 1, 1, 0, -1];
 
     trans(dy[n], dx[n]);
+  }
+
+  void backTrans(int n) {
+    immutable int[] dy = [0, 0, -1, -1, -1, 0, 1, 1, 1];
+    immutable int[] dx = [0, -1, -1, 0, 1, 1, 1, 0, -1];
+
+    trans(-dy[n], -dx[n]);
   }
 
   string toString() const {
@@ -71,7 +78,10 @@ struct Agent {
 }
 
 unittest {
+  import nagato.color : Color;
+
   auto a = Agent(1, 2, Color.own);
-  assert(a.y == 1 && a.x == 2 && a.agentTeam == Color.own);
-  assert(a.toString() == "1 2");
+  a.trans(1);
+  assert(a.y == 1 && a.x == 1 && a.agentTeam == Color.own);
+  assert(a.toString() == "1 1");
 }
