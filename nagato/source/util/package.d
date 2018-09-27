@@ -9,8 +9,6 @@
 //
 //====================================================
 
-import std.stdio;
+module nagato.util;
 
-void main() {
-
-}
+public import nagato.util.judge;

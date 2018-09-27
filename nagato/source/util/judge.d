@@ -9,23 +9,19 @@
 //
 //====================================================
 
-module nagato.solver;
+module nagato.util.judge;
 
-enum SolverStrategy
-{
-    random,
-    greedy,
-    beamSearch
-}
+import nagato.color;
+import nagato.state;
 
-struct Solver
-{
-    import nagato.state;
+Color judge(State st) {
+  auto res = st.getScoreSum();
 
-    State _state;
-
-    this(ref in State st)
-    {
-        _state = cast(State) st;
-    }
+  if (res.own > res.opponent) {
+    return Color.own;
+  } else if (res.own < res.opponent) {
+    return Color.opponent;
+  }
+  
+  return Color.none;
 }

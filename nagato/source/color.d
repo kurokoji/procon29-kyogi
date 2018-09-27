@@ -9,8 +9,10 @@
 //
 //====================================================
 
-import std.stdio;
+module nagato.color;
 
-void main() {
-
+enum Color {
+  none = 0,
+  own,
+  opponent
 }
