@@ -9,8 +9,8 @@
 //
 //====================================================
 
-#ifndef MIKURU_TYPES_H_
-#define MIKURU_TYPES_H_
+#ifndef PROCON29_MIKURU_TYPES_HPP_
+#define PROCON29_MIKURU_TYPES_HPP_
 
 #include <cstdint>
 namespace mikuru {
@@ -36,6 +36,6 @@ using char32 = char32_t;
  */
 
 using score_type = int32;
-} // namespace mikuru
+}  // namespace mikuru
 
 #endif

@@ -9,4 +9,4 @@
 //
 //====================================================
 
-namespace mikuru {} // namespace mikuru
+namespace mikuru {}  // namespace mikuru

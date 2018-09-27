@@ -9,8 +9,8 @@
 //
 //====================================================
 
-#ifndef MIKURU_PROBLEM_STATE_H_
-#define MIKURU_PROBLEM_STATE_H_
+#ifndef PROCON29_MIKURU_PROBLEM_STATE_HPP_
+#define PROCON29_MIKURU_PROBLEM_STATE_HPP_
 
 #include "color.hpp"
 #include "color_field.hpp"
@@ -34,6 +34,6 @@ public:
   friend std::ostream& operator<<(std::ostream&, problem_state const&);
   friend std::istream& operator>>(std::istream&, problem_state&);
 };
-} // namespace mikuru
+}  // namespace mikuru
 
 #endif

@@ -9,8 +9,8 @@
 //
 //====================================================
 
-#ifndef MIKURU_COLOR_FIELD_H_
-#define MIKURU_COLOR_FIELD_H_
+#ifndef PROCON29_MIKURU_COLOR_FIELD_HPP_
+#define PROCON29_MIKURU_COLOR_FIELD_HPP_
 
 #include "color.hpp"
 #include "field.hpp"
@@ -28,6 +28,6 @@ public:
   friend std::ostream& operator<<(std::ostream&, color_field const&);
   friend std::istream& operator>>(std::istream&, color_field&);
 };
-} // namespace mikuru
+}  // namespace mikuru
 
 #endif
