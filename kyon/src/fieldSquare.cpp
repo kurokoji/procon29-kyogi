@@ -1,6 +1,6 @@
 #include "fieldSquare.hpp"
 
-FieldSquare::FieldSquare() : choiceWhiteSquare(0, 0, 30, 30), choiceRedSquare(0, 0, 30, 30), choiceBlueSquare(0, 0, 30, 30), agentMarker(10, 10, 10), isSquareDisp(false), canCancel(false) {}
+FieldSquare::FieldSquare() : choiceWhiteSquare(0, 0, 30, 30), choiceRedSquare(0, 0, 30, 30), choiceBlueSquare(0, 0, 30, 30), agentMarker(10, 10, 10), isSquareDisp(false), canCancel(false), whatColor(0) {}
 
 //座標設定
 FieldSquare& FieldSquare::setPos(uint32 x, uint32 y) {
@@ -54,13 +54,13 @@ void FieldSquare::choiceRedTeam() {
     isSquareDisp = true;
   } else if (isSquareDisp) {
     canCancel = true;
-    if(clickNum == 0) {
+    if(whatColor == 0) {
       choiceRedSquare.draw(Palette::Red).drawFrame(0, 3, Palette::Yellow);
       if (choiceRedSquare.leftClicked()) {
-        clickNum = 1;
+        whatColor = 1;
         isSquareDisp = false;
       }
-    } else if (clickNum == 2) {
+    } else if (whatColor == 2) {
       choiceWhite();
     }
   }
@@ -72,13 +72,13 @@ void FieldSquare::choiceBlueTeam() {
     isSquareDisp = true;
   } else if (isSquareDisp) {
     canCancel = true;
-    if(clickNum == 0) {
+    if(whatColor == 0) {
       choiceBlueSquare.draw(Palette::Blue).drawFrame(0, 3, Palette::Yellow);
       if (choiceBlueSquare.leftClicked()) {
-        clickNum = 2;
+        whatColor = 2;
         isSquareDisp = false;
       }
-    } else if (clickNum == 1) {
+    } else if (whatColor == 1) {
       choiceWhite();
     }
   }
@@ -88,7 +88,7 @@ void FieldSquare::choiceBlueTeam() {
 void FieldSquare::choiceWhite() {
   choiceWhiteSquare.draw(Palette::White).drawFrame(0, 3, Palette::Yellow);
   if (choiceWhiteSquare.leftClicked()) {
-    clickNum = 0;
+    whatColor = 0;
     isSquareDisp = false;
   }
 }
@@ -101,13 +101,13 @@ void FieldSquare::dispCancel() {
   }
 }
 
-//clickNumに合わせてマスの色を描画
+//whatColorに合わせてマスの色を描画 (0は白,1は赤,2は青です)
 void FieldSquare::normalSquare() {
-  if (clickNum == 0) {
+  if (whatColor == 0) {
     rect.draw(Palette::White);
-  } else if (clickNum == 1) {
+  } else if (whatColor == 1) {
     rect.draw(Palette::Red);
-  } else if (clickNum == 2) {
+  } else if (whatColor == 2) {
     rect.draw(Palette::Blue);
   }
 }

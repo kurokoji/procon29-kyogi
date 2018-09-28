@@ -12,6 +12,8 @@ public:
   bool isSquareDisp;
   //色選択用のRectの表示をキャンセルできるかできないか
   bool canCancel;
+  //マスが何色かの判定
+  int32 whatColor;
 
   FieldSquare();
   //座標設定
@@ -26,7 +28,7 @@ public:
   void choiceWhite();
   //選択肢の非表示
   void dispCancel();
-  //clickNumに合わせてマスの色を描画
+  //whatColorに合わせてマスの色を描画
   void normalSquare();
   //マスをクリックしたときの挙動
   void update(const String& whichAgent);
