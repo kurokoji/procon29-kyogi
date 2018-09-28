@@ -2,6 +2,7 @@
 
 FieldSquare::FieldSquare() : choiceWhiteSquare(0, 0, 30, 30), choiceRedSquare(0, 0, 30, 30), choiceBlueSquare(0, 0, 30, 30), agentMarker(10, 10, 10), isSquareDisp(false), canCancel(false) {}
 
+//座標設定
 FieldSquare& FieldSquare::setPos(uint32 x, uint32 y) {
   pos = Vec2(x, y);
   rect.setPos(x, y);
@@ -13,6 +14,7 @@ FieldSquare& FieldSquare::setPos(uint32 x, uint32 y) {
   return *this;
 }
 
+//マスを表示
 FieldSquare& FieldSquare::draw(const String& str, bool& hasAgent) {
   if (hasAgent) {
     normalSquare();
@@ -25,6 +27,7 @@ FieldSquare& FieldSquare::draw(const String& str, bool& hasAgent) {
   return *this;
 }
 
+//マスをクリックしたときの挙動
 void FieldSquare::update(const String& whichAgent) {
   if (whichAgent == U"Red") {
     choiceRedTeam();
@@ -45,6 +48,7 @@ void FieldSquare::update(const String&& whichAgent) {
   }
 }
 
+//赤チームの選択肢を表示
 void FieldSquare::choiceRedTeam() {
   if (rect.leftClicked()) {
     isSquareDisp = true;
@@ -62,6 +66,7 @@ void FieldSquare::choiceRedTeam() {
   }
 }
 
+//青チームの選択肢を表示
 void FieldSquare::choiceBlueTeam() {
   if (rect.leftClicked()) {
     isSquareDisp = true;
@@ -79,6 +84,7 @@ void FieldSquare::choiceBlueTeam() {
   }
 }
 
+//白を選択した場合
 void FieldSquare::choiceWhite() {
   choiceWhiteSquare.draw(Palette::White).drawFrame(0, 3, Palette::Yellow);
   if (choiceWhiteSquare.leftClicked()) {
@@ -87,6 +93,7 @@ void FieldSquare::choiceWhite() {
   }
 }
 
+//選択肢の非表示
 void FieldSquare::dispCancel() {
   if (canCancel && rect.leftClicked()) {
     canCancel = false;
@@ -94,6 +101,7 @@ void FieldSquare::dispCancel() {
   }
 }
 
+//clickNumに合わせてマスの色を描画
 void FieldSquare::normalSquare() {
   if (clickNum == 0) {
     rect.draw(Palette::White);
