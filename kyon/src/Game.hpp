@@ -7,6 +7,7 @@
 #include <sstream>
 #include <string>
 #include <tuple>
+#include <boost/asio.hpp>
 #include "button.hpp"
 
 namespace kyon {
