@@ -19,10 +19,14 @@ class PrimitiveMonteCalroTreeSearch {
     State st;
     int winCount;
     int visitCount;
+    uint nowTurn;
+    Color playerColor;
 
-    this(State s, Node* pN) {
+    this(State s, Node* pN, uint nt = 0, Color c = Color.own) {
       st = s;
       parentNode = pN;
+      nowTurn = nt;
+      playerColor = c;
     }
 
     import nagato.color : Color;
@@ -40,74 +44,51 @@ class PrimitiveMonteCalroTreeSearch {
     }
 
     Node*[] makeCandidates() {
+      import nagato.agent, std.range;
       Node*[] ret;
+
       foreach (i; 1 .. 9) {
         foreach (j; 1 .. 9) {
-          foreach (k; 1 .. 9) {
-            foreach (l; 1 .. 9) {
-              State nextState = st;
-              with (nextState) {
-                import nagato.color : Color;
+          State nextState = st;
+          with (nextState) {
+            import nagato.color : Color;
+            own[0].trans(i);
+            own[1].trans(j);
 
-                own[0].trans(i);
-                own[1].trans(j);
-                opponent[0].trans(k);
-                opponent[1].trans(l);
+            if (!isInside(own[0].point) || !isInside(own[1].point)) continue;
 
-                if (!isInside(own[0].point) || !isInside(own[1].point)
-                    || !isInside(opponent[0].point) || !isInside(opponent[1].point))
-                  continue;
-                if (fieldState.getColor(own[0].y, own[0].x) == Color.opponent) {
-                  fieldState.changeColor(own[0].y, own[0].x, Color.none);
-                  own[0].backTrans(i);
-                } else {
-                  fieldState.changeColor(own[0].y, own[0].x, Color.own);
-                }
-
-                if (fieldState.getColor(own[1].y, own[1].x) == Color.opponent) {
-                  fieldState.changeColor(own[1].y, own[1].x, Color.none);
-                  own[1].backTrans(j);
-                } else {
-                  fieldState.changeColor(own[1].y, own[1].x, Color.own);
-                }
-
-                if (fieldState.getColor(opponent[0].y, opponent[0].x) == Color.own) {
-                  fieldState.changeColor(opponent[0].y, opponent[0].x, Color.none);
-                  opponent[0].backTrans(k);
-                } else {
-                  fieldState.changeColor(opponent[0].y, opponent[0].x, Color.opponent);
-                }
-
-                if (fieldState.getColor(opponent[1].y, opponent[1].x) == Color.own) {
-                  fieldState.changeColor(opponent[1].y, opponent[1].x, Color.none);
-                  opponent[1].backTrans(l);
-                } else {
-                  fieldState.changeColor(opponent[1].y, opponent[1].x, Color.opponent);
-                }
-              }
-
-              if (nextState.isValidState()) {
-                ret ~= new Node(nextState, &this);
+            Agent[] ag = own;
+            foreach (ref o, c; zip(ag, [i, j])) {
+              if (fieldState.getColor(o.y, o.x) == Color.opponent) {
+                fieldState.changeColor(o.y, o.x, Color.none);
+                o.backTrans(c);
+              } else {
+                fieldState.changeColor(o.y, o.x, Color.own);
               }
             }
           }
+          if (nextState.isValidState()) {
+            ret ~= new Node(nextState, &this, nowTurn + 1, Color.opponent);
+          }
         }
       }
+
       return ret;
     }
 
-    Node* randomSelect() {
+    Node* randomTurnSelect() {
       import std.random, std.range;
 
       auto rnd = Xorshift(unpredictableSeed);
 
       State nextState;
-      while (true) {
+      do {
         nextState = st;
 
         auto r = iota(0, 9);
         with (nextState) {
           import nagato.color : Color;
+          import nagato.agent;
 
           uint i = r.choice(rnd), j = r.choice(rnd), k = r.choice(rnd), l = r.choice(rnd);
           own[0].trans(i);
@@ -118,50 +99,73 @@ class PrimitiveMonteCalroTreeSearch {
           if (!isInside(own[0].point) || !isInside(own[1].point)
               || !isInside(opponent[0].point) || !isInside(opponent[1].point))
             continue;
-          if (fieldState.getColor(own[0].y, own[0].x) == Color.opponent) {
-            fieldState.changeColor(own[0].y, own[0].x, Color.none);
-            own[0].backTrans(i);
-          } else {
-            fieldState.changeColor(own[0].y, own[0].x, Color.own);
+
+          Agent[] ag = own;
+          foreach (ref agent, c; zip(ag, [i, j])) {
+            if (fieldState.getColor(agent.y, agent.x) == Color.opponent) {
+              fieldState.changeColor(agent.y, agent.x, Color.none);
+              agent.backTrans(c);
+            } else {
+              fieldState.changeColor(agent.y, agent.x, Color.own);
+            }
           }
 
-          if (fieldState.getColor(own[1].y, own[1].x) == Color.opponent) {
-            fieldState.changeColor(own[1].y, own[1].x, Color.none);
-            own[1].backTrans(j);
-          } else {
-            fieldState.changeColor(own[1].y, own[1].x, Color.own);
-          }
-
-          if (fieldState.getColor(opponent[0].y, opponent[0].x) == Color.own) {
-            fieldState.changeColor(opponent[0].y, opponent[0].x, Color.none);
-            opponent[0].backTrans(k);
-          } else {
-            fieldState.changeColor(opponent[0].y, opponent[0].x, Color.opponent);
-          }
-
-          if (fieldState.getColor(opponent[1].y, opponent[1].x) == Color.own) {
-            fieldState.changeColor(opponent[1].y, opponent[1].x, Color.none);
-            opponent[1].backTrans(l);
-          } else {
-            fieldState.changeColor(opponent[1].y, opponent[1].x, Color.opponent);
+          ag = opponent;
+          foreach (ref agent, c; zip(ag, [k, l])) {
+            if (fieldState.getColor(agent.y, agent.x) == Color.own) {
+              fieldState.changeColor(agent.y, agent.x, Color.none);
+              agent.backTrans(c);
+            } else {
+              fieldState.changeColor(agent.y, agent.x, Color.opponent);
+            }
           }
         }
+      } while (!nextState.isValidState());
 
-        if (nextState.isValidState())
-          break;
-      }
+      return new Node(nextState, &this, nowTurn + 1);
+    }
 
-      return new Node(nextState, &this);
+    Node* randomSelect() {
+      import std.random, std.range;
+
+      auto rnd = Xorshift(unpredictableSeed);
+
+      State nextState;
+      auto invColor = playerColor == Color.own ? Color.opponent : Color.own;
+      auto r = iota(1, 9);
+      do {
+        nextState = st;
+        with (nextState) {
+          import nagato.color : Color;
+          import nagato.agent;
+          auto agent = playerColor == Color.own ? own : opponent;
+          uint i = r.choice(rnd), j = r.choice(rnd);
+          agent[0].trans(i);
+          agent[1].trans(j);
+
+          if (!isInside(agent[0].point) || !isInside(agent[1].point)) continue;
+
+          Agent[] ag = agent;
+          foreach (ref a, c; zip(ag, [i, j])) {
+            if (fieldState.getColor(a.y, a.x) == invColor) {
+              fieldState.changeColor(a.y, a.x, Color.none);
+              a.backTrans(c);
+            } else {
+              fieldState.changeColor(a.y, a.x, playerColor);
+            }
+          }
+        }
+      } while (!nextState.isValidState());
+
+      return new Node(nextState, &this, nowTurn + 1, invColor);
     }
 
     Node* playout(uint maxTurn) {
       import std.random;
 
-      auto rnd = Xorshift(unpredictableSeed);
-
-      Node* move = &this;
-      foreach (i; 0 .. maxTurn) {
-        move = move.randomSelect();
+      Node* move = randomSelect();
+      foreach (i; 0 .. maxTurn - 1) {
+        move = move.randomTurnSelect();
       }
 
       return move;
@@ -170,14 +174,15 @@ class PrimitiveMonteCalroTreeSearch {
 
   Node* rootNode;
   Node*[] childNodes;
-  uint playoutN, maxTurn;
+  uint playoutN, maxTurn, nowTurn;
   State state;
 
-  this(State s, uint tries, uint turn) {
-    rootNode = new Node(s, null);
+  this(State s, uint tries, uint nowTurn, uint turn) {
+    rootNode = new Node(s, null, nowTurn);
     childNodes = rootNode.makeCandidates();
     state = s;
     this.playoutN = tries;
+    this.nowTurn = nowTurn;
     maxTurn = turn;
   }
 
@@ -186,10 +191,11 @@ class PrimitiveMonteCalroTreeSearch {
     import std.parallelism : parallel;
     import std.array;
     import std.range : iota;
+    import std.stdio : writefln, writeln;
 
     debug writefln("Start %s", childNodes.length);
+    debug writefln("Now Turn: %s", nowTurn);
     foreach (index, e; childNodes) {
-      // debug writefln("Child %s...", index);
       auto arr = iota(0, playoutN);
       foreach (i; parallel(arr)) {
         auto res = e.playout(maxTurn);
