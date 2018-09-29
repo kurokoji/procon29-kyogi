@@ -1,7 +1,7 @@
 #ifndef PROCON29_KYON_GAME_HPP_
 #define PROCON29_KYON_GAME_HPP_
 
-#include <HamFramework.hpp>
+#include <HamFramework/SceneManager.hpp>
 #include <Siv3D.hpp>
 #include <iostream>
 #include <sstream>
