@@ -1,7 +1,15 @@
 #include "Game.hpp"
-#include <Siv3D.hpp>
 
 namespace kyon {
+
+namespace tcp {
+namespace GET {
+const std::string problem = "GET problem";
+const std::string answer = "GET answer";
+}  // namespace GET
+
+namespace POST {}  // namespace POST
+}  // namespace tcp
 
 void Game::update() {
   ;
@@ -12,17 +20,28 @@ void Game::draw() const {
 }
 
 String Game::getFieldData() {
-  // tcp通信で持ってくる
-  const String fieldData =
-      U"8 8\n \
-        1 2 3 4 4 3 2 1\n \
-        2 3 4 5 5 4 3 3\n \
-        3 4 5 6 6 5 4 3\n \
-        4 5 6 7 7 6 5 4\n \
-        4 5 6 7 7 6 5 4\n \
-        3 4 5 6 6 5 4 3\n \
-        2 3 4 5 5 4 3 2\n \
-        1 2 3 4 4 3 2 1";
+  namespace asio = boost::asio;
+  using asio::ip::tcp;
+
+  asio::io_service io_service;
+  tcp::socket socket(io_service);
+  boost::system::error_code err;
+
+  const std::string IP_ADDRESS = "127.0.0.1";
+  const unsigned short PORT = 20000;
+
+  socket.connect(tcp::endpoint(asio::ip::address::from_string(IP_ADDRESS), PORT));
+  asio::write(socket, asio::buffer(kyon::tcp::GET::problem + "\n"), err);
+
+  asio::streambuf receive_buffer;
+  asio::read(socket, receive_buffer, asio::transfer_all(), err);
+
+  String fieldData = U"";
+  if (err && err != asio::error::eof) {
+    std::cerr << "recieve failed: " << err.message() << std::endl;
+  } else {
+    fieldData = s3d::Unicode::Widen(std::string(asio::buffer_cast<const char *>(receive_buffer.data())));
+  }
 
   return fieldData;
 }
