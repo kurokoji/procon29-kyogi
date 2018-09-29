@@ -6,9 +6,9 @@ void Main() {
     Window::Resize(1280, 780);
 
     // 画面遷移のマネージャー
-    App manager;
+    kyon::App manager;
     manager.setFadeColor(ColorF(1.0, 1.0, 1.0));
-    manager.add<Game>(U"Game");
+    manager.add<kyon::Game>(U"Game");
 
     const Font font(50);
 
