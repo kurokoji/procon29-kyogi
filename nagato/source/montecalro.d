@@ -11,7 +11,7 @@
 
 module nagato.montecalro;
 
-class MonteCalroTreeSearch {
+class PrimitiveMonteCalroTreeSearch {
   import nagato.state;
 
   struct Node {
