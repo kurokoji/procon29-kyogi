@@ -14,6 +14,13 @@ public:
   bool canCancel;
   //マスが何色かの判定
   int32 whatColor;
+  //矢印関連
+  Texture solverArrow;
+  Texture normalArrow;
+  FilePath solverArrowPath;
+  FilePath normalArrowPath;
+  int32 arrowX[8];
+  int32 arrowY[8];
 
   FieldSquare();
   //座標設定
@@ -33,4 +40,6 @@ public:
   //マスをクリックしたときの挙動
   void update(const String& whichAgent);
   void update(const String&& whichAgent);
+  //行動できる場所へ矢印を表示する
+  void dispArrow(int32 solverDirection, bool canMove[]);
 };
