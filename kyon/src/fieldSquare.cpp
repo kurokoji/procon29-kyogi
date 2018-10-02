@@ -1,6 +1,18 @@
 #include "fieldSquare.hpp"
 
-FieldSquare::FieldSquare() : choiceWhiteSquare(0, 0, 30, 30), choiceRedSquare(0, 0, 30, 30), choiceBlueSquare(0, 0, 30, 30), agentMarker(10, 10, 10), isSquareDisp(false), canCancel(false), whatColor(0) {}
+FieldSquare::FieldSquare() {
+  choiceWhiteSquare = Rect(0, 0, 30, 30);
+  choiceRedSquare = Rect(0, 0, 30, 30);
+  choiceBlueSquare = Rect(0, 0, 30, 30);
+  agentMarker = Circle(10, 10, 10);
+  isSquareDisp = false;
+  canCancel = false;
+  whatColor = 0;
+  solverArrowPath = U"../../../image/ArrowImage/Yellow.png";
+  normalArrowPath = U"../../../image/ArrowImage/Gray.png";
+  solverArrow = Texture(solverArrowPath);
+  normalArrow = Texture(normalArrowPath);
+}
 
 //座標設定
 FieldSquare& FieldSquare::setPos(uint32 x, uint32 y) {
@@ -11,7 +23,24 @@ FieldSquare& FieldSquare::setPos(uint32 x, uint32 y) {
   choiceRedSquare.setPos(x + 60, y);
   choiceBlueSquare.setPos(x + 60, y);
 
-  return *this;
+  arrowX[0] = x;
+  arrowY[0] = y + 30;
+  arrowX[1] = x;
+  arrowY[1] = y;
+  arrowX[2] = x + 30;
+  arrowY[2] = y;
+  arrowX[3] = x + 60;
+  arrowY[3] = y;
+  arrowX[4] = x + 60;
+  arrowY[4] = y + 30;
+  arrowX[5] = x + 60;
+  arrowY[5] = y + 60;
+  arrowX[6] = x + 30;
+  arrowY[6] = y + 60;
+  arrowX[7] = x;
+  arrowY[7] = y + 60;
+
+return *this;
 }
 
 //マスを表示
@@ -109,5 +138,20 @@ void FieldSquare::normalSquare() {
     rect.draw(Palette::Red);
   } else if (whatColor == 2) {
     rect.draw(Palette::Blue);
+  }
+}
+
+void FieldSquare::dispArrow(int32 solverDirection, bool canMove[]) {
+  int32 arrowRadians = 0;
+  for (auto i : step(8)) {
+    if (canMove[i] && i != solverDirection - 1) {
+      normalArrow.scaled(0.03).rotated(Radians(arrowRadians)).draw(arrowX[i], arrowY[i]);
+      arrowRadians += 45;
+    } else if (canMove[i] && i == solverDirection - 1) {
+      solverArrow.scaled(0.03).rotated(Radians(arrowRadians)).draw(arrowX[i], arrowY[i]);
+      arrowRadians += 45;
+    } else {
+      arrowRadians += 45;
+    }
   }
 }
