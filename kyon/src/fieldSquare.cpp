@@ -24,21 +24,21 @@ FieldSquare& FieldSquare::setPos(uint32 x, uint32 y) {
   choiceBlueSquare.setPos(x + 60, y);
 
   arrowX[0] = x;
-  arrowY[0] = y + 30;
+  arrowY[0] = y + 25;
   arrowX[1] = x;
   arrowY[1] = y;
-  arrowX[2] = x + 30;
+  arrowX[2] = x + 25;
   arrowY[2] = y;
-  arrowX[3] = x + 60;
+  arrowX[3] = x + 49;
   arrowY[3] = y;
-  arrowX[4] = x + 60;
-  arrowY[4] = y + 30;
-  arrowX[5] = x + 60;
-  arrowY[5] = y + 60;
-  arrowX[6] = x + 30;
-  arrowY[6] = y + 60;
+  arrowX[4] = x + 49;
+  arrowY[4] = y + 25;
+  arrowX[5] = x + 49;
+  arrowY[5] = y + 49;
+  arrowX[6] = x + 25;
+  arrowY[6] = y + 49;
   arrowX[7] = x;
-  arrowY[7] = y + 60;
+  arrowY[7] = y + 49;
 
 return *this;
 }
@@ -145,10 +145,10 @@ void FieldSquare::dispArrow(int32 solverDirection, bool canMove[]) {
   int32 arrowRadians = 0;
   for (auto i : step(8)) {
     if (canMove[i] && i != solverDirection - 1) {
-      normalArrow.scaled(0.03).rotated(Radians(arrowRadians)).draw(arrowX[i], arrowY[i]);
+      normalArrow.scaled(0.02).rotated(Radians(arrowRadians)).draw(arrowX[i], arrowY[i]);
       arrowRadians += 45;
     } else if (canMove[i] && i == solverDirection - 1) {
-      solverArrow.scaled(0.03).rotated(Radians(arrowRadians)).draw(arrowX[i], arrowY[i]);
+      solverArrow.scaled(0.02).rotated(Radians(arrowRadians)).draw(arrowX[i], arrowY[i]);
       arrowRadians += 45;
     } else {
       arrowRadians += 45;
