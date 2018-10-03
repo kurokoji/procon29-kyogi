@@ -1,9 +1,9 @@
 #include "fieldSquare.hpp"
 
 FieldSquare::FieldSquare() {
-  choiceWhiteSquare = Rect(0, 0, 30, 30);
-  choiceRedSquare = Rect(0, 0, 30, 30);
-  choiceBlueSquare = Rect(0, 0, 30, 30);
+  for (int i = 0; i < 4; ++i) {
+    choiceColor[i] = Rect(0, 0, 30, 30);
+  }
   agentMarker = Circle(10, 10, 10);
   isSquareDisp = false;
   canCancel = false;
@@ -19,9 +19,13 @@ FieldSquare& FieldSquare::setPos(uint32 x, uint32 y) {
   pos = Vec2(x, y);
   rect.setPos(x, y);
   agentMarker.setPos(x + 50, y + 50);
-  choiceWhiteSquare.setPos(x + 60, y);
-  choiceRedSquare.setPos(x + 60, y);
-  choiceBlueSquare.setPos(x + 60, y);
+
+  for (int i = 0; i < 2; ++i) {
+    choiceColor[i] = Rect(0, 0, 30, 30);
+  }
+
+  choiceColor[0].setPos(x + 60, y);
+  choiceColor[1].setPos(x + 60, y + 40);
 
   arrowX[0] = x;
   arrowY[0] = y + 25;
@@ -40,7 +44,7 @@ FieldSquare& FieldSquare::setPos(uint32 x, uint32 y) {
   arrowX[7] = x;
   arrowY[7] = y + 49;
 
-return *this;
+  return *this;
 }
 
 //マスを表示
@@ -57,69 +61,64 @@ FieldSquare& FieldSquare::draw(const String& str, bool& hasAgent) {
 }
 
 //マスをクリックしたときの挙動
-void FieldSquare::update(const String& whichAgent) {
-  if (whichAgent == U"Red") {
-    choiceRedTeam();
-    dispCancel();
-  } else if (whichAgent == U"Blue") {
-    choiceBlueTeam();
-    dispCancel();
-  }
-}
 
-void FieldSquare::update(const String&& whichAgent) {
-  if (whichAgent == U"Red") {
-    choiceRedTeam();
-    dispCancel();
-  } else if (whichAgent == U"Blue") {
-    choiceBlueTeam();
-    dispCancel();
+void FieldSquare::update(const String whichAgent[]) {
+  bool dispRedRect = false;
+  bool dispBlueRect = false;
+  for (auto& i : step(2)) {
+    if (whichAgent[i] == U"Red") {
+      dispRedRect = true;
+    } else if (whichAgent[i] == U"Blue") {
+      dispBlueRect = true;
+    }
   }
-}
 
-//赤チームの選択肢を表示
-void FieldSquare::choiceRedTeam() {
   if (rect.leftClicked()) {
     isSquareDisp = true;
   } else if (isSquareDisp) {
     canCancel = true;
-    if(whatColor == 0) {
-      choiceRedSquare.draw(Palette::Red).drawFrame(0, 3, Palette::Yellow);
-      if (choiceRedSquare.leftClicked()) {
-        whatColor = 1;
-        isSquareDisp = false;
+    if (dispRedRect) {
+      if (whatColor == 0) {
+        choiceColor[0].draw(Palette::Red);
+        if (choiceColor[0].leftClicked()) {
+          whatColor = 1;
+          isSquareDisp = false;
+        }
+      } else if (whatColor == 1) {
+        choiceColor[0].draw(Palette::Red);
+        if (choiceColor[0].leftClicked()) {
+          isSquareDisp = false;
+        }
+      } else if (whatColor == 2) {
+        choiceColor[0].draw(Palette::White);
+        if (choiceColor[0].leftClicked()) {
+          whatColor = 0;
+          isSquareDisp = false;
+        }
       }
-    } else if (whatColor == 2) {
-      choiceWhite();
+    }
+    if (dispBlueRect) {
+      if(whatColor == 0) {
+        choiceColor[1].draw(Palette::Blue);
+        if (choiceColor[1].leftClicked()) {
+          whatColor = 2;
+          isSquareDisp = false;
+        }
+      } else if (whatColor == 1) {
+        choiceColor[1].draw(Palette::White);
+        if (choiceColor[1].leftClicked()) {
+          whatColor = 0;
+          isSquareDisp = false;
+        }
+      } else if (whatColor == 2) {
+        choiceColor[1].draw(Palette::Blue);
+        if (choiceColor[1].leftClicked()) {
+          isSquareDisp = false;
+        }
+      }
     }
   }
-}
-
-//青チームの選択肢を表示
-void FieldSquare::choiceBlueTeam() {
-  if (rect.leftClicked()) {
-    isSquareDisp = true;
-  } else if (isSquareDisp) {
-    canCancel = true;
-    if(whatColor == 0) {
-      choiceBlueSquare.draw(Palette::Blue).drawFrame(0, 3, Palette::Yellow);
-      if (choiceBlueSquare.leftClicked()) {
-        whatColor = 2;
-        isSquareDisp = false;
-      }
-    } else if (whatColor == 1) {
-      choiceWhite();
-    }
-  }
-}
-
-//白を選択した場合
-void FieldSquare::choiceWhite() {
-  choiceWhiteSquare.draw(Palette::White).drawFrame(0, 3, Palette::Yellow);
-  if (choiceWhiteSquare.leftClicked()) {
-    whatColor = 0;
-    isSquareDisp = false;
-  }
+  dispCancel();
 }
 
 //選択肢の非表示
