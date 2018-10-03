@@ -1,13 +1,14 @@
-#ifndef PROCON29_KYON_GAME_HPP_
-#define PROCON29_KYON_GAME_HPP_
+#ifndef PROCON29_PROBLEM_STATE_HPP_
+#define PROCON29_PROBLEM_STATE_HPP_
 
 #include <vector>
 #include <array>
 #include <ostream>
 #include <istream>
 
+#include "Color.hpp"
+
 namespace kyon {
-enum class Color { None, Blue, Red };
 struct ProblemState {
   using Field = std::vector<std::vector<int32>>;
   Field field;
@@ -21,3 +22,5 @@ struct ProblemState {
   friend std::istream& operator>>(std::istream&, ProblemState&);
 };
 } // namespace kyon
+
+#endif
