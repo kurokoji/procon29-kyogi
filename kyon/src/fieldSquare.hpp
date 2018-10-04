@@ -1,3 +1,6 @@
+#ifndef PROCON29_KYON_FIELD_SQUARE_HPP_
+#define PROCON29_KYON_FIELD_SQUARE_HPP_
+
 #include "button.hpp"
 
 class FieldSquare : public Button {
