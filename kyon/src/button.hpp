@@ -13,8 +13,11 @@ struct Button {
   Button(const Rect& rect, const Font& font);
   Button(uint32 h, uint32 w);
 
+  //座標設定
   Button& setPos(uint32 x, uint32 y);
+  //マスの描画
   Button& draw(const String& str);
+  //クリックした際の挙動
   void update();
 };
 

@@ -1,18 +1,53 @@
 #include "fieldSquare.hpp"
 
-FieldSquare::FieldSquare() : choiceWhiteSquare(0, 0, 30, 30), choiceRedSquare(0, 0, 30, 30), choiceBlueSquare(0, 0, 30, 30), agentMarker(10, 10, 10), isSquareDisp(false), canCancel(false) {}
+FieldSquare::FieldSquare() {
+  for (int i = 0; i < 4; ++i) {
+    choiceColor[i] = Rect(0, 0, 30, 30);
+  }
+  agentMarker = Circle(10, 10, 10);
+  isSquareDisp = false;
+  canCancel = false;
+  whatColor = 0;
+  solverArrowPath = U"../../../image/ArrowImage/Yellow.png";
+  normalArrowPath = U"../../../image/ArrowImage/Gray.png";
+  solverArrow = Texture(solverArrowPath);
+  normalArrow = Texture(normalArrowPath);
+}
 
+//座標設定
 FieldSquare& FieldSquare::setPos(uint32 x, uint32 y) {
   pos = Vec2(x, y);
   rect.setPos(x, y);
   agentMarker.setPos(x + 50, y + 50);
-  choiceWhiteSquare.setPos(x + 60, y);
-  choiceRedSquare.setPos(x + 60, y);
-  choiceBlueSquare.setPos(x + 60, y);
+
+  for (int i = 0; i < 2; ++i) {
+    choiceColor[i] = Rect(0, 0, 30, 30);
+  }
+
+  choiceColor[0].setPos(x + 60, y);
+  choiceColor[1].setPos(x + 60, y + 40);
+
+  arrowX[0] = x;
+  arrowY[0] = y + 25;
+  arrowX[1] = x;
+  arrowY[1] = y;
+  arrowX[2] = x + 25;
+  arrowY[2] = y;
+  arrowX[3] = x + 49;
+  arrowY[3] = y;
+  arrowX[4] = x + 49;
+  arrowY[4] = y + 25;
+  arrowX[5] = x + 49;
+  arrowY[5] = y + 49;
+  arrowX[6] = x + 25;
+  arrowY[6] = y + 49;
+  arrowX[7] = x;
+  arrowY[7] = y + 49;
 
   return *this;
 }
 
+//マスを表示
 FieldSquare& FieldSquare::draw(const String& str, bool& hasAgent) {
   if (hasAgent) {
     normalSquare();
@@ -25,68 +60,68 @@ FieldSquare& FieldSquare::draw(const String& str, bool& hasAgent) {
   return *this;
 }
 
-void FieldSquare::update(const String& whichAgent) {
-  if (whichAgent == U"Red") {
-    choiceRedTeam();
-    dispCancel();
-  } else if (whichAgent == U"Blue") {
-    choiceBlueTeam();
-    dispCancel();
-  }
-}
+//マスをクリックしたときの挙動
 
-void FieldSquare::update(const String&& whichAgent) {
-  if (whichAgent == U"Red") {
-    choiceRedTeam();
-    dispCancel();
-  } else if (whichAgent == U"Blue") {
-    choiceBlueTeam();
-    dispCancel();
+void FieldSquare::update(const String whichAgent[]) {
+  bool dispRedRect = false;
+  bool dispBlueRect = false;
+  for (auto& i : step(2)) {
+    if (whichAgent[i] == U"Red") {
+      dispRedRect = true;
+    } else if (whichAgent[i] == U"Blue") {
+      dispBlueRect = true;
+    }
   }
-}
 
-void FieldSquare::choiceRedTeam() {
   if (rect.leftClicked()) {
     isSquareDisp = true;
   } else if (isSquareDisp) {
     canCancel = true;
-    if(clickNum == 0) {
-      choiceRedSquare.draw(Palette::Red).drawFrame(0, 3, Palette::Yellow);
-      if (choiceRedSquare.leftClicked()) {
-        clickNum = 1;
-        isSquareDisp = false;
+    if (dispRedRect) {
+      if (whatColor == 0) {
+        choiceColor[0].draw(Palette::Red);
+        if (choiceColor[0].leftClicked()) {
+          whatColor = 1;
+          isSquareDisp = false;
+        }
+      } else if (whatColor == 1) {
+        choiceColor[0].draw(Palette::Red);
+        if (choiceColor[0].leftClicked()) {
+          isSquareDisp = false;
+        }
+      } else if (whatColor == 2) {
+        choiceColor[0].draw(Palette::White);
+        if (choiceColor[0].leftClicked()) {
+          whatColor = 0;
+          isSquareDisp = false;
+        }
       }
-    } else if (clickNum == 2) {
-      choiceWhite();
+    }
+    if (dispBlueRect) {
+      if(whatColor == 0) {
+        choiceColor[1].draw(Palette::Blue);
+        if (choiceColor[1].leftClicked()) {
+          whatColor = 2;
+          isSquareDisp = false;
+        }
+      } else if (whatColor == 1) {
+        choiceColor[1].draw(Palette::White);
+        if (choiceColor[1].leftClicked()) {
+          whatColor = 0;
+          isSquareDisp = false;
+        }
+      } else if (whatColor == 2) {
+        choiceColor[1].draw(Palette::Blue);
+        if (choiceColor[1].leftClicked()) {
+          isSquareDisp = false;
+        }
+      }
     }
   }
+  dispCancel();
 }
 
-void FieldSquare::choiceBlueTeam() {
-  if (rect.leftClicked()) {
-    isSquareDisp = true;
-  } else if (isSquareDisp) {
-    canCancel = true;
-    if(clickNum == 0) {
-      choiceBlueSquare.draw(Palette::Blue).drawFrame(0, 3, Palette::Yellow);
-      if (choiceBlueSquare.leftClicked()) {
-        clickNum = 2;
-        isSquareDisp = false;
-      }
-    } else if (clickNum == 1) {
-      choiceWhite();
-    }
-  }
-}
-
-void FieldSquare::choiceWhite() {
-  choiceWhiteSquare.draw(Palette::White).drawFrame(0, 3, Palette::Yellow);
-  if (choiceWhiteSquare.leftClicked()) {
-    clickNum = 0;
-    isSquareDisp = false;
-  }
-}
-
+//選択肢の非表示
 void FieldSquare::dispCancel() {
   if (canCancel && rect.leftClicked()) {
     canCancel = false;
@@ -94,12 +129,28 @@ void FieldSquare::dispCancel() {
   }
 }
 
+//whatColorに合わせてマスの色を描画 (0は白,1は赤,2は青です)
 void FieldSquare::normalSquare() {
-  if (clickNum == 0) {
+  if (whatColor == 0) {
     rect.draw(Palette::White);
-  } else if (clickNum == 1) {
+  } else if (whatColor == 1) {
     rect.draw(Palette::Red);
-  } else if (clickNum == 2) {
+  } else if (whatColor == 2) {
     rect.draw(Palette::Blue);
+  }
+}
+
+void FieldSquare::dispArrow(int32 solverDirection, bool canMove[]) {
+  int32 arrowRadians = 0;
+  for (auto i : step(8)) {
+    if (canMove[i] && i != solverDirection - 1) {
+      normalArrow.scaled(0.02).rotated(Radians(arrowRadians)).draw(arrowX[i], arrowY[i]);
+      arrowRadians += 45;
+    } else if (canMove[i] && i == solverDirection - 1) {
+      solverArrow.scaled(0.02).rotated(Radians(arrowRadians)).draw(arrowX[i], arrowY[i]);
+      arrowRadians += 45;
+    } else {
+      arrowRadians += 45;
+    }
   }
 }
