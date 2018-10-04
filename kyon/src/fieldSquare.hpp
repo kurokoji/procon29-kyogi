@@ -37,3 +37,5 @@ public:
   //行動できる場所へ矢印を表示する
   void dispArrow(int32 solverDirection, bool canMove[]);
 };
+
+#endif
