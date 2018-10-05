@@ -15,8 +15,10 @@ void Game::update() {
   ;
 }
 
-void Game::draw() const {
-  Rect(120, 120, 40, 40).draw();
+void Game::draw() {
+  String s = U"hoge";
+  bool f = false;
+  this->fs.draw(s, f);
 }
 
 String Game::getFieldData() {
