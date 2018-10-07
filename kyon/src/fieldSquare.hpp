@@ -5,6 +5,11 @@
 
 class FieldSquare : public Button {
 public:
+  enum ColorVariations {
+    White,
+    Red,
+    Blue,
+  };
   //updateでの色選択用
   Rect choiceColor[2];
   //エージェントの有無を表す
@@ -14,7 +19,7 @@ public:
   //色選択用のRectの表示をキャンセルできるかできないか
   bool canCancel;
   //マスが何色かの判定
-  int32 whatColor;
+  ColorVariations whatColor;
   //矢印関連
   Texture solverArrow;
   Texture normalArrow;
