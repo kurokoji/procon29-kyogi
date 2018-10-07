@@ -1,5 +1,6 @@
 #include "fieldSquare.hpp"
 
+
 FieldSquare::FieldSquare() {
   for (int i = 0; i < 4; ++i) {
     choiceColor[i] = Rect(0, 0, 30, 30);
@@ -7,7 +8,7 @@ FieldSquare::FieldSquare() {
   agentMarker = Circle(10, 10, 10);
   isSquareDisp = false;
   canCancel = false;
-  whatColor = 0;
+  whatColor = kyon::Color::None;
   solverArrowPath = U"../../../image/ArrowImage/Yellow.png";
   normalArrowPath = U"../../../image/ArrowImage/Gray.png";
   solverArrow = Texture(solverArrowPath);
@@ -78,39 +79,39 @@ void FieldSquare::update(const String whichAgent[]) {
   } else if (isSquareDisp) {
     canCancel = true;
     if (dispRedRect) {
-      if (whatColor == 0) {
+      if (whatColor == kyon::Color::None) {
         choiceColor[0].draw(Palette::Red);
         if (choiceColor[0].leftClicked()) {
-          whatColor = 1;
+          whatColor = kyon::Color::Red;
           isSquareDisp = false;
         }
-      } else if (whatColor == 1) {
+      } else if (whatColor == kyon::Color::Red) {
         choiceColor[0].draw(Palette::Red);
         if (choiceColor[0].leftClicked()) {
           isSquareDisp = false;
         }
-      } else if (whatColor == 2) {
+      } else if (whatColor == kyon::Color::Blue) {
         choiceColor[0].draw(Palette::White);
         if (choiceColor[0].leftClicked()) {
-          whatColor = 0;
+          whatColor = kyon::Color::None;
           isSquareDisp = false;
         }
       }
     }
     if (dispBlueRect) {
-      if(whatColor == 0) {
+      if(whatColor == kyon::Color::None) {
         choiceColor[1].draw(Palette::Blue);
         if (choiceColor[1].leftClicked()) {
-          whatColor = 2;
+          whatColor = kyon::Color::Blue;
           isSquareDisp = false;
         }
-      } else if (whatColor == 1) {
+      } else if (whatColor == kyon::Color::Red) {
         choiceColor[1].draw(Palette::White);
         if (choiceColor[1].leftClicked()) {
-          whatColor = 0;
+          whatColor = kyon::Color::None;
           isSquareDisp = false;
         }
-      } else if (whatColor == 2) {
+      } else if (whatColor == kyon::Color::Blue) {
         choiceColor[1].draw(Palette::Blue);
         if (choiceColor[1].leftClicked()) {
           isSquareDisp = false;
@@ -129,13 +130,13 @@ void FieldSquare::dispCancel() {
   }
 }
 
-//whatColorに合わせてマスの色を描画 (0は白,1は赤,2は青です)
+//whatColorに合わせてマスの色を描画
 void FieldSquare::normalSquare() {
-  if (whatColor == 0) {
+  if (whatColor == kyon::Color::None) {
     rect.draw(Palette::White);
-  } else if (whatColor == 1) {
+  } else if (whatColor == kyon::Color::Red) {
     rect.draw(Palette::Red);
-  } else if (whatColor == 2) {
+  } else if (whatColor == kyon::Color::Blue) {
     rect.draw(Palette::Blue);
   }
 }

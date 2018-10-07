@@ -2,6 +2,7 @@
 #define PROCON29_KYON_FIELD_SQUARE_HPP_
 
 #include "button.hpp"
+#include "Color.hpp"
 
 class FieldSquare : public Button {
 public:
@@ -14,7 +15,7 @@ public:
   //色選択用のRectの表示をキャンセルできるかできないか
   bool canCancel;
   //マスが何色かの判定
-  int32 whatColor;
+  kyon::Color whatColor;
   //矢印関連
   Texture solverArrow;
   Texture normalArrow;
