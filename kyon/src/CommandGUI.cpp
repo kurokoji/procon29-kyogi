@@ -1,6 +1,7 @@
 #include "CommandGUI.hpp"
 #include <Siv3D.hpp>
 
+namespace kyon {
 CommandGUI::CommandGUI(int32 recX, int32 recY){
   x = recX;
   y = recY;
@@ -69,4 +70,4 @@ void CommandGUI::dispCmd(){
   rUpp(U'R').draw(x + 380, y, Palette::Black);
   lUpp(U'L').draw(x, y, Palette::Black);
 }  
-
+}
