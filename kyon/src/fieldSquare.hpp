@@ -16,7 +16,7 @@ public:
   //色選択用のRectの表示をキャンセルできるかできないか
   bool canCancel;
   //マスが何色かの判定
-  kyon::Color whatColor;
+  Color whatColor;
   //矢印関連
   Texture solverArrow;
   Texture normalArrow;
