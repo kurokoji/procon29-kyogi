@@ -3,6 +3,7 @@
 
 #include <Siv3D.hpp>
 
+namespace kyon {
 struct Button {
   Rect rect;
   Font font;
@@ -20,5 +21,6 @@ struct Button {
   //クリックした際の挙動
   void update();
 };
+}
 
 #endif

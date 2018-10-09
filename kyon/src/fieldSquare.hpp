@@ -4,6 +4,7 @@
 #include "button.hpp"
 #include "Color.hpp"
 
+namespace kyon {
 class FieldSquare : public Button {
 public:
   //updateでの色選択用
@@ -38,5 +39,6 @@ public:
   //行動できる場所へ矢印を表示する
   void dispArrow(int32 solverDirection, bool canMove[]);
 };
+}
 
 #endif

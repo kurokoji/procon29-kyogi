@@ -1,6 +1,7 @@
 #include "fieldSquare.hpp"
 
 
+namespace kyon {
 FieldSquare::FieldSquare() {
   for (int i = 0; i < 4; ++i) {
     choiceColor[i] = Rect(0, 0, 30, 30);
@@ -154,4 +155,5 @@ void FieldSquare::dispArrow(int32 solverDirection, bool canMove[]) {
       arrowRadians += 45;
     }
   }
+}
 }
