@@ -11,11 +11,11 @@
 
 module nagato.montecalro;
 
+/// ゲームの盤面を表すノード
 struct Node {
-  import nagato.state;
+  import nagato.state : State;
 
-  Node* parentNode;
-  Node*[] childNodes;
+  Node* parentNode; Node*[] childNodes;
   Node*[] untriedNodes;
   State st;
   int winCount;
@@ -91,7 +91,6 @@ struct Node {
       with (nextState) {
         import nagato.color : Color;
         import nagato.agent;
-
         uint i = r.choice(rnd), j = r.choice(rnd), k = r.choice(rnd), l = r.choice(rnd);
         own[0].trans(i);
         own[1].trans(j);
@@ -216,21 +215,23 @@ class PrimitiveMonteCalroTreeSearch {
   }
 }
 
+/// モンテカルロ木探索
 class NeoMonteCalroTreeSearch : PrimitiveMonteCalroTreeSearch {
-  import nagato.state;
+  import nagato.state : State;
 
   this(State s, uint tries, uint nowTurn, uint maxTurn) {
     super(s, tries, nowTurn, maxTurn);
   }
 
-  // UCB1の値に従ってexpandするノードを決定する
+  /// UCB1の値に従ってexpandするノードを決定する
   Node* selectChild(Node* node) {
-    import std.range;
     import std.algorithm : maxIndex, map;
     import std.math : log, sqrt;
 
     auto tv = rootNode.visitCount;
     auto cn = rootNode.childNodes;
+
+    // TODO: パラメータの調整が必要
     return cn[cn.map!(x => x.winCount / x.visitCount + sqrt(2.0) * sqrt(log(tv) / x.visitCount)).maxIndex];
   }
 
@@ -255,6 +256,7 @@ class NeoMonteCalroTreeSearch : PrimitiveMonteCalroTreeSearch {
     debug writefln("Start... %s", childNodes.length);
     debug writefln("Now Turn... %s", nowTurn);
 
+    // TODO: プレイアウトの高速化
     foreach (i; 0 .. playoutN) {
       Node* node = rootNode;
 
