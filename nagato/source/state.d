@@ -256,9 +256,9 @@ struct State {
 }
 
 unittest {
-  string s = "2 2\n1 2\n3 4\n1 1\n2 1\n1 2\n2 2";
+  string s = "2 2\n1 2\n3 4\n0 0\n1 0\n0 1\n1 1";
   auto state = State(s);
-  assert(state.toString() == s);
-  state.own[0].trans(1);
-  assert(state.own[0].y == 1 && state.own[0].x == 0);
+  assert(state.toString() == "2 2\n1 2\n3 4\n1 2\n1 2\n0 0\n1 0\n0 1\n1 1");
+  state.opponent[0].trans(1);
+  assert(state.own[0].y == 0 && state.own[0].x == 0);
 }
