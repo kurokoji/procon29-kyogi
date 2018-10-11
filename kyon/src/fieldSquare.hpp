@@ -7,10 +7,15 @@
 namespace kyon {
 class FieldSquare : public Button {
 public:
+  //どのエージェントがマスにいるかの判断
+  int32 onAgent; //0はなし,1はb1,2はb2,3はr1,4はr2です
+  //マスの点数
+  String squareNum;
   //updateでの色選択用
-  Rect choiceColor[2];
+  Rect choiceColor;
   //エージェントの有無を表す
-  Circle agentMarker;
+  Circle agent1Marker;
+  Triangle agent2Marker;
   //色選択用のRectを表示するかしないか
   bool isSquareDisp;
   //色選択用のRectの表示をキャンセルできるかできないか
@@ -25,17 +30,17 @@ public:
   int32 arrowX[8];
   int32 arrowY[8];
 
-  FieldSquare();
+  FieldSquare(int32 agent, String number);
   //座標設定
   FieldSquare& setPos(uint32 x, uint32 y);
   //マスを表示
-  FieldSquare& draw(const String& str, bool& hasAgent);
+  FieldSquare& draw();
   //選択肢の非表示
   void dispCancel();
   //whatColorに合わせてマスの色を描画
   void normalSquare();
   //マスをクリックしたときの挙動
-  void update(const String whichAgent[]);
+  void update(const String whichAgent);
   //行動できる場所へ矢印を表示する
   void dispArrow(int32 solverDirection, bool canMove[]);
 };

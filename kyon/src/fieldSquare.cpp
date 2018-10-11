@@ -2,11 +2,11 @@
 
 
 namespace kyon {
-FieldSquare::FieldSquare() {
-  for (int i = 0; i < 4; ++i) {
-    choiceColor[i] = Rect(0, 0, 30, 30);
-  }
-  agentMarker = Circle(10, 10, 10);
+FieldSquare::FieldSquare(int32 agent, String number) {
+  onAgent = agent;
+  squareNum = number;
+  choiceColor = Rect(0, 0, 30, 30);
+  agent1Marker = Circle(10, 10, 10);
   isSquareDisp = false;
   canCancel = false;
   whatColor = Color::None;
@@ -20,14 +20,10 @@ FieldSquare::FieldSquare() {
 FieldSquare& FieldSquare::setPos(uint32 x, uint32 y) {
   pos = Vec2(x, y);
   rect.setPos(x, y);
-  agentMarker.setPos(x + 50, y + 50);
+  agent1Marker.setPos(x + 50, y + 50);
+  agent2Marker = Triangle(x + 50, y + 53, 20, 0_deg);
 
-  for (int i = 0; i < 2; ++i) {
-    choiceColor[i] = Rect(0, 0, 30, 30);
-  }
-
-  choiceColor[0].setPos(x + 60, y);
-  choiceColor[1].setPos(x + 60, y + 40);
+  choiceColor.setPos(x + 60, y);
 
   arrowX[0] = x;
   arrowY[0] = y + 25;
@@ -50,71 +46,64 @@ FieldSquare& FieldSquare::setPos(uint32 x, uint32 y) {
 }
 
 //マスを表示
-FieldSquare& FieldSquare::draw(const String& str, bool& hasAgent) {
-  if (hasAgent) {
+FieldSquare& FieldSquare::draw() {
+  if (onAgent == 0) {
     normalSquare();
-    agentMarker.draw(Palette::Purple);
   } else {
     normalSquare();
+    if (onAgent % 2 != 0) {
+      agent1Marker.draw(Palette::Purple);
+    } else if (onAgent % 2 == 0) {
+      agent2Marker.draw(Palette::Purple);
+    }
   }
-  font(str).draw(pos, Palette::Black);
+  font(squareNum).draw(pos, Palette::Black);
 
   return *this;
 }
 
 //マスをクリックしたときの挙動
 
-void FieldSquare::update(const String whichAgent[]) {
-  bool dispRedRect = false;
-  bool dispBlueRect = false;
-  for (auto& i : step(2)) {
-    if (whichAgent[i] == U"Red") {
-      dispRedRect = true;
-    } else if (whichAgent[i] == U"Blue") {
-      dispBlueRect = true;
-    }
-  }
-
+void FieldSquare::update(const String whichAgent) {
   if (rect.leftClicked()) {
     isSquareDisp = true;
   } else if (isSquareDisp) {
     canCancel = true;
-    if (dispRedRect) {
+    if (whichAgent == U"Red") {
       if (whatColor == Color::None) {
-        choiceColor[0].draw(Palette::Red);
-        if (choiceColor[0].leftClicked()) {
+        choiceColor.draw(Palette::Red);
+        if (choiceColor.leftClicked()) {
           whatColor = Color::Red;
           isSquareDisp = false;
         }
       } else if (whatColor == Color::Red) {
-        choiceColor[0].draw(Palette::Red);
-        if (choiceColor[0].leftClicked()) {
+        choiceColor.draw(Palette::Red);
+        if (choiceColor.leftClicked()) {
           isSquareDisp = false;
         }
       } else if (whatColor == Color::Blue) {
-        choiceColor[0].draw(Palette::White);
-        if (choiceColor[0].leftClicked()) {
+        choiceColor.draw(Palette::White);
+        if (choiceColor.leftClicked()) {
           whatColor = Color::None;
           isSquareDisp = false;
         }
       }
-    }
-    if (dispBlueRect) {
+    } else if (whichAgent == U"Blue") {
       if(whatColor == Color::None) {
-        choiceColor[1].draw(Palette::Blue);
-        if (choiceColor[1].leftClicked()) {
+        choiceColor.draw(Palette::Blue);
+        if (choiceColor.leftClicked()) {
           whatColor = Color::Blue;
           isSquareDisp = false;
         }
       } else if (whatColor == Color::Red) {
-        choiceColor[1].draw(Palette::White);
-        if (choiceColor[1].leftClicked()) {
+        choiceColor.draw(Palette::White);
+        if (choiceColor.leftClicked()) {
           whatColor = Color::None;
           isSquareDisp = false;
         }
       } else if (whatColor == Color::Blue) {
-        choiceColor[1].draw(Palette::Blue);
-        if (choiceColor[1].leftClicked()) {
+        choiceColor.draw(Palette::Blue);
+        if (choiceColor.leftClicked()) {
           isSquareDisp = false;
         }
       }
