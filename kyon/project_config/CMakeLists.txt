@@ -29,9 +29,9 @@ link_directories(
 
 add_executable(kyon
 	"../../src/Main.cpp"
-  "../../src/button.cpp"
+  "../../src/Button.cpp"
   "../../src/Game.cpp"
-  "../../src/fieldSquare.cpp"
+  "../../src/FieldSquare.cpp"
 )
 
 target_link_libraries(kyon
