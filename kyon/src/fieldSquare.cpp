@@ -51,10 +51,14 @@ FieldSquare& FieldSquare::draw() {
     normalSquare();
   } else {
     normalSquare();
-    if (onAgent % 2 != 0) {
+    if (onAgent == 1) {
       agent1Marker.draw(Palette::Purple);
-    } else if (onAgent % 2 == 0) {
+    } else if (onAgent == 2) {
       agent2Marker.draw(Palette::Purple);
+    } else if (onAgent == 3) {
+      agent1Marker.draw(Palette::Orange);
+    } else if (onAgent == 4) {
+      agent2Marker.draw(Palette::Orange);
     }
   }
   font(squareNum).draw(pos, Palette::Black);
