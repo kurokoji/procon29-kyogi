@@ -1,7 +1,7 @@
 #ifndef PROCON29_KYON_FIELD_SQUARE_HPP_
 #define PROCON29_KYON_FIELD_SQUARE_HPP_
 
-#include "button.hpp"
+#include "Button.hpp"
 #include "Color.hpp"
 
 namespace kyon {

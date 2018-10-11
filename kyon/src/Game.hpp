@@ -7,8 +7,8 @@
 #include <string>
 #include <tuple>
 #include <boost/asio.hpp>
-#include "button.hpp"
-#include "fieldSquare.hpp"
+#include "Button.hpp"
+#include "FieldSquare.hpp"
 
 namespace kyon {
 
