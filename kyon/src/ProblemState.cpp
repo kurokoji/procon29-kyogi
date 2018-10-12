@@ -35,7 +35,7 @@ std::istream& operator>>(std::istream& is, ProblemState& ps) {
   ps.fieldColor.clear();
   ps.field.resize(h);
   for (size_t i = 0; i < h; ++i) {
-    ps.field.emplace_back(std::vector<int32>(w));
+    ps.field.emplace_back(Array<int32>(w));
     for (size_t j = 0; j < w; ++j) {
       is >> ps.field[i][j];
     }
@@ -43,7 +43,7 @@ std::istream& operator>>(std::istream& is, ProblemState& ps) {
 
   ps.fieldColor.resize(h);
   for (auto& v : ps.fieldColor) {
-    v.emplace_back(std::vector<int32>(w));
+    v.emplace_back(Array<int32>(w));
   }
 
   for (auto& e : ps.blue) {
