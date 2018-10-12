@@ -10,7 +10,7 @@
 
 namespace kyon {
 struct ProblemState {
-  using Field = std::vector<std::vector<int32>>;
+  using Field = Array<Array<int32>>;
   Field field;
   Field fieldColor;
 

@@ -14,14 +14,14 @@ namespace kyon {
 
 class Game {
 public:
-  FieldSquare fs;
+  FieldSquare fs {0, U"1"};
 
-  Game() {}
+  Game();
 
   void update();
   void draw();
   String getFieldData();
-  std::tuple<int32, int32, std::vector<std::vector<int32>>> parseFieldData(const String &fieldData);
+  std::tuple<int32, int32, Array<Array<int32>>> parseFieldData(const String &fieldData);
 };
 
 }  // namespace kyon
