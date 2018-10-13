@@ -23,9 +23,9 @@ void Field::drawField(const String &str, bool &hasAgent) {
 
   for (int i : step(H)) {
     for (int j : step(W)) {
-      square[i][j].setPos(10 + j * squSize, 10 + i * squSize);
-      square[i][j].draw(str, hasAgent);
-      square[i][j].rect.drawFrame(1.0, 1.0, Palette::Gray);
+      squares[i][j].setPos(10 + j * squSize, 10 + i * squSize);
+      squares[i][j].draw(str, hasAgent);
+      squares[i][j].rect.drawFrame(1.0, 1.0, Palette::Gray);
 
       texture.fill(image);
     }

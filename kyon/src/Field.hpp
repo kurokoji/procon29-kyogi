@@ -15,7 +15,7 @@ private:
     int32 squSize;
     Image image;
     DynamicTexture texture;
-    std::vector<std::vector<FieldSquare>> square;
+    std::vector<std::vector<FieldSquare>> squares;
 public:
     Field(int32 h, int32 w);
 
