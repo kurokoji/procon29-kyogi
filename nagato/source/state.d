@@ -157,8 +157,8 @@ struct State {
     // タイルポイント
     foreach (i; 0 .. fieldState.height) {
       foreach (j; 0 .. fieldState.width) {
-        Color c = fieldState.getColor(i, j);
-        ScoreType score = field.getScore(i, j);
+        immutable Color c = fieldState.getColor(i, j);
+        immutable ScoreType score = field.getScore(i, j);
         if (c == Color.own) {
           own += score;
         } else if (c == Color.opponent) {
@@ -189,21 +189,19 @@ struct State {
             continue;
 
           Tuple!(int, "y", int, "x")[] stack;
-          stack ~= tuple!("y", "x")(cast(int) i, cast(int) j);
+          stack ~= tuple!("y", "x")(cast(int)i, cast(int)j);
           visited[i][j] = true;
 
           ScoreType sum;
+          bool outSide;
           while (!stack.empty) {
-            bool isSurrounded;
+            immutable int y = stack.back.y, x = stack.back.x;
+            stack.popBack();
             foreach (k; 0 .. 4) {
-              if (stack.empty)
-                break;
-              int ny = stack.back.y + dy[k], nx = stack.back.x + dx[k];
-              stack.popBack();
+              int ny = y + dy[k], nx = x + dx[k];
               if (!isInside(ny, nx)) {
-                sum = 0;
-                isSurrounded = true;
-                break;
+                outSide = true;
+                continue;
               }
               if (visited[ny][nx])
                 continue;
@@ -213,15 +211,15 @@ struct State {
               if (c == Color.opponent && fieldState.getColor(ny, nx) == Color.opponent)
                 continue;
 
-              sum += field.getScore(ny, nx);
               visited[ny][nx] = true;
               stack ~= tuple!("y", "x")(ny, nx);
             }
+            import std.math : abs;
 
-            if (isSurrounded)
-              break;
+            sum += abs(field.getScore(y, x));
           }
-          ret += sum;
+          if (!outSide)
+            ret += sum;
         }
       }
       return ret;
