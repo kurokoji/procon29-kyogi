@@ -1,22 +1,24 @@
 #include "Field.hpp"
 #include <Siv3D.hpp>
 
-Field::Field(int32 h, int32 w) : squSize(60), H(h), W(w), image(h, w, Palette::White), texture(image){}
+namespace kyon {
+
+Field::Field(int32 h, int32 w) : squSize(60), H(h), W(w), image(h, w, Palette::White), texture(image) {}
 
 
-void InitField(){
+void Field::InitField() {
   //Agentの位置をfieldSquareに渡す
   //各マスに割り振られた点数をfieldSquareに渡す
 }
 
 //fieldの更新
-void updateField(){
+void Field::updateField() {
   //drawされたfieldSquareに変化がある場合(clickされたとき)に呼び出される
   //マスの色の変化をupdateする
 }
 
 //H * W　マスの描画
-void Field::drawField(const String& str, bool& hasAgent) {
+void Field::drawField(const String &str, bool &hasAgent) {
   texture.scaled(squSize).draw(10, 10);
 
   for (int i : step(H)) {
@@ -28,5 +30,7 @@ void Field::drawField(const String& str, bool& hasAgent) {
       texture.fill(image);
     }
   }
-  updateField();
+//  updateField();
+}
+
 }

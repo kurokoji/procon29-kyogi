@@ -7,6 +7,8 @@
 #include <string>
 #include <Siv3D.hpp>
 
+namespace kyon {
+
 class Field {
 private:
     int32 H, W;
@@ -21,5 +23,7 @@ public:
     void updateField();
     void drawField(const String& str, bool& hasAgent);
 };
+
+}
 
 #endif
