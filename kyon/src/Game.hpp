@@ -7,19 +7,21 @@
 #include <string>
 #include <tuple>
 #include <boost/asio.hpp>
-#include "button.hpp"
-#include "fieldSquare.hpp"
+#include "Button.hpp"
+#include "FieldSquare.hpp"
 
 namespace kyon {
 
 class Game {
 public:
-  Game() {}
+  FieldSquare fs {0, U"1"};
+
+  Game();
 
   void update();
   void draw();
   String getFieldData();
-  std::tuple<int32, int32, std::vector<std::vector<int32>>> parseFieldData(const String &fieldData);
+  std::tuple<int32, int32, Array<Array<int32>>> parseFieldData(const String &fieldData);
 };
 
 }  // namespace kyon

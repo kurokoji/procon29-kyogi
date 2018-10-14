@@ -13,7 +13,7 @@ void Field::InitField() {
   //各マスに割り振られた点数をfieldSquareに渡す
   squares.resize(H);
   for (auto& v: squares) {
-    v.resize(W);
+//    v.emplace_backで入れていきます
   }
 }
 
@@ -30,7 +30,7 @@ void Field::drawField(const String &str, bool &hasAgent) {
   for (int i : step(H)) {
     for (int j : step(W)) {
       squares[i][j].setPos(10 + j * squSize, 10 + i * squSize);
-      squares[i][j].draw(str, hasAgent);
+      squares[i][j].draw();
       squares[i][j].rect.drawFrame(1.0, 1.0, Palette::Gray);
 
       texture.fill(image);

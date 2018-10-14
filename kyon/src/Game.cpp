@@ -11,11 +11,16 @@ const std::string answer = "GET answer";
 namespace POST {}  // namespace POST
 }  // namespace tcp
 
+Game::Game() {
+  ;
+}
+
 void Game::update() {
   ;
 }
 
 void Game::draw() {
+  this->fs.draw();
 }
 
 String Game::getFieldData() {
@@ -45,7 +50,7 @@ String Game::getFieldData() {
   return fieldData;
 }
 
-std::tuple<int32, int32, std::vector<std::vector<int32>>> Game::parseFieldData(const String &fieldData) {
+std::tuple<int32, int32, Array<Array<int32>>> Game::parseFieldData(const String &fieldData) {
   std::stringstream ss;
   std::string line;
 
@@ -54,21 +59,21 @@ std::tuple<int32, int32, std::vector<std::vector<int32>>> Game::parseFieldData(c
 
   int32 h, w;
   std::stringstream ssLine;
-  std::vector<std::vector<int32>> fieldPoints;
+  Array<Array<int32>> fieldPoints;
 
   ssLine << line;
   ssLine >> h >> w;
 
   while (std::getline(ss, line)) {
-    std::vector<int32> v;
+    Array<int32> v;
     ssLine << line;
 
     while (!ssLine.eof()) {
       int32 tmp;
       ssLine >> tmp;
-      v.push_back(tmp);
+      v.emplace_back(tmp);
     }
-    fieldPoints.push_back(v);
+    fieldPoints.emplace_back(v);
   }
 
   return {h, w, fieldPoints};
