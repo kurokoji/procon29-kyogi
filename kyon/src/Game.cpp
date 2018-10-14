@@ -12,7 +12,8 @@ namespace POST {}  // namespace POST
 }  // namespace tcp
 
 Game::Game() {
-  ;
+  String fieldData = getFieldData();
+  std::tuple<int32, int32, Array<Array<int32>>, std::array<std::pair<size_t, size_t>, 4>> parsedFieldData = parseFieldData(fieldData);
 }
 
 void Game::update() {
@@ -50,7 +51,7 @@ String Game::getFieldData() {
   return fieldData;
 }
 
-std::tuple<int32, int32, Array<Array<int32>>> Game::parseFieldData(const String &fieldData) {
+std::tuple<int32, int32, Array<Array<int32>>, std::array<std::pair<size_t, size_t>, 4>> Game::parseFieldData(const String &fieldData) {
   std::stringstream ss;
   std::string line;
 
@@ -58,25 +59,37 @@ std::tuple<int32, int32, Array<Array<int32>>> Game::parseFieldData(const String 
   std::getline(ss, line);
 
   int32 h, w;
-  std::stringstream ssLine;
   Array<Array<int32>> fieldPoints;
+  std::array<std::pair<size_t, size_t>, 4> positions;
+  std::stringstream ssLine;
 
   ssLine << line;
   ssLine >> h >> w;
 
-  while (std::getline(ss, line)) {
+  for (int i = 0; i < h; i++) {
     Array<int32> v;
-    ssLine << line;
+    std::stringstream sLine;
+    std::getline(ss, line);
+    sLine << line;
 
-    while (!ssLine.eof()) {
+    while (!sLine.eof()) {
       int32 tmp;
-      ssLine >> tmp;
+      sLine >> tmp;
       v.emplace_back(tmp);
     }
     fieldPoints.emplace_back(v);
   }
 
-  return {h, w, fieldPoints};
+  for (int i = 0; i < 4; i++) {
+    int y, x;
+    std::stringstream sLine;
+    std::getline(ss, line);
+    sLine << line;
+    sLine >> y >> x;
+    positions[i] = std::make_pair(y, x);
+  }
+
+  return {h, w, fieldPoints, positions};
 }
 
 }  // namespace kyon
