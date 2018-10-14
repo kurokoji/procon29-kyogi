@@ -14,8 +14,6 @@ namespace kyon {
 
 class Game {
 public:
-  FieldSquare fs;
-
   Game() {}
 
   void update();

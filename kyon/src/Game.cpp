@@ -16,9 +16,6 @@ void Game::update() {
 }
 
 void Game::draw() {
-  String s = U"hoge";
-  bool f = false;
-  this->fs.draw(s, f);
 }
 
 String Game::getFieldData() {
