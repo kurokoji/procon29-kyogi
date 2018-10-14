@@ -3,12 +3,18 @@
 
 namespace kyon {
 
-Field::Field(int32 h, int32 w) : squSize(60), H(h), W(w), image(h, w, Palette::White), texture(image) {}
+Field::Field(int32 h, int32 w) : squSize(60), H(h), W(w), image(h, w, Palette::White), texture(image) {
+  InitField();
+}
 
 
 void Field::InitField() {
   //Agentの位置をfieldSquareに渡す
   //各マスに割り振られた点数をfieldSquareに渡す
+  squares.resize(H);
+  for (auto& v: squares) {
+    v.resize(W);
+  }
 }
 
 //fieldの更新
