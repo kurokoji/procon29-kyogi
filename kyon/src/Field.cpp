@@ -1,32 +1,100 @@
 #include "Field.hpp"
 #include <Siv3D.hpp>
 
-Field::Field(int32 h, int32 w) : squSize(60), H(h), W(w), image(h, w, Palette::White), texture(image){}
+Field::Field() : squSize(60) {}
 
-
-void InitField(){
-  //Agentの位置をfieldSquareに渡す
-  //各マスに割り振られた点数をfieldSquareに渡す
+void Field::InitData(const std::tuple<int32, int32, Array<Array<int32>>, std::array<std::pair<size_t, size_t>>>& fieldData) {
+  H = std::get<0>(fieldData);
+  W = std::get<1>(fieldData);
+  fieldPoints = std::get<2>(fieldData);
+  bluePos = std::get<3>(fieldData);
+  redPos = std::get<4>(fieldData);
 }
 
-//fieldの更新
-void updateField(){
-  //drawされたfieldSquareに変化がある場合(clickされたとき)に呼び出される
-  //マスの色の変化をupdateする
+String Field::convStr(int32 num) {
+  String str = Format(num);
+
+  return str;
 }
 
-//H * W　マスの描画
-void Field::drawField(const String& str, bool& hasAgent) {
-  texture.scaled(squSize).draw(10, 10);
+void Field::InitField(){
+  //squareのサイズをH*Wに初期化*
+  squares = Array<Array<FieldSquare>>(H, Array<FieldSquare>(W));
 
-  for (int i : step(H)) {
-    for (int j : step(W)) {
-      square[i][j].setPos(10 + j * squSize, 10 + i * squSize);
-      square[i][j].draw(str, hasAgent);
-      square[i][j].rect.drawFrame(1.0, 1.0, Palette::Gray);
+  //全fieldSquareに得点を渡す*
+  for (int i : step(H)){
+    for (int j : step(W)){
+      //文字列を数値へ変換
+      String str;
+      str = convStr(fieldPoints[i][j]);
 
-      texture.fill(image);
+      squares[i][j].squareNum = str;
     }
   }
-  updateField();
+  //Agentがいる位置をonAgentへ渡す*
+  for (auto [i, j]: Indexed(positions)){
+    squares[j.second][j.first].onAgent = i + 1;
+  }
+}
+
+bool isInside(const int32 x, const int32 y) {
+  return (0 <= x &&  x <= W - 1) && (0 <= y && y <= H - 1);
+}
+//AgentがいるSquareの周囲のsquareをupdateする
+void Field::updateField(int32 x, int32 y){
+  //agentの値で色の判定*
+  String AgentColor;
+  if (squares[i][j].agent == 1) {
+    AgentColor = U"Blue";
+    for (int i = 1; i < 9; ++i){
+      if (!inInside(i + dx[i], j + dy[i])){
+        continue;
+      }
+      squares[i + dx[i]][j + dy[i]].update(AgentColor);
+    }
+  }
+  else if (squares[i][j].agent == 2) {
+    AgentColor = U"Blue";
+    for (int i = 1; i < 9; ++i){
+      if (!inInside(i + dx[i], j + dy[i])){
+        continue;
+      }
+      squares[i + dx[i]][j + dy[i]].update(AgentColor);
+    }
+
+  }
+  else if(squares[i][j].agent == 3){
+    AgentColor = U"Red";
+    for (int i = 1; i < 9; ++i){
+      if (!inInside(i + dx[i], j + dy[i])){
+        continue;
+      }
+      squares[i + dx[i]][j + dy[i]].update(AgentColor);
+    }
+  }
+  else if (squares[i][j].agent == 4) {
+    AgentColor = U"Red";
+    for (int i = 1; i < 9; ++i){
+      if (!inInside(i + dx[i], j + dy[i])){
+        continue;
+      }
+      squares[i + dx[i]][j + dy[i]].update(AgentColor);
+    }
+  }
+}
+
+//H * W　マスの描画*
+void Field::drawField() {
+  for (int i : step(H)) {
+    for (int j : step(W)) {
+      squares[i][j].setPos(10 + j * squSize, 10 + i * squSize);
+      squares[i][j].rect.drawFrame(1.0, 1.0, Palette::Gray);
+
+      //Agentがいたらupdateをかける
+      if (squares[i][j].onAgent != 0) {
+        updateField(i, j);
+      }
+
+    }
+  }
 }
