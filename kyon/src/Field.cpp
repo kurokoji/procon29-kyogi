@@ -3,6 +3,8 @@
 
 namespace kyon {
 
+Field::Field() {}
+
 Field::Field(int32 h, int32 w) : squSize(60), H(h), W(w), image(h, w, Palette::White), texture(image) {
   InitField();
 }

@@ -2,6 +2,7 @@
 #define PROCON29_KYON_FIELD_HPP_
 
 #include "FieldSquare.hpp"
+#include "ProblemState.hpp"
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -17,6 +18,7 @@ private:
     DynamicTexture texture;
     std::vector<std::vector<FieldSquare>> squares;
 public:
+    Field();
     Field(int32 h, int32 w);
 
     void InitField();
