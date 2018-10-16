@@ -6,6 +6,8 @@
 #include <ostream>
 #include <istream>
 
+#include <Siv3D.hpp>
+
 #include "Color.hpp"
 
 namespace kyon {
