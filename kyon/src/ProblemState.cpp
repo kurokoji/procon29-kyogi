@@ -43,17 +43,17 @@ std::istream& operator>>(std::istream& is, ProblemState& ps) {
 
   ps.fieldColor.resize(h);
   for (auto& v : ps.fieldColor) {
-    v.emplace_back(Array<int32>(w));
+    v = Array<int32>(w);
   }
 
   for (auto& e : ps.blue) {
     is >> e.first >> e.second;
-    fieldColor[e.first][e.second] = static_cast<int32>(Color::Blue);
+    ps.fieldColor[e.first][e.second] = static_cast<int32>(Color::Blue);
   }
 
   for (auto& e : ps.red) {
     is >> e.first >> e.second;
-    fieldColor[e.first][e.second] = static_cast<int32>(Color::Red);
+    ps.fieldColor[e.first][e.second] = static_cast<int32>(Color::Red);
   }
 
 
