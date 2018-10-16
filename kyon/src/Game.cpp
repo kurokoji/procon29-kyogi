@@ -12,8 +12,10 @@ namespace POST {}  // namespace POST
 }  // namespace tcp
 
 Game::Game() {
-  String fieldData = getFieldData();
-  std::tuple<int32, int32, Array<Array<int32>>, std::array<std::pair<size_t, size_t>, 4>> parsedFieldData = parseFieldData(fieldData);
+  std::string fieldData = getFieldData();
+  std::istringstream iss(fieldData);
+  std::istream is(iss.rdbuf());
+  is >> problemState;
 }
 
 void Game::update() {
@@ -24,7 +26,7 @@ void Game::draw() {
   this->fs.draw();
 }
 
-String Game::getFieldData() {
+std::string Game::getFieldData() {
   namespace asio = boost::asio;
   using asio::ip::tcp;
 
@@ -41,11 +43,11 @@ String Game::getFieldData() {
   asio::streambuf receive_buffer;
   asio::read(socket, receive_buffer, asio::transfer_all(), err);
 
-  String fieldData = U"";
+  std::string fieldData = "";
   if (err && err != asio::error::eof) {
     std::cerr << "recieve failed: " << err.message() << std::endl;
   } else {
-    fieldData = s3d::Unicode::Widen(std::string(asio::buffer_cast<const char *>(receive_buffer.data())));
+    fieldData = std::string(asio::buffer_cast<const char *>(receive_buffer.data()));
   }
 
   return fieldData;

@@ -10,20 +10,22 @@
 #include <boost/asio.hpp>
 #include "Button.hpp"
 #include "FieldSquare.hpp"
+#include "Field.hpp"
 #include "ProblemState.hpp"
 
 namespace kyon {
 
 class Game {
 public:
-//  ProblemState problemState;
+  ProblemState problemState;
   FieldSquare fs {0, U"1"};
+  Field field;
 
   Game();
 
   void update();
   void draw();
-  String getFieldData();
+  std::string getFieldData();
   std::tuple<int32, int32, Array<Array<int32>>, std::array<std::pair<size_t, size_t>, 4>> parseFieldData(const String &fieldData);
 };
 
