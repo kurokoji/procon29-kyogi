@@ -33,6 +33,7 @@ add_executable(kyon
   "../../src/Game.cpp"
   "../../src/Field.cpp"
   "../../src/FieldSquare.cpp"
+  "../../src/ProblemState.cpp"
 )
 
 target_link_libraries(kyon
