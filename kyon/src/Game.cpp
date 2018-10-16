@@ -53,45 +53,4 @@ std::string Game::getFieldData() {
   return fieldData;
 }
 
-std::tuple<int32, int32, Array<Array<int32>>, std::array<std::pair<size_t, size_t>, 4>> Game::parseFieldData(const String &fieldData) {
-  std::stringstream ss;
-  std::string line;
-
-  ss << fieldData;
-  std::getline(ss, line);
-
-  int32 h, w;
-  Array<Array<int32>> fieldPoints;
-  std::array<std::pair<size_t, size_t>, 4> positions;
-  std::stringstream ssLine;
-
-  ssLine << line;
-  ssLine >> h >> w;
-
-  for (int i = 0; i < h; i++) {
-    Array<int32> v;
-    std::stringstream sLine;
-    std::getline(ss, line);
-    sLine << line;
-
-    while (!sLine.eof()) {
-      int32 tmp;
-      sLine >> tmp;
-      v.emplace_back(tmp);
-    }
-    fieldPoints.emplace_back(v);
-  }
-
-  for (int i = 0; i < 4; i++) {
-    int y, x;
-    std::stringstream sLine;
-    std::getline(ss, line);
-    sLine << line;
-    sLine >> y >> x;
-    positions[i] = std::make_pair(y, x);
-  }
-
-  return {h, w, fieldPoints, positions};
-}
-
 }  // namespace kyon

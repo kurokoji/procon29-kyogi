@@ -26,7 +26,6 @@ public:
   void update();
   void draw();
   std::string getFieldData();
-  std::tuple<int32, int32, Array<Array<int32>>, std::array<std::pair<size_t, size_t>, 4>> parseFieldData(const String &fieldData);
 };
 
 }  // namespace kyon
