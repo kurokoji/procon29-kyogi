@@ -17,6 +17,7 @@ private:
     Image image;
     DynamicTexture texture;
     std::vector<std::vector<FieldSquare>> squares;
+    ProblemState problemState;
 public:
     Field();
     Field(int32 h, int32 w);
