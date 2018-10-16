@@ -30,7 +30,7 @@ public:
   int32 arrowX[8];
   int32 arrowY[8];
 
-  FieldSquare(int32 agent, String number);
+  FieldSquare();
   //座標設定
   FieldSquare& setPos(uint32 x, uint32 y);
   //マスを表示
