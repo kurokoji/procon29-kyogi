@@ -1,6 +1,8 @@
 #include "Field.hpp"
+#include "FieldSquare.cpp"
 #include <Siv3D.hpp>
 
+namespace kyon {
 Field::Field() : squSize(60) {}
 
 void Field::InitData(ProblemState pState) {
@@ -20,8 +22,8 @@ String Field::convStr(int32 num) {
 
 void Field::InitField(){
   //squareのサイズをH*Wに初期化*
-  squares = Array<Array<FieldSquare>>(H, Array<FieldSquare>(W));
-
+  //squares = Array<Array<FieldSquare>>(H, Array<FieldSquare>(W));
+  squares.resize()
   //全fieldSquareに得点を渡す*
   for (int i : step(H)){
     for (int j : step(W)){
@@ -49,38 +51,38 @@ bool isInside(const int32 x, const int32 y) {
 void Field::updateField(int32 x, int32 y){
   //agentの値で色の判定*
   String AgentColor;
-  if (squares[x][y].agent == 1) {
+  if (squares[x][y].onAgent == 1) {
     AgentColor = U"Blue";
     for (int i = 1; i < 9; ++i){
-      if (!inInside(x + dx[i], y + dy[i])){
+      if (!isInside(x + dx[i], y + dy[i])){
         continue;
       }
       squares[x + dx[i]][y + dy[i]].update(AgentColor);
     }
   }
-  else if (squares[x][y].agent == 2) {
+  else if (squares[x][y].onAgent == 2) {
     AgentColor = U"Blue";
     for (int i = 1; i < 9; ++i){
-      if (!inInside(x + dx[i], y + dy[i])){
+      if (!isInside(x + dx[i], y + dy[i])){
         continue;
       }
       squares[x + dx[i]][y + dy[i]].update(AgentColor);
     }
 
   }
-  else if(squares[x][y].agent == 3){
+  else if(squares[x][y].onAgent == 3){
     AgentColor = U"Red";
     for (int i = 1; i < 9; ++i){
-      if (!inInside(x + dx[i], y + dy[i])){
+      if (!isInside(x + dx[i], y + dy[i])){
         continue;
       }
       squares[x + dx[i]][y + dy[i]].update(AgentColor);
     }
   }
-  else if (squares[x][y].agent == 4) {
+  else if (squares[x][y].onAgent == 4) {
     AgentColor = U"Red";
     for (int i = 1; i < 9; ++i){
-      if (!inInside(x + dx[i], y + dy[i])){
+      if (!isInside(x + dx[i], y + dy[i])){
         continue;
       }
       squares[x + dx[i]][y + dy[i]].update(AgentColor);
@@ -101,4 +103,5 @@ void Field::drawField() {
       }
     }
   }
+}
 }
