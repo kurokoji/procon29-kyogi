@@ -15,7 +15,8 @@ module nagato.montecalro;
 struct Node {
   import nagato.state : State;
 
-  Node* parentNode; Node*[] childNodes;
+  Node* parentNode;
+  Node*[] childNodes;
   Node*[] untriedNodes;
   State st;
   int winCount;
@@ -46,6 +47,7 @@ struct Node {
 
   Node*[] makeCandidates() {
     import nagato.agent, std.range;
+
     Node*[] ret;
 
     foreach (i; 1 .. 9) {
@@ -53,13 +55,15 @@ struct Node {
         State nextState = st;
         with (nextState) {
           import nagato.color : Color;
+
           own[0].trans(i);
           own[1].trans(j);
 
-          if (!isInside(own[0].point) || !isInside(own[1].point)) continue;
+          if (!isInside(own[0].point) || !isInside(own[1].point))
+            continue;
 
           Agent[] ag = own;
-          foreach (ref o, c; zip(ag, [i, j])) {
+          foreach (ref o, c; lockstep(ag, [i, j])) {
             if (fieldState.getColor(o.y, o.x) == Color.opponent) {
               fieldState.changeColor(o.y, o.x, Color.none);
               o.backTrans(c);
@@ -87,10 +91,11 @@ struct Node {
     do {
       nextState = st;
 
-      auto r = iota(0, 9);
+      auto r = iota(1, 9);
       with (nextState) {
         import nagato.color : Color;
         import nagato.agent;
+
         uint i = r.choice(rnd), j = r.choice(rnd), k = r.choice(rnd), l = r.choice(rnd);
         own[0].trans(i);
         own[1].trans(j);
@@ -102,7 +107,7 @@ struct Node {
           continue;
 
         Agent[] ag = own;
-        foreach (ref agent, c; zip(ag, [i, j])) {
+        foreach (ref agent, c; lockstep(ag, [i, j])) {
           if (fieldState.getColor(agent.y, agent.x) == Color.opponent) {
             fieldState.changeColor(agent.y, agent.x, Color.none);
             agent.backTrans(c);
@@ -112,7 +117,7 @@ struct Node {
         }
 
         ag = opponent;
-        foreach (ref agent, c; zip(ag, [k, l])) {
+        foreach (ref agent, c; lockstep(ag, [k, l])) {
           if (fieldState.getColor(agent.y, agent.x) == Color.own) {
             fieldState.changeColor(agent.y, agent.x, Color.none);
             agent.backTrans(c);
@@ -123,7 +128,7 @@ struct Node {
       }
     } while (!nextState.isValidState());
 
-    return new Node(nextState, &this, nowTurn + 1);
+    return new Node(nextState, &this, nowTurn + 2);
   }
 
   Node* randomNextNodeSelect() {
@@ -139,15 +144,17 @@ struct Node {
       with (nextState) {
         import nagato.color : Color;
         import nagato.agent;
-        auto agent = playerColor == Color.own ? own : opponent;
+
+        Agent[] agent = playerColor == Color.own ? own : opponent;
         uint i = r.choice(rnd), j = r.choice(rnd);
         agent[0].trans(i);
         agent[1].trans(j);
 
-        if (!isInside(agent[0].point) || !isInside(agent[1].point)) continue;
+        if (!isInside(agent[0].point) || !isInside(agent[1].point))
+          continue;
 
         Agent[] ag = agent;
-        foreach (ref a, c; zip(ag, [i, j])) {
+        foreach (ref a, c; lockstep(ag, [i, j])) {
           if (fieldState.getColor(a.y, a.x) == invColor) {
             fieldState.changeColor(a.y, a.x, Color.none);
             a.backTrans(c);
@@ -165,14 +172,13 @@ struct Node {
     import std.random;
 
     Node* move = randomNextNodeSelect();
-    while (move.nowTurn < maxTurn) {
+    while (move.nowTurn < maxTurn * 2) {
       move = move.randomTurnNextNodeSelect();
     }
 
     return move;
   }
 }
-
 
 class PrimitiveMonteCalroTreeSearch {
   import nagato.state;
@@ -232,12 +238,14 @@ class NeoMonteCalroTreeSearch : PrimitiveMonteCalroTreeSearch {
     auto cn = rootNode.childNodes;
 
     // TODO: パラメータの調整が必要
-    return cn[cn.map!(x => x.winCount / x.visitCount + sqrt(2.0) * sqrt(log(tv) / x.visitCount)).maxIndex];
+    return cn[cn.map!(x => cast(double)x.winCount / cast(
+        double)x.visitCount + sqrt(2.0) * sqrt(log(tv) / cast(double)x.visitCount)).maxIndex];
   }
 
   // まだ調べてない子ノードから選択する
   Node* expandChild(Node* node) {
     import std.array;
+
     if (node.untriedNodes.length == 0)
       node.makeCandidates();
 
@@ -271,6 +279,6 @@ class NeoMonteCalroTreeSearch : PrimitiveMonteCalroTreeSearch {
       res.propagate(judge(res.st));
     }
 
-    return rootNode.childNodes.maxElement!("a.winCount / a.visitCount").st;
+    return rootNode.childNodes.maxElement!("cast(double)a.winCount / cast(double)a.visitCount").st;
   }
 }

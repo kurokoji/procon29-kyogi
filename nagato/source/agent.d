@@ -83,5 +83,7 @@ unittest {
   auto a = Agent(1, 2, Color.own);
   a.trans(1);
   assert(a.y == 1 && a.x == 1 && a.agentTeam == Color.own);
-  assert(a.toString() == "1 1");
+  a.backTrans(1);
+  assert(a.y == 1 && a.x == 2 && a.agentTeam == Color.own);
+  assert(a.toString() == "1 2");
 }
