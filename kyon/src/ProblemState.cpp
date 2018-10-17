@@ -28,21 +28,21 @@ std::ostream& operator<<(std::ostream& os, const ProblemState& ps) {
   return os;
 }
 std::istream& operator>>(std::istream& is, ProblemState& ps) {
-  int32 h, w;
-  is >> h >> w;
+  // int32 h, w;
+  is >> ps.h >> ps.w;
 
   ps.field.clear();
   ps.fieldColor.clear();
-  for (size_t i = 0; i < h; ++i) {
-    ps.field.emplace_back(Array<int32>(w));
-    for (size_t j = 0; j < w; ++j) {
+  for (size_t i = 0; i < ps.h; ++i) {
+    ps.field.emplace_back(Array<int32>(ps.w));
+    for (size_t j = 0; j < ps.w; ++j) {
       is >> ps.field[i][j];
     }
   }
 
-  ps.fieldColor.resize(h);
+  ps.fieldColor.resize(ps.h);
   for (auto& v : ps.fieldColor) {
-    v = Array<int32>(w);
+    v = Array<int32>(ps.w);
   }
 
   for (auto& e : ps.blue) {

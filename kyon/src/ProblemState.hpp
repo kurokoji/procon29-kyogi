@@ -12,6 +12,7 @@
 
 namespace kyon {
 struct ProblemState {
+  int32 h, w;
   using Field = Array<Array<int32>>;
   Field field;
   Field fieldColor;
