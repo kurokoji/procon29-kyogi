@@ -3,12 +3,12 @@
 
 Field::Field() : squSize(60) {}
 
-void Field::InitData(const std::tuple<int32, int32, Array<Array<int32>>, std::array<std::pair<size_t, size_t>>>& fieldData) {
-  H = std::get<0>(fieldData);
-  W = std::get<1>(fieldData);
-  fieldPoints = std::get<2>(fieldData);
-  bluePos = std::get<3>(fieldData);
-  redPos = std::get<4>(fieldData);
+void Field::InitData(int32 h, int32 w, Array<Array<int32>> fieldData, std::array<std::pair<size_t, size_t>> bPos, std::array<std::pair<size_t, size_t>> rPos) {
+  H = h;
+  W = w;
+  fieldPoints = fieldData;
+  bluePos = bPos;
+  redPos = rPos;
 }
 
 String Field::convStr(int32 num) {

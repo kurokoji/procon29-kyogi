@@ -23,7 +23,7 @@ public:
     Field();
     String convStr(int32);
     bool isInside(const int32, const int32);
-    void InitData(const std::tuple<int32, int32, Array<Array<int32>>, std::array<std::pair<size_t, size_t>>>);
+    void InitData(int32, int32, Array<Array<int32>>, std::array<std::pair<size_t, size_t>>, std::array<std::pair<size_t, size_t>>);
     void InitField();
     void updateField(int32, int32);
     void drawField();
