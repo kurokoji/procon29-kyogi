@@ -6,11 +6,14 @@
 #include <ostream>
 #include <istream>
 
+#include <Siv3D.hpp>
+
 #include "Color.hpp"
 
 namespace kyon {
 struct ProblemState {
-  using Field = std::vector<std::vector<int32>>;
+  int32 h, w;
+  using Field = Array<Array<int32>>;
   Field field;
   Field fieldColor;
 

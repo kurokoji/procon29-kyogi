@@ -28,32 +28,31 @@ std::ostream& operator<<(std::ostream& os, const ProblemState& ps) {
   return os;
 }
 std::istream& operator>>(std::istream& is, ProblemState& ps) {
-  int32 h, w;
-  is >> h >> w;
+  // int32 h, w;
+  is >> ps.h >> ps.w;
 
   ps.field.clear();
   ps.fieldColor.clear();
-  ps.field.resize(h);
-  for (size_t i = 0; i < h; ++i) {
-    ps.field.emplace_back(std::vector<int32>(w));
-    for (size_t j = 0; j < w; ++j) {
+  for (size_t i = 0; i < ps.h; ++i) {
+    ps.field.emplace_back(Array<int32>(ps.w));
+    for (size_t j = 0; j < ps.w; ++j) {
       is >> ps.field[i][j];
     }
   }
 
-  ps.fieldColor.resize(h);
+  ps.fieldColor.resize(ps.h);
   for (auto& v : ps.fieldColor) {
-    v.emplace_back(std::vector<int32>(w));
+    v = Array<int32>(ps.w);
   }
 
   for (auto& e : ps.blue) {
     is >> e.first >> e.second;
-    fieldColor[e.first][e.second] = static_cast<int32>(Color::Blue);
+    ps.fieldColor[e.first][e.second] = static_cast<int32>(Color::Blue);
   }
 
   for (auto& e : ps.red) {
     is >> e.first >> e.second;
-    fieldColor[e.first][e.second] = static_cast<int32>(Color::Red);
+    ps.fieldColor[e.first][e.second] = static_cast<int32>(Color::Red);
   }
 
 

@@ -6,22 +6,26 @@
 #include <sstream>
 #include <string>
 #include <tuple>
+#include <array>
 #include <boost/asio.hpp>
-#include "button.hpp"
-#include "fieldSquare.hpp"
+#include "Button.hpp"
+#include "FieldSquare.hpp"
+#include "Field.hpp"
+#include "ProblemState.hpp"
 
 namespace kyon {
 
 class Game {
 public:
-  FieldSquare fs;
+  ProblemState problemState;
+  FieldSquare fs {0, U"1"};
+  Field field;
 
-  Game() {}
+  Game();
 
   void update();
   void draw();
-  String getFieldData();
-  std::tuple<int32, int32, std::vector<std::vector<int32>>> parseFieldData(const String &fieldData);
+  std::string getFieldData();
 };
 
 }  // namespace kyon

@@ -3,7 +3,7 @@
 
 Field::Field() : squSize(60) {}
 
-void Field::InitData(int32 h, int32 w, Array<Array<int32>> fieldData, std::array<std::pair<size_t, size_t>> bPos, std::array<std::pair<size_t, size_t>> rPos) {
+void Field::InitData(int32 h, int32 w, Array<Array<int32>> fieldData, std::array<std::pair<size_t, size_t>, 2> bPos, std::array<std::pair<size_t, size_t>, 2> rPos) {
   H = h;
   W = w;
   fieldPoints = fieldData;
@@ -60,10 +60,8 @@ void Field::updateField(int32 x, int32 y){
         continue;
       }
       squares[i + dx[i]][j + dy[i]].update(AgentColor);
-    }
-
-  }
-  else if(squares[i][j].agent == 3){
+    }  
+    else if(squares[i][j].agent == 3){
     AgentColor = U"Red";
     for (int i = 1; i < 9; ++i){
       if (!inInside(i + dx[i], j + dy[i])){
@@ -94,7 +92,6 @@ void Field::drawField() {
       if (squares[i][j].onAgent != 0) {
         updateField(i, j);
       }
-
     }
   }
 }

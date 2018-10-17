@@ -11,17 +11,22 @@ const std::string answer = "GET answer";
 namespace POST {}  // namespace POST
 }  // namespace tcp
 
+Game::Game() {
+  std::string fieldData = getFieldData();
+  std::istringstream iss(fieldData);
+  std::istream is(iss.rdbuf());
+  is >> problemState;
+}
+
 void Game::update() {
   ;
 }
 
 void Game::draw() {
-  String s = U"hoge";
-  bool f = false;
-  this->fs.draw(s, f);
+  this->fs.draw();
 }
 
-String Game::getFieldData() {
+std::string Game::getFieldData() {
   namespace asio = boost::asio;
   using asio::ip::tcp;
 
@@ -38,43 +43,14 @@ String Game::getFieldData() {
   asio::streambuf receive_buffer;
   asio::read(socket, receive_buffer, asio::transfer_all(), err);
 
-  String fieldData = U"";
+  std::string fieldData = "";
   if (err && err != asio::error::eof) {
     std::cerr << "recieve failed: " << err.message() << std::endl;
   } else {
-    fieldData = s3d::Unicode::Widen(std::string(asio::buffer_cast<const char *>(receive_buffer.data())));
+    fieldData = std::string(asio::buffer_cast<const char *>(receive_buffer.data()));
   }
 
   return fieldData;
-}
-
-std::tuple<int32, int32, std::vector<std::vector<int32>>> Game::parseFieldData(const String &fieldData) {
-  std::stringstream ss;
-  std::string line;
-
-  ss << fieldData;
-  std::getline(ss, line);
-
-  int32 h, w;
-  std::stringstream ssLine;
-  std::vector<std::vector<int32>> fieldPoints;
-
-  ssLine << line;
-  ssLine >> h >> w;
-
-  while (std::getline(ss, line)) {
-    std::vector<int32> v;
-    ssLine << line;
-
-    while (!ssLine.eof()) {
-      int32 tmp;
-      ssLine >> tmp;
-      v.push_back(tmp);
-    }
-    fieldPoints.push_back(v);
-  }
-
-  return {h, w, fieldPoints};
 }
 
 }  // namespace kyon
