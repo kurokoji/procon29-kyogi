@@ -3,12 +3,13 @@
 
 Field::Field() : squSize(60) {}
 
-void Field::InitData(int32 h, int32 w, Array<Array<int32>> fieldData, std::array<std::pair<size_t, size_t>, 2> bPos, std::array<std::pair<size_t, size_t>, 2> rPos) {
-  H = h;
-  W = w;
-  fieldPoints = fieldData;
-  bluePos = bPos;
-  redPos = rPos;
+void Field::InitData(ProblemState pState) {
+  H = pState.h;
+  W = pState.w;
+  fieldPoints = pState.field;
+  fColor = pState.fieldColor;
+  bluePos = pState.blue;
+  redPos = pState.red;
 }
 
 String Field::convStr(int32 num) {
@@ -32,8 +33,12 @@ void Field::InitField(){
     }
   }
   //Agentがいる位置をonAgentへ渡す*
-  for (auto [i, j]: Indexed(positions)){
+  for (auto [i, j]: Indexed(bluePos)){
     squares[j.second][j.first].onAgent = i + 1;
+  }
+
+  for (auto [i, j]: Indexed(redPos)){
+    squares[j.second][j.first].onAgent = i + 3;
   }
 }
 
@@ -44,39 +49,41 @@ bool isInside(const int32 x, const int32 y) {
 void Field::updateField(int32 x, int32 y){
   //agentの値で色の判定*
   String AgentColor;
-  if (squares[i][j].agent == 1) {
+  if (squares[x][y].agent == 1) {
     AgentColor = U"Blue";
     for (int i = 1; i < 9; ++i){
-      if (!inInside(i + dx[i], j + dy[i])){
+      if (!inInside(x + dx[i], y + dy[i])){
         continue;
       }
-      squares[i + dx[i]][j + dy[i]].update(AgentColor);
+      squares[x + dx[i]][y + dy[i]].update(AgentColor);
     }
   }
-  else if (squares[i][j].agent == 2) {
+  else if (squares[x][y].agent == 2) {
     AgentColor = U"Blue";
     for (int i = 1; i < 9; ++i){
-      if (!inInside(i + dx[i], j + dy[i])){
+      if (!inInside(x + dx[i], y + dy[i])){
         continue;
       }
-      squares[i + dx[i]][j + dy[i]].update(AgentColor);
-    }  
-    else if(squares[i][j].agent == 3){
+      squares[x + dx[i]][y + dy[i]].update(AgentColor);
+    }
+
+  }
+  else if(squares[x][y].agent == 3){
     AgentColor = U"Red";
     for (int i = 1; i < 9; ++i){
-      if (!inInside(i + dx[i], j + dy[i])){
+      if (!inInside(x + dx[i], y + dy[i])){
         continue;
       }
-      squares[i + dx[i]][j + dy[i]].update(AgentColor);
+      squares[x + dx[i]][y + dy[i]].update(AgentColor);
     }
   }
-  else if (squares[i][j].agent == 4) {
+  else if (squares[x][y].agent == 4) {
     AgentColor = U"Red";
     for (int i = 1; i < 9; ++i){
-      if (!inInside(i + dx[i], j + dy[i])){
+      if (!inInside(x + dx[i], y + dy[i])){
         continue;
       }
-      squares[i + dx[i]][j + dy[i]].update(AgentColor);
+      squares[x + dx[i]][y + dy[i]].update(AgentColor);
     }
   }
 }
