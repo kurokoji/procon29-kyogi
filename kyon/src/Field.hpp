@@ -24,11 +24,11 @@ private:
   Array<Array<FieldSquare>> squares;
 public:
     Field();
-    String convStr(int32);
-    bool isInside(const int32, const int32);
     void InitData(ProblemState);
+    String convStr(int32);
     void InitField();
-    void updateField(int32, int32);
+    bool isInside(const int32, const int32);
+    void updateField(const int32, const int32);
     void drawField();
 };
 

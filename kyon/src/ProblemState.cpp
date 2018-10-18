@@ -17,11 +17,11 @@ std::ostream& operator<<(std::ostream& os, const ProblemState& ps) {
     }
   }
 
-  for (const auto& agent : ps.blue) {
+  for (const auto& agent : ps.red) {
     os << agent.first << " " << agent.second << std::endl;
   }
 
-  for (const auto& agent : ps.red) {
+  for (const auto& agent : ps.blue) {
     os << agent.first << " " << agent.second << std::endl;
   }
 

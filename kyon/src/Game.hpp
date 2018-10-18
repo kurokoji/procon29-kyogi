@@ -18,7 +18,6 @@ namespace kyon {
 class Game {
 public:
   ProblemState problemState;
-  FieldSquare fs {0, U"1"};
   Field field;
 
   Game();

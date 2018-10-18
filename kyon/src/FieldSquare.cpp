@@ -2,9 +2,9 @@
 
 
 namespace kyon {
-FieldSquare::FieldSquare(int32 agent, String number) {
-  onAgent = agent;
-  squareNum = number;
+FieldSquare::FieldSquare() {
+  onAgent = 0;
+  squareNum = U"None";
   choiceColor = Rect(0, 0, 30, 30);
   agent1Marker = Circle(10, 10, 10);
   isSquareDisp = false;

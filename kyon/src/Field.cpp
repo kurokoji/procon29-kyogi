@@ -1,5 +1,5 @@
 #include "Field.hpp"
-#include "FieldSquare.cpp"
+#include "FieldSquare.hpp"
 #include <Siv3D.hpp>
 
 namespace kyon {
@@ -22,84 +22,121 @@ String Field::convStr(int32 num) {
 
 void Field::InitField(){
   //squareのサイズをH*Wに初期化*
-  //squares = Array<Array<FieldSquare>>(H, Array<FieldSquare>(W));
-  squares.resize()
+  squares = Array<Array<FieldSquare>>(H, Array<FieldSquare>(W));
+
   //全fieldSquareに得点を渡す*
-  for (int i : step(H)){
-    for (int j : step(W)){
+  for (int y : step(H)){
+    for (int x : step(W)){
       //文字列を数値へ変換
       String str;
-      str = convStr(fieldPoints[i][j]);
+      str = convStr(fieldPoints[y][x]);
 
       squares[i][j].squareNum = str;
     }
   }
   //Agentがいる位置をonAgentへ渡す*
-  for (auto [i, j]: Indexed(bluePos)){
-    squares[j.second][j.first].onAgent = i + 1;
+  for (auto [i, j]: Indexed(redPos)){
+    squares[j.first][j.second].onAgent = i + 1;
   }
 
-  for (auto [i, j]: Indexed(redPos)){
-    squares[j.second][j.first].onAgent = i + 3;
+  for (auto [i, j]: Indexed(bluePos)){
+    squares[j.first][j.second].onAgent = i + 3;
   }
 }
 
-bool isInside(const int32 x, const int32 y) {
+bool Field::isInside(const int32 y, const int32 x) {
   return (0 <= x &&  x <= W - 1) && (0 <= y && y <= H - 1);
 }
 //AgentがいるSquareの周囲のsquareをupdateする
-void Field::updateField(int32 x, int32 y){
+void Field::updateField(const int32 y, const int32 x){
   //agentの値で色の判定*
-  String AgentColor;
-  if (squares[x][y].onAgent == 1) {
-    AgentColor = U"Blue";
-    for (int i = 1; i < 9; ++i){
-      if (!isInside(x + dx[i], y + dy[i])){
-        continue;
+  String whichColor;
+  auto c = squares[y][x].onAgent;
+  switch (c) {
+    case 1:
+      whichColor = U"r1";
+      for (int i = 1; i < 9; ++i) {
+        if (!isInside(y + dy[i], x + dx[i])) {
+          continue;
+        }
+        if (squares[y + dy[i]][x + dx[i]].update(AgentColor)){
+          squares[y][x].onAgent = 0;
+        }
       }
-      squares[x + dx[i]][y + dy[i]].update(AgentColor);
+      break;
+    case 2:
+      whichColor = U"r2";
+      for (int i = 1; i < 9; ++i) {
+        if (!isInside(y + dy[i], x + dx[i])) {
+          continue;
+        }
+        if (squares[y + dy[i]][x + dx[i]].update(AgentColor)){
+          squares[y][x].onAgent = 0;
+        }
+      }
+      break;
+    case 3:
+      whichColor = U"b1";
+      for (int i = 1; i < 9; ++i) {
+        if (!isInside(y + dy[i], x + dx[i])) {
+          continue;
+        }
+        if (squares[y + dy[i]][x + dx[i]].update(AgentColor)){
+          squares[y][x].onAgent = 0;
+        }
+      }
+      break;
+    case 4:
+      whichColor = U"b2";
+      for (int i = 1; i < 9; ++i) {
+        if (!isInside(y + dy[i], x + dx[i])) {
+          continue;
+        }
+        if (squares[y + dy[i]][x + dx[i]].update(AgentColor)){
+          squares[y][x].onAgent = 0;
+        }
+      }
+      break;
+  }
+  //Agent位置の更新
+  for (int y : step(H)){
+    for (int x : step(W)){
+      if (squares[y][x] == 1){
+       redPos[0].first = H;
+       redPos[0].second = W;
+      }
+      else if (squares[y][x] == 2){
+        redPos[1].first = H;
+        redPos[1].second = W;
+      }
+      else if (squares[y][x] == 3){
+        bluePos[0].first = H;
+        bluePos[0].second = W;
+      }
+      else if (squares[y][x] == 4){
+        bluePos[1].first = H;
+        bluePos[1].second = W;
+      }
     }
   }
-  else if (squares[x][y].onAgent == 2) {
-    AgentColor = U"Blue";
-    for (int i = 1; i < 9; ++i){
-      if (!isInside(x + dx[i], y + dy[i])){
-        continue;
-      }
-      squares[x + dx[i]][y + dy[i]].update(AgentColor);
-    }
 
-  }
-  else if(squares[x][y].onAgent == 3){
-    AgentColor = U"Red";
-    for (int i = 1; i < 9; ++i){
-      if (!isInside(x + dx[i], y + dy[i])){
-        continue;
-      }
-      squares[x + dx[i]][y + dy[i]].update(AgentColor);
-    }
-  }
-  else if (squares[x][y].onAgent == 4) {
-    AgentColor = U"Red";
-    for (int i = 1; i < 9; ++i){
-      if (!isInside(x + dx[i], y + dy[i])){
-        continue;
-      }
-      squares[x + dx[i]][y + dy[i]].update(AgentColor);
+  for (int y : step(H)){
+    for (int x : step(W)){
+      fColor[y][x] = static_cast<int>(squares[y][x].whatColor);
     }
   }
 }
 
 //H * W　マスの描画*
 void Field::drawField() {
-  for (int i : step(H)) {
-    for (int j : step(W)) {
-      squares[i][j].setPos(10 + j * squSize, 10 + i * squSize);
-      squares[i][j].rect.drawFrame(1.0, 1.0, Palette::Gray);
+  for (int y : step(H)) {
+    for (int x : step(W)) {
+      squares[y][x].setPos(10 + x * squSize, 10 + y * squSize);
+      squares[y][x].rect.drawFrame(1.0, 1.0, Palette::Gray);
 
       //Agentがいたらupdateをかける
-      if (squares[i][j].onAgent != 0) {
-        updateField(i, j);
+      if (squares[y][x].rect.leftClicked()) {
+        updateField(y, x);
       }
     }
   }
