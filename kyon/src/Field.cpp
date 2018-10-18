@@ -31,7 +31,7 @@ void Field::InitField(){
       String str;
       str = convStr(fieldPoints[y][x]);
 
-      squares[i][j].squareNum = str;
+      squares[y][x].squareNum = str;
     }
   }
   //Agentがいる位置をonAgentへ渡す*
