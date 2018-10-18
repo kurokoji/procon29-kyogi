@@ -24,7 +24,7 @@ struct Node {
   uint nowTurn;
   Color playerColor;
 
-  this(State s, Node* pN, uint nt = 0, Color c = Color.own) {
+  this(State s, Node* pN, uint nt, Color c) {
     st = s;
     parentNode = pN;
     nowTurn = nt;
@@ -33,8 +33,8 @@ struct Node {
 
   import nagato.color : Color;
 
-  void propagate(Color c) {
-    int pt = cast(int)(c == Color.own);
+  void propagate(bool win) {
+    int pt = cast(int)(win);
     for (auto n = &this; n != null; n = n.parentNode) {
       n.update(pt);
     }
@@ -50,30 +50,32 @@ struct Node {
 
     Node*[] ret;
 
+    auto invColor = playerColor == Color.own ? Color.opponent : Color.own;
+
     foreach (i; 1 .. 9) {
       foreach (j; 1 .. 9) {
         State nextState = st;
         with (nextState) {
           import nagato.color : Color;
 
-          own[0].trans(i);
-          own[1].trans(j);
+          Agent[] ag = playerColor == Color.own ? own : opponent;
+          ag[0].trans(i);
+          ag[1].trans(j);
 
-          if (!isInside(own[0].point) || !isInside(own[1].point))
+          if (!isInside(ag[0].point) || !isInside(ag[1].point))
             continue;
 
-          Agent[] ag = own;
           foreach (ref o, c; lockstep(ag, [i, j])) {
-            if (fieldState.getColor(o.y, o.x) == Color.opponent) {
+            if (fieldState.getColor(o.y, o.x) == invColor) {
               fieldState.changeColor(o.y, o.x, Color.none);
               o.backTrans(c);
             } else {
-              fieldState.changeColor(o.y, o.x, Color.own);
+              fieldState.changeColor(o.y, o.x, playerColor);
             }
           }
         }
         if (nextState.isValidState()) {
-          ret ~= new Node(nextState, &this, nowTurn + 1, Color.opponent);
+          ret ~= new Node(nextState, &this, nowTurn + 1, invColor);
           untriedNodes ~= ret.back;
         }
       }
@@ -86,6 +88,8 @@ struct Node {
     import std.random, std.range;
 
     auto rnd = Xorshift(unpredictableSeed);
+
+    auto invColor = playerColor == Color.own ? Color.opponent : Color.own;
 
     State nextState;
     do {
@@ -108,27 +112,27 @@ struct Node {
 
         Agent[] ag = own;
         foreach (ref agent, c; lockstep(ag, [i, j])) {
-          if (fieldState.getColor(agent.y, agent.x) == Color.opponent) {
+          if (fieldState.getColor(agent.y, agent.x) == invColor) {
             fieldState.changeColor(agent.y, agent.x, Color.none);
             agent.backTrans(c);
           } else {
-            fieldState.changeColor(agent.y, agent.x, Color.own);
+            fieldState.changeColor(agent.y, agent.x, playerColor);
           }
         }
 
         ag = opponent;
         foreach (ref agent, c; lockstep(ag, [k, l])) {
-          if (fieldState.getColor(agent.y, agent.x) == Color.own) {
+          if (fieldState.getColor(agent.y, agent.x) == playerColor) {
             fieldState.changeColor(agent.y, agent.x, Color.none);
             agent.backTrans(c);
           } else {
-            fieldState.changeColor(agent.y, agent.x, Color.opponent);
+            fieldState.changeColor(agent.y, agent.x, invColor);
           }
         }
       }
     } while (!nextState.isValidState());
 
-    return new Node(nextState, &this, nowTurn + 2);
+    return new Node(nextState, &this, nowTurn + 2, playerColor);
   }
 
   Node* randomNextNodeSelect() {
@@ -173,7 +177,7 @@ struct Node {
 
     Node* move = randomNextNodeSelect();
     while (move.nowTurn < maxTurn * 2) {
-      move = move.randomTurnNextNodeSelect();
+      move = move.randomNextNodeSelect();
     }
 
     return move;
@@ -182,14 +186,17 @@ struct Node {
 
 class PrimitiveMonteCalroTreeSearch {
   import nagato.state;
+  import nagato.color : Color;
 
   Node* rootNode;
   Node*[] childNodes;
   uint playoutN, maxTurn, nowTurn;
   State state;
+  Color playerColor;
 
-  this(State s, uint tries, uint nowTurn, uint turn) {
-    rootNode = new Node(s, null, nowTurn);
+  this(State s, uint tries, uint nowTurn, uint turn, Color c) {
+    rootNode = new Node(s, null, nowTurn, c);
+    playerColor = c;
     childNodes = rootNode.makeCandidates();
     state = s;
     this.playoutN = tries;
@@ -210,7 +217,7 @@ class PrimitiveMonteCalroTreeSearch {
       auto arr = iota(0, playoutN);
       foreach (i; parallel(arr)) {
         auto res = e.playout(maxTurn);
-        res.propagate(judge(res.st));
+        res.propagate(judge(res.st) == playerColor);
       }
     }
 
@@ -224,9 +231,10 @@ class PrimitiveMonteCalroTreeSearch {
 /// モンテカルロ木探索
 class NeoMonteCalroTreeSearch : PrimitiveMonteCalroTreeSearch {
   import nagato.state : State;
+  import nagato.color : Color;
 
-  this(State s, uint tries, uint nowTurn, uint maxTurn) {
-    super(s, tries, nowTurn, maxTurn);
+  this(State s, uint tries, uint nowTurn, uint maxTurn, Color c) {
+    super(s, tries, nowTurn, maxTurn, c);
   }
 
   /// UCB1の値に従ってexpandするノードを決定する
@@ -259,13 +267,17 @@ class NeoMonteCalroTreeSearch : PrimitiveMonteCalroTreeSearch {
     import nagato.util : judge;
     import std.parallelism : parallel;
     import std.stdio : writefln, writeln;
-    import std.algorithm : maxElement;
+    import std.algorithm : maxElement, map;
+    import std.range : iota;
+    import core.sync.mutex, core.thread : ThreadGroup;
 
     debug writefln("Start... %s", childNodes.length);
     debug writefln("Now Turn... %s", nowTurn);
 
+    auto mut = new Mutex;
+
     // TODO: プレイアウトの高速化
-    foreach (i; 0 .. playoutN) {
+    foreach (i; parallel(playoutN.iota)) {
       Node* node = rootNode;
 
       // 次の手に関してすべて調べていた場合，有利な手に関して木を成長させる
@@ -276,9 +288,13 @@ class NeoMonteCalroTreeSearch : PrimitiveMonteCalroTreeSearch {
         node = expandChild(node);
 
       auto res = node.playout(maxTurn);
-      res.propagate(judge(res.st));
+      synchronized (mut) {
+        res.propagate(judge(res.st) == playerColor);
+      }
     }
 
-    return rootNode.childNodes.maxElement!("cast(double)a.winCount / cast(double)a.visitCount").st;
+    // 勝率よりも最もプレイアウト回数が高い手のほうが安定性がある
+    return rootNode.childNodes.maxElement!("a.visitCount").st;
+    //return rootNode.childNodes.maxElement!("cast(double)a.winCount / cast(double)a.visitCount").st;
   }
 }
