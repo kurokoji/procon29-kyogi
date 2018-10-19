@@ -27,7 +27,7 @@ bool FinishButton::draw() {
   finishRect.draw(Palette::White);
 
   if (finishRect.leftClicked()) {
-    if (moveNum == 4) {
+    if (moveNum >= 4) {
       return true;
     }
     else {
