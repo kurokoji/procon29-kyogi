@@ -3,9 +3,9 @@
 
 
 namespace kyon {
-Button::Button() : rect(0, 0, 60, 60), font(40), pos(60, 60), clickNum(0) {}
-Button::Button(const Rect& rect, const Font& font) : rect(rect), font(font) {}
-Button::Button(uint32 h, uint32 w) : rect(0, 0, h, w), font(40), pos(h, w) {}
+Button::Button() : pos(60, 60), clickNum(0) {}
+
+Button::Button(uint32 h, uint32 w, uint32 fontSize, String str) : rect(0, 0, h, w), font(fontSize), pos(h, w), rectStr(str) {}
 
 //座標設定
 Button& Button::setPos(uint32 x, uint32 y) {
@@ -27,7 +27,21 @@ Button& Button::draw(const String& str) {
   return *this;
 }
 
+Button& Button::draw() {
+  rect.draw(Palette::White);
+  font(rectStr).draw(pos, Palette::Black);
+
+  return *this;
+}
+
 //クリックした際の挙動
+bool Button::isClick() {
+  if (rect.leftClicked()) {
+    return true;
+  } else {
+    return false;
+  }
+}
 void Button::update() {
   if (rect.leftClicked()) {
     clickNum = (clickNum + 1) % 3;
