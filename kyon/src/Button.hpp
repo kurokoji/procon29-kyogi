@@ -8,18 +8,21 @@ struct Button {
   Rect rect;
   Font font;
   Vec2 pos;
-  uint32 clickNum = 0;
+  uint32 clickNum;
+  String rectStr;
 
   Button();
-  Button(const Rect& rect, const Font& font);
-  Button(uint32 h, uint32 w);
+  //これ使えるようにする
+  Button(uint32 h, uint32 w, uint32 fontSize, String str);
 
   //座標設定
   Button& setPos(uint32 x, uint32 y);
   //マスの描画
   Button& draw(const String& str);
+  Button& draw();
   //クリックした際の挙動
   void update();
+  bool isClick();
 };
 }
 
