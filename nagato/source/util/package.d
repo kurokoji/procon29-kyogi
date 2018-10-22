@@ -13,3 +13,4 @@ module nagato.util;
 
 public import nagato.util.judge;
 public import nagato.util.visualizer;
+public import nagato.util.problem_generator;
