@@ -5,7 +5,6 @@ namespace kyon {
 FieldSquare::FieldSquare() {
   onAgent = 0;
   squareNum = U"None";
-  choiceColor = Rect(0, 0, 30, 30);
   agent1Marker = Circle(10, 10, 10);
   isSquareDisp = false;
   canCancel = false;
@@ -22,8 +21,6 @@ FieldSquare& FieldSquare::setPos(uint32 x, uint32 y) {
   rect.setPos(x, y);
   agent1Marker.setPos(x + 50, y + 50);
   agent2Marker = Triangle(x + 50, y + 53, 20, 0_deg);
-
-  choiceColor.setPos(x + 60, y);
 
   arrowX[0] = x;
   arrowY[0] = y + 25;
@@ -68,111 +65,84 @@ FieldSquare& FieldSquare::draw() {
 
 //マスをクリックしたときの挙動
 
-bool FieldSquare::update(const String whichAgent) {
+void FieldSquare::update(const String whichAgent) {
   if (rect.leftClicked()) {
-    isSquareDisp = true;
-  } else if (isSquareDisp) {
     canCancel = true;
     if (whichAgent == U"r1") {
       if (whatColor == Color::None) {
-        choiceColor.draw(Palette::Red);
-        if (choiceColor.leftClicked()) {
+        if (rect.leftClicked()) {
           whatColor = Color::Red;
           onAgent = 3;
           isSquareDisp = false;
-          return 1;
         }
       } else if (whatColor == Color::Red) {
-        choiceColor.draw(Palette::Red);
-        if (choiceColor.leftClicked()) {
+        if (rect.leftClicked()) {
           onAgent = 3;
           isSquareDisp = false;
-          return 1;
         }
       } else if (whatColor == Color::Blue) {
-        choiceColor.draw(Palette::White);
-        if (choiceColor.leftClicked()) {
+        if (rect.leftClicked()) {
           whatColor = Color::None;
           isSquareDisp = false;
-          return 0;
         }
       }
     } else if (whichAgent == U"r2") {
       if (whatColor == Color::None) {
-        choiceColor.draw(Palette::Red);
-        if (choiceColor.leftClicked()) {
+        if (rect.leftClicked()) {
           whatColor = Color::Red;
           onAgent = 4;
           isSquareDisp = false;
-          return 1;
         }
       } else if (whatColor == Color::Red) {
-        choiceColor.draw(Palette::Red);
-        if (choiceColor.leftClicked()) {
+        if (rect.leftClicked()) {
           onAgent = 4;
           isSquareDisp = false;
-          return 1;
         }
       } else if (whatColor == Color::Blue) {
-        choiceColor.draw(Palette::White);
-        if (choiceColor.leftClicked()) {
+        if (rect.leftClicked()) {
           whatColor = Color::None;
           isSquareDisp = false;
-          return 0;
         }
       }
     } else if (whichAgent == U"b1") {
       if(whatColor == Color::None) {
-        choiceColor.draw(Palette::Blue);
-        if (choiceColor.leftClicked()) {
+        if (rect.leftClicked()) {
           whatColor = Color::Blue;
           onAgent = 1;
           isSquareDisp = false;
-          return 1;
         }
       } else if (whatColor == Color::Red) {
-        choiceColor.draw(Palette::White);
-        if (choiceColor.leftClicked()) {
+        if (rect.leftClicked()) {
           whatColor = Color::None;
           isSquareDisp = false;
-          return 0;
         }
       } else if (whatColor == Color::Blue) {
-        choiceColor.draw(Palette::Blue);
-        if (choiceColor.leftClicked()) {
+        if (rect.leftClicked()) {
           onAgent = 1;
           isSquareDisp = false;
-          return 1;
         }
       }
     } else if (whichAgent == U"b2") {
       if(whatColor == Color::None) {
-        choiceColor.draw(Palette::Blue);
-        if (choiceColor.leftClicked()) {
+        if (rect.leftClicked()) {
           whatColor = Color::Blue;
           onAgent = 2;
           isSquareDisp = false;
-          return 1;
         }
       } else if (whatColor == Color::Red) {
-        choiceColor.draw(Palette::White);
-        if (choiceColor.leftClicked()) {
+        if (rect.leftClicked()) {
           whatColor = Color::None;
           isSquareDisp = false;
-          return 0;
         }
       } else if (whatColor == Color::Blue) {
-        choiceColor.draw(Palette::Blue);
-        if (choiceColor.leftClicked()) {
+        if (rect.leftClicked()) {
           onAgent = 2;
           isSquareDisp = false;
-          return 1;
         }
       }
     }
   }
   dispCancel();
-  return 0;
 }
 
 //選択肢の非表示
@@ -209,3 +179,4 @@ void FieldSquare::dispArrow(int32 solverDirection, bool canMove[]) {
   }
 }
 }
+

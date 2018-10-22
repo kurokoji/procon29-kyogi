@@ -11,8 +11,6 @@ public:
   int32 onAgent; //0はなし,1はb1,2はb2,3はr1,4はr2です
   //マスの点数
   String squareNum;
-  //updateでの色選択用
-  Rect choiceColor;
   //エージェントの有無を表す
   Circle agent1Marker;
   Triangle agent2Marker;
@@ -40,7 +38,7 @@ public:
   //whatColorに合わせてマスの色を描画
   void normalSquare();
   //マスをクリックしたときの挙動
-  bool update(const String whichAgent);
+  void update(const String whichAgent);
   //行動できる場所へ矢印を表示する
   void dispArrow(int32 solverDirection, bool canMove[]);
 };
