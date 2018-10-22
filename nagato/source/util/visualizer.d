@@ -22,19 +22,19 @@ void visualize(ref State st) {
     immutable auto height = field.height;
     immutable auto width = field.width;
 
-    res ~= " ";
+    res ~= "  ";
     foreach (i; 0 .. width) {
       res ~= format("%4s", i);
     }
     res ~= '\n';
-    res ~= " ┌";
+    res ~= "  ┌";
     foreach (i; 0 .. width) {
       res ~= format("───%s", i != width - 1 ? '┬' : '┐');
     }
     res ~= '\n';
 
     foreach (i; 0 .. height) {
-      res ~= format("%s│", i);
+      res ~= format("%2s│", i);
       foreach (j; 0 .. width) {
         import nagato.color : Color;
         immutable auto agentColor = st.agentExists(i, j);
@@ -60,12 +60,12 @@ void visualize(ref State st) {
       res ~= '\n';
 
       if (i != height - 1) {
-        res ~= " ├";
+        res ~= "  ├";
         foreach (j; 0 .. width) {
           res ~= format("───%s", j != width - 1 ? '┼' : '┤');
         }
       } else {
-        res ~= " └";
+        res ~= "  └";
         foreach (j; 0 .. width) {
           res ~= format("───%s", j != width - 1 ? '┴' : '┘');
         }
