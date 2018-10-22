@@ -296,6 +296,8 @@ class NeoMonteCalroTreeSearch : PrimitiveMonteCalroTreeSearch {
       }
     }
 
+    debug writeln(rootNode.childNodes.map!"cast(double)a.winCount / cast(double)a.visitCount");
+    debug writeln(rootNode.childNodes.map!"cast(double)a.winCount / cast(double)a.visitCount".maxElement);
     // 勝率よりも最もプレイアウト回数が高い手のほうが安定性がある
     return rootNode.childNodes.maxElement!("a.visitCount").st;
     //return rootNode.childNodes.maxElement!("cast(double)a.winCount / cast(double)a.visitCount").st;
