@@ -5,6 +5,7 @@
 #include <Siv3D.hpp>
 #include "FieldSquare.hpp"
 #include "ProblemState.hpp"
+#include "Color.hpp"
 #include <iostream>
 #include <sstream>
 #include <string>
