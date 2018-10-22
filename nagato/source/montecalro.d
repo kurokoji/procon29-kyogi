@@ -24,7 +24,7 @@ struct Node {
   uint nowTurn;
   Color playerColor;
 
-  this(State s, Node* pN, uint nt, Color c) {
+  this(ref State s, Node* pN, uint nt, Color c) {
     st = s;
     parentNode = pN;
     nowTurn = nt;
@@ -46,6 +46,9 @@ struct Node {
   }
 
   Node*[] makeCandidates() {
+    if (childNodes.length == 0 && untriedNodes.length != 0)
+      return untriedNodes.dup;
+
     import nagato.agent, std.range;
 
     Node*[] ret;
@@ -194,7 +197,7 @@ class PrimitiveMonteCalroTreeSearch {
   State state;
   Color playerColor;
 
-  this(State s, uint tries, uint nowTurn, uint turn, Color c) {
+  this(ref State s, uint tries, uint nowTurn, uint turn, Color c) {
     rootNode = new Node(s, null, nowTurn, c);
     playerColor = c;
     childNodes = rootNode.makeCandidates();
@@ -233,7 +236,7 @@ class NeoMonteCalroTreeSearch : PrimitiveMonteCalroTreeSearch {
   import nagato.state : State;
   import nagato.color : Color;
 
-  this(State s, uint tries, uint nowTurn, uint maxTurn, Color c) {
+  this(ref State s, uint tries, uint nowTurn, uint maxTurn, Color c) {
     super(s, tries, nowTurn, maxTurn, c);
   }
 
