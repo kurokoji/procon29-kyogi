@@ -6,7 +6,6 @@ FieldSquare::FieldSquare() {
   onAgent = 0;
   squareNum = U"None";
   agent1Marker = Circle(10, 10, 10);
-  isSquareDisp = false;
   canCancel = false;
   whatColor = Color::None;
   solverArrowPath = U"../../../image/ArrowImage/Yellow.png";
@@ -65,91 +64,89 @@ FieldSquare& FieldSquare::draw() {
 
 //マスをクリックしたときの挙動
 
-void FieldSquare::update(const String whichAgent) {
-  if (rect.leftClicked()) {
-    canCancel = true;
-    if (whichAgent == U"r1") {
-      if (whatColor == Color::None) {
-        if (rect.leftClicked()) {
-          whatColor = Color::Red;
-          onAgent = 3;
-          isSquareDisp = false;
-        }
-      } else if (whatColor == Color::Red) {
-        if (rect.leftClicked()) {
-          onAgent = 3;
-          isSquareDisp = false;
-        }
-      } else if (whatColor == Color::Blue) {
-        if (rect.leftClicked()) {
-          whatColor = Color::None;
-          isSquareDisp = false;
-        }
+bool FieldSquare::update(const String whichAgent) {
+  if (whichAgent == U"r1") {
+    if (whatColor == Color::None) {
+      if (rect.leftClicked()) {
+        whatColor = Color::Red;
+        onAgent = 3;
+        return true;
       }
-    } else if (whichAgent == U"r2") {
-      if (whatColor == Color::None) {
-        if (rect.leftClicked()) {
-          whatColor = Color::Red;
-          onAgent = 4;
-          isSquareDisp = false;
-        }
-      } else if (whatColor == Color::Red) {
-        if (rect.leftClicked()) {
-          onAgent = 4;
-          isSquareDisp = false;
-        }
-      } else if (whatColor == Color::Blue) {
-        if (rect.leftClicked()) {
-          whatColor = Color::None;
-          isSquareDisp = false;
-        }
+    } else if (whatColor == Color::Red) {
+      if (rect.leftClicked()) {
+        onAgent = 3;
+        return true;
       }
-    } else if (whichAgent == U"b1") {
-      if(whatColor == Color::None) {
-        if (rect.leftClicked()) {
-          whatColor = Color::Blue;
-          onAgent = 1;
-          isSquareDisp = false;
-        }
-      } else if (whatColor == Color::Red) {
-        if (rect.leftClicked()) {
-          whatColor = Color::None;
-          isSquareDisp = false;
-        }
-      } else if (whatColor == Color::Blue) {
-        if (rect.leftClicked()) {
-          onAgent = 1;
-          isSquareDisp = false;
-        }
+    } else if (whatColor == Color::Blue) {
+      if (rect.leftClicked()) {
+        whatColor = Color::None;
+        return false;
       }
-    } else if (whichAgent == U"b2") {
-      if(whatColor == Color::None) {
-        if (rect.leftClicked()) {
-          whatColor = Color::Blue;
-          onAgent = 2;
-          isSquareDisp = false;
-        }
-      } else if (whatColor == Color::Red) {
-        if (rect.leftClicked()) {
-          whatColor = Color::None;
-          isSquareDisp = false;
-        }
-      } else if (whatColor == Color::Blue) {
-        if (rect.leftClicked()) {
-          onAgent = 2;
-          isSquareDisp = false;
-        }
+    }
+  } else if (whichAgent == U"r2") {
+    if (whatColor == Color::None) {
+      if (rect.leftClicked()) {
+        whatColor = Color::Red;
+        onAgent = 4;
+        return true;
+      }
+    } else if (whatColor == Color::Red) {
+      if (rect.leftClicked()) {
+        onAgent = 4;
+        return true;
+      }
+    } else if (whatColor == Color::Blue) {
+      if (rect.leftClicked()) {
+        whatColor = Color::None;
+        return false;
+      }
+    }
+  } else if (whichAgent == U"b1") {
+    if(whatColor == Color::None) {
+      if (rect.leftClicked()) {
+        whatColor = Color::Blue;
+        onAgent = 1;
+        return true;
+      }
+    } else if (whatColor == Color::Red) {
+      if (rect.leftClicked()) {
+        whatColor = Color::None;
+        return false;
+      }
+    } else if (whatColor == Color::Blue) {
+      if (rect.leftClicked()) {
+        onAgent = 1;
+        return true;
+      }
+    }
+  } else if (whichAgent == U"b2") {
+    if(whatColor == Color::None) {
+      if (rect.leftClicked()) {
+        whatColor = Color::Blue;
+        onAgent = 2;
+        return true;
+      }
+    } else if (whatColor == Color::Red) {
+      if (rect.leftClicked()) {
+        whatColor = Color::None;
+        return false;
+      }
+    } else if (whatColor == Color::Blue) {
+      if (rect.leftClicked()) {
+        onAgent = 2;
+        return true;
       }
     }
   }
   dispCancel();
+
+  return false;
 }
 
 //選択肢の非表示
 void FieldSquare::dispCancel() {
   if (canCancel && rect.leftClicked()) {
     canCancel = false;
-    isSquareDisp = false;
   }
 }
 
