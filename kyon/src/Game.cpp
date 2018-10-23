@@ -11,12 +11,12 @@ const std::string answer = "GET answer";
 namespace POST {}  // namespace POST
 }  // namespace tcp
 
-Game::Game() {
+void Game::getInformation() {
   // getFieldData() でharuhi(server)に取りにいく
   std::string fieldData = getFieldData();
 
   // haruhi(server)を動かさないでやるときはコメントアウトを外す
-  /*
+/*
   std::string fieldData = "4 4\
                            1 2 2 1\
                            2 3 3 2\
@@ -26,7 +26,7 @@ Game::Game() {
                            2 2\
                            1 2\
                            2 1";
-  */
+*/
 
   std::istringstream iss(fieldData);
   std::istream is(iss.rdbuf());

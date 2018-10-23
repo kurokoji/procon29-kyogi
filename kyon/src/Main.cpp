@@ -6,10 +6,24 @@ void Main() {
   Window::Resize(1280, 780);
 
   kyon::Game game;
+  kyon::Button start(60, 60, 40, U"始");
+
+  start.setPos(10, 10);
+  bool canStart = false;
+
 
   const Font font(50);
 
   while (System::Update()) {
+
+    start.draw();
+
+    if (start.isClick()) {
+      game.getInformation();
+      canStart = true;
+    }
+    if (canStart) {
       game.draw();
+    }
   }
 }
