@@ -12,8 +12,10 @@ namespace POST {}  // namespace POST
 }  // namespace tcp
 
 Game::Game() {
-  String fieldData = getFieldData();
-  std::tuple<int32, int32, Array<Array<int32>>, std::array<std::pair<size_t, size_t>, 4>> parsedFieldData = parseFieldData(fieldData);
+  std::string fieldData = getFieldData();
+  std::istringstream iss(fieldData);
+  std::istream is(iss.rdbuf());
+  is >> problemState;
 }
 
 void Game::update() {
@@ -24,7 +26,7 @@ void Game::draw() {
   this->fs.draw();
 }
 
-String Game::getFieldData() {
+std::string Game::getFieldData() {
   namespace asio = boost::asio;
   using asio::ip::tcp;
 
@@ -41,55 +43,14 @@ String Game::getFieldData() {
   asio::streambuf receive_buffer;
   asio::read(socket, receive_buffer, asio::transfer_all(), err);
 
-  String fieldData = U"";
+  std::string fieldData = "";
   if (err && err != asio::error::eof) {
     std::cerr << "recieve failed: " << err.message() << std::endl;
   } else {
-    fieldData = s3d::Unicode::Widen(std::string(asio::buffer_cast<const char *>(receive_buffer.data())));
+    fieldData = std::string(asio::buffer_cast<const char *>(receive_buffer.data()));
   }
 
   return fieldData;
-}
-
-std::tuple<int32, int32, Array<Array<int32>>, std::array<std::pair<size_t, size_t>, 4>> Game::parseFieldData(const String &fieldData) {
-  std::stringstream ss;
-  std::string line;
-
-  ss << fieldData;
-  std::getline(ss, line);
-
-  int32 h, w;
-  Array<Array<int32>> fieldPoints;
-  std::array<std::pair<size_t, size_t>, 4> positions;
-  std::stringstream ssLine;
-
-  ssLine << line;
-  ssLine >> h >> w;
-
-  for (int i = 0; i < h; i++) {
-    Array<int32> v;
-    std::stringstream sLine;
-    std::getline(ss, line);
-    sLine << line;
-
-    while (!sLine.eof()) {
-      int32 tmp;
-      sLine >> tmp;
-      v.emplace_back(tmp);
-    }
-    fieldPoints.emplace_back(v);
-  }
-
-  for (int i = 0; i < 4; i++) {
-    int y, x;
-    std::stringstream sLine;
-    std::getline(ss, line);
-    sLine << line;
-    sLine >> y >> x;
-    positions[i] = std::make_pair(y, x);
-  }
-
-  return {h, w, fieldPoints, positions};
 }
 
 }  // namespace kyon
