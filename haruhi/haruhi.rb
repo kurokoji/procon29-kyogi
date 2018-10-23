@@ -9,6 +9,8 @@ def main()
   include Procon29
   # 問題データ文字列
   problem_str = ''
+  # 答えのデータ文字列
+  answer_str = ''
 
   # TCPサーバ
   server = TCPServer.open(Port)
@@ -37,6 +39,23 @@ def main()
       if res.chomp == Protocol::GET::Problem
         if problem_str != ''
           client.puts(problem_str)
+        else
+          client.puts('NG')
+        end
+      end
+
+      # 答えのPOST要求(nagato -> haruhi)
+      if res.chomp == Protocol::POST::Answer
+        answer_str = ''
+        while buf = client.gets
+          answer_str << buf
+        end
+      end
+
+      # 答えのGET要求(haruhi -> kyon)
+      if res.chomp == Protocol::GET::Answer
+        if answer_str != ''
+          client.puts(answer_str)
         else
           client.puts('NG')
         end
