@@ -75,6 +75,14 @@ struct State {
     return this;
   }
 
+  ref State opAssign(State s) {
+    _field = s.field;
+    _fieldState = s.fieldState;
+    _own = s.own.dup;
+    _opponent = s.opponent.dup;
+    return this;
+  }
+
   @property {
     ref inout(FieldState) fieldState() inout {
       return _fieldState;
