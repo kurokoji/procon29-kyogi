@@ -12,7 +12,22 @@ namespace POST {}  // namespace POST
 }  // namespace tcp
 
 Game::Game() {
+  // getFieldData() でharuhi(server)に取りにいく
   std::string fieldData = getFieldData();
+
+  // haruhi(server)を動かさないでやるときはコメントアウトを外す
+  /*
+  std::string fieldData = "4 4\
+                           1 2 2 1\
+                           2 3 3 2\
+                           2 3 3 2\
+                           1 2 2 1\
+                           1 1\
+                           2 2\
+                           1 2\
+                           2 1";
+  */
+
   std::istringstream iss(fieldData);
   std::istream is(iss.rdbuf());
   is >> problemState;
