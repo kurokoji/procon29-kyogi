@@ -16,6 +16,8 @@ Game::Game() {
   std::istringstream iss(fieldData);
   std::istream is(iss.rdbuf());
   is >> problemState;
+  field.InitData(problemState);
+  field.InitField();
 }
 
 void Game::update() {
@@ -23,6 +25,7 @@ void Game::update() {
 }
 
 void Game::draw() {
+  field.drawField();
 }
 
 std::string Game::getFieldData() {
