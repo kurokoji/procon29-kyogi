@@ -20,8 +20,7 @@ public:
   ProblemState problemState;
   Field field;
 
-  Game();
-
+  void getInformation();
   void update();
   void draw();
   std::string getFieldData();
