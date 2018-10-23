@@ -23,7 +23,6 @@ void Game::update() {
 }
 
 void Game::draw() {
-  this->fs.draw();
 }
 
 std::string Game::getFieldData() {
