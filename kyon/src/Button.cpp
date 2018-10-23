@@ -3,9 +3,9 @@
 
 
 namespace kyon {
-Button::Button() : rect(0, 0, 60, 60), pos(60, 60), clickNum(0) {}
+Button::Button() : rect(0, 0, 60, 60), pos(60, 60), clickNum(0), font(20) {}
 
-Button::Button(uint32 h, uint32 w, uint32 fontSize, String str) : rect(0, 0, h, w), font(fontSize), pos(h, w), rectStr(str) {}
+Button::Button(uint32 h, uint32 w, uint32 fontSize, String str ) : rect(0, 0, h, w), font(fontSize), pos(h, w) , rectStr(str)  {}
 
 //座標設定
 Button& Button::setPos(uint32 x, uint32 y) {
