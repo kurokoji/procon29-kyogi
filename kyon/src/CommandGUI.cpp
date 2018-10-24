@@ -15,40 +15,40 @@ void CommandGUI::convInt(std::string s){
 void CommandGUI::selectImg(int32 cmd){
   switch(cmd){
     case 0:
-      rPath = U"../image/HandR00.png";
-      lPath = U"../image/HandL00.png";
+      rPath = U"../../../image/HandR00.png";
+      lPath = U"../../../image/HandL00.png";
       break;
     case 1:
-      rPath = U"../image/HandR01.png";
-      lPath = U"../image/HandL00.png";
+      rPath = U"../../../image/HandR01.png";
+      lPath = U"../../../image/HandL00.png";
       break;
     case 2:
-      rPath = U"../image/HandR02.png";
-      lPath = U"../image/HandL00.png";
+      rPath = U"../../../image/HandR02.png";
+      lPath = U"../../../image/HandL00.png";
       break;
     case 3:
-      rPath = U"../image/HandR03.png";
-      lPath = U"../image/HandL00.png";
+      rPath = U"../../../image/HandR03.png";
+      lPath = U"../../../image/HandL00.png";
       break;
     case 4:
-      rPath = U"../image/HandR04.png";
-      lPath = U"../image/HandL00.png";
+      rPath = U"../../../image/HandR04.png";
+      lPath = U"../../../image/HandL00.png";
       break;
     case 5:
-      rPath = U"../image/HandR05.png";
-      lPath = U"../image/HandL00.png";
+      rPath = U"../../../image/HandR05.png";
+      lPath = U"../../../image/HandL00.png";
       break;
     case 6:
-      rPath = U"../image/HandR05.png";
-      lPath = U"../image/HandL01.png";
+      rPath = U"../../../image/HandR05.png";
+      lPath = U"../../../image/HandL01.png";
       break;
     case 7:
-      rPath = U"../image/HandR05.png";
-      lPath = U"../image/HandL02.png";
+      rPath = U"../../../image/HandR05.png";
+      lPath = U"../../../image/HandL02.png";
       break;
     case 8:
-      rPath = U"../image/HandR05.png";
-      lPath = U"../image/HandL03.png";
+      rPath = U"../../../image/HandR05.png";
+      lPath = U"../../../image/HandL03.png";
       break;
     default:
       break;
