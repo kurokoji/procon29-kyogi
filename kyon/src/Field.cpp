@@ -152,4 +152,38 @@ void Field::drawField() {
     }
   }
 }
+
+std::string Field::to_string() {
+  auto itos = [](int32 n) { return Format(n).narrow(); };
+
+  std::string ret = "";
+  ret += itos(H) + " " + itos(W) + "\n";
+
+  for (int i = 0; i < H; i++) {
+    for (int j = 0; j < W; j++) {
+      ret += (j != 0 ? " " : "");
+      ret += itos(fieldPoints[i][j]);
+    }
+    ret += "\n";
+  }
+
+  for (int i = 0; i < H; i++) {
+    for (int j = 0; j < W; j++) {
+      ret += (j != 0 ? " " : "");
+      ret += itos(fColor[i][j]);
+    }
+    ret += "\n";
+  }
+
+  for (auto e : bluePos) {
+    ret += itos(e.first) + " " + itos(e.second) + "\n";
+  }
+
+  for (auto e : redPos) {
+    ret += itos(e.first) + " " + itos(e.second) + "\n";
+  }
+
+  return ret;
+}
+
 }

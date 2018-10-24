@@ -40,19 +40,19 @@ std::istream& operator>>(std::istream& is, ProblemState& ps) {
     }
   }
 
-  ps.fieldColor.resize(ps.h);
-  for (auto& v : ps.fieldColor) {
-    v = Array<int32>(ps.w);
+  for (size_t i = 0; i < ps.h; ++i) {
+    ps.fieldColor.emplace_back(Array<int32>(ps.w));
+      for (size_t j = 0; j < ps.w; ++j) {
+        is >> ps.fieldColor[i][j];
+      }
   }
 
   for (auto& e : ps.blue) {
     is >> e.first >> e.second;
-    ps.fieldColor[e.first][e.second] = static_cast<int32>(Color::Blue);
   }
 
   for (auto& e : ps.red) {
     is >> e.first >> e.second;
-    ps.fieldColor[e.first][e.second] = static_cast<int32>(Color::Red);
   }
 
 

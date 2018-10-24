@@ -31,6 +31,7 @@ public:
     bool isInside(const int32, const int32);
     void updateField(const int32, const int32);
     void drawField();
+    std::string to_string();
 };
 
 }
