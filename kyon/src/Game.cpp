@@ -64,7 +64,7 @@ std::string Game::getFieldData() {
 
   std::string fieldData = "";
   if (err && err != asio::error::eof) {
-    std::cerr << "recieve failed: " << err.message() << std::endl;
+    std::cerr << "receive failed: " << err.message() << std::endl;
   } else {
     fieldData = std::string(asio::buffer_cast<const char *>(receive_buffer.data()));
   }
