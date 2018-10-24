@@ -12,6 +12,7 @@
 #include "FieldSquare.hpp"
 #include "Field.hpp"
 #include "ProblemState.hpp"
+#include "MoveData.hpp"
 
 namespace kyon {
 
@@ -24,6 +25,7 @@ public:
   void update();
   void draw();
   std::string getFieldData();
+  void postMoveData(MoveData& moveData);
 };
 
 }  // namespace kyon
