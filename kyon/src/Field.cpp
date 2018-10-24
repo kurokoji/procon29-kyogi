@@ -53,13 +53,6 @@ namespace kyon {
     for (auto [i, j]: Indexed(redPos)){
       squares[j.first][j.second].onAgent = i + 3;
     }
-
-    for (int y : step(H)){
-      for (int i = 0; i < 6; i++){
-        std::cout << " " << static_cast<int>(squares[y][i].whatColor);
-      }
-      std::cout << "\n";
-    }
   }
 
   bool Field::isInside(const int32 y, const int32 x) {
@@ -163,31 +156,35 @@ namespace kyon {
         }
       }
     }
-  //H * W　マスの描画*
-  void Field::drawField() {
-    for (int y : step(H)) {
-      for (int x : step(W)) {
+    //H * W　マスの描画*
+    void Field::drawField() {
+      for (int y : step(H)) {
+        for (int x : step(W)) {
 
-        squares[y][x].setPos(10 + x * squSize, 10 + y * squSize);
-        squares[y][x].draw();
-        squares[y][x].rect.drawFrame(1.0, 1.0, Palette::Gray);
+          squares[y][x].setpos(10 + x * squSize, 10 + y * squSize);
+          squares[y][x].draw();
+          squares[y][x].rect.drawFrame(1.0, 1.0, Palette::Gray);
 
-        if (squares[y][x].isClick() && squares[y][x].onAgent != 0){
-          clicked = true;
-          agent_x = x;
-          agent_y = y;
+          if (squares[y][x].isClick() && squares[y][x].onAgent != 0) {
+            clicked = true;
+            agent_x = x;
+            agent_y = y;
+          }
         }
-
-        if (clicked && (x == agent_x && y == agent_y)){
-          if (updateField(y, x)) {
-            clicked = false;
-          }/*
-          else if (squares[y][x].isClick()){
-            clicked = false;
-          }*/
+      }
+      for (int y : step(H)){
+        for (int x : step(W)){
+          if (clicked && (x == agent_x && y == agent_y)){
+            if (updateField(y, x)) {
+              clicked = false;
+            }
+            /*
+            else if (squares[y][x].isClick()){
+              clicked = false;
+            }*/
+          }
+          updateAgentPos();
         }
-        updateAgentPos();
       }
     }
-  }
 }

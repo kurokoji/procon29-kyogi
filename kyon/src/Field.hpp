@@ -33,6 +33,7 @@ public:
     bool isInside(const int32, const int32);
     bool updateField(const int32, const int32);
     void updateAgentPos();
+    void dispCancel(int32, int32);
     void drawField();
 };
 
