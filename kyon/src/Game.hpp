@@ -25,7 +25,7 @@ public:
   void update();
   void draw();
   std::string getFieldData();
-  void postMoveData(MoveData& moveData);
+  void postMoveData();
 };
 
 }  // namespace kyon

@@ -72,8 +72,8 @@ std::string Game::getFieldData() {
   return fieldData;
 }
 
-void Game::postMoveData(MoveData& moveData) {
-  std::string send_message = moveData.to_string();
+void Game::postMoveData() {
+  std::string send_message = field.to_string();
 
   namespace asio = boost::asio;
   using asio::ip::tcp;
