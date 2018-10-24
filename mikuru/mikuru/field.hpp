@@ -31,6 +31,8 @@ public:
   field(size_t, size_t) noexcept;
   size_t getHeight() const;
   size_t getWidth() const;
+  void setHeight(size_t);
+  void setWidth(size_t);
   auto at(size_t h, size_t w) const -> decltype(field_.at(h).at(w));
   auto at(size_t h, size_t w) -> decltype(field_.at(h).at(w))&;
 
