@@ -32,6 +32,7 @@ public:
     void InitField();
     bool isInside(const int32, const int32);
     bool updateField(const int32, const int32);
+    void updateAgentPos();
     void drawField();
 };
 

@@ -67,121 +67,91 @@ FieldSquare& FieldSquare::draw() {
 }
 
 //マスをクリックしたときの挙動
-
-bool FieldSquare::update(const String whichAgent) {
-  if (rect.leftClicked()) {
-    isSquareDisp = true;
-  } else if (isSquareDisp) {
-    canCancel = true;
-    if (whichAgent == U"r1") {
-      if (whatColor == Color::None) {
-        choiceColor.draw(Palette::Red);
-        if (choiceColor.leftClicked()) {
-          whatColor = Color::Red;
-          onAgent = 3;
-          isSquareDisp = false;
-          return 1;
+    int FieldSquare::update(const String whichAgent) {
+      if (whichAgent == U"r1") {
+//マスにアップデートがかかっているかの表示
+    agent1Marker.draw(Palette::Green);
+        if (whatColor == Color::None) {
+          if (rect.leftClicked()) {
+            whatColor = Color::Red;
+            onAgent = 3;
+            return 2;
+          }
+        } else if (whatColor == Color::Red) {
+          if (rect.leftClicked()) {
+            onAgent = 3;
+            return 2;
+          }
+        } else if (whatColor == Color::Blue) {
+          if (rect.leftClicked()) {
+            whatColor = Color::None;
+            return 1;
+          }
         }
-      } else if (whatColor == Color::Red) {
-        choiceColor.draw(Palette::Red);
-        if (choiceColor.leftClicked()) {
-          onAgent = 3;
-          isSquareDisp = false;
-          return 1;
+      } else if (whichAgent == U"r2") {
+//マスにアップデートがかかっているかの表示
+    agent2Marker.draw(Palette::Green);
+        if (whatColor == Color::None) {
+          if (rect.leftClicked()) {
+            whatColor = Color::Red;
+            onAgent = 4;
+            return 2;
+          }
+        } else if (whatColor == Color::Red) {
+          if (rect.leftClicked()) {
+            onAgent = 4;
+            return 2;
+          }
+        } else if (whatColor == Color::Blue) {
+          if (rect.leftClicked()) {
+            whatColor = Color::None;
+            return 1;
+          }
         }
-      } else if (whatColor == Color::Blue) {
-        choiceColor.draw(Palette::White);
-        if (choiceColor.leftClicked()) {
-          whatColor = Color::None;
-          isSquareDisp = false;
-          return 0;
+      } else if (whichAgent == U"b1") {
+//マスにアップデートがかかっているかの表示
+    agent1Marker.draw(Palette::Yellow);
+        if(whatColor == Color::None) {
+          if (rect.leftClicked()) {
+            whatColor = Color::Blue;
+            onAgent = 1;
+            return 2;
+          }
+        } else if (whatColor == Color::Red) {
+          if (rect.leftClicked()) {
+            whatColor = Color::None;
+            return 1;
+          }
+        } else if (whatColor == Color::Blue) {
+          if (rect.leftClicked()) {
+            onAgent = 1;
+            return 2;
+          }
         }
-      }
-    } else if (whichAgent == U"r2") {
-      if (whatColor == Color::None) {
-        choiceColor.draw(Palette::Red);
-        if (choiceColor.leftClicked()) {
-          whatColor = Color::Red;
-          onAgent = 4;
-          isSquareDisp = false;
-          return 1;
-        }
-      } else if (whatColor == Color::Red) {
-        choiceColor.draw(Palette::Red);
-        if (choiceColor.leftClicked()) {
-          onAgent = 4;
-          isSquareDisp = false;
-          return 1;
-        }
-      } else if (whatColor == Color::Blue) {
-        choiceColor.draw(Palette::White);
-        if (choiceColor.leftClicked()) {
-          whatColor = Color::None;
-          isSquareDisp = false;
-          return 0;
-        }
-      }
-    } else if (whichAgent == U"b1") {
-      if(whatColor == Color::None) {
-        choiceColor.draw(Palette::Blue);
-        if (choiceColor.leftClicked()) {
-          whatColor = Color::Blue;
-          onAgent = 1;
-          isSquareDisp = false;
-          return 1;
-        }
-      } else if (whatColor == Color::Red) {
-        choiceColor.draw(Palette::White);
-        if (choiceColor.leftClicked()) {
-          whatColor = Color::None;
-          isSquareDisp = false;
-          return 0;
-        }
-      } else if (whatColor == Color::Blue) {
-        choiceColor.draw(Palette::Blue);
-        if (choiceColor.leftClicked()) {
-          onAgent = 1;
-          isSquareDisp = false;
-          return 1;
-        }
-      }
-    } else if (whichAgent == U"b2") {
-      if(whatColor == Color::None) {
-        choiceColor.draw(Palette::Blue);
-        if (choiceColor.leftClicked()) {
-          whatColor = Color::Blue;
-          onAgent = 2;
-          isSquareDisp = false;
-          return 1;
-        }
-      } else if (whatColor == Color::Red) {
-        choiceColor.draw(Palette::White);
-        if (choiceColor.leftClicked()) {
-          whatColor = Color::None;
-          isSquareDisp = false;
-          return 0;
-        }
-      } else if (whatColor == Color::Blue) {
-        choiceColor.draw(Palette::Blue);
-        if (choiceColor.leftClicked()) {
-          onAgent = 2;
-          isSquareDisp = false;
-          return 1;
+      } else if (whichAgent == U"b2") {
+//マスにアップデートがかかっているかの表示
+    agent2Marker.draw(Palette::Yellow);
+        if(whatColor == Color::None) {
+          if (rect.leftClicked()) {
+            whatColor = Color::Blue;
+            onAgent = 2;
+            return 2;
+          }
+        } else if (whatColor == Color::Red) {
+          if (rect.leftClicked()) {
+            whatColor = Color::None;
+            return 1;
+          }
+        } else if (whatColor == Color::Blue) {
+          if (rect.leftClicked()) {
+            onAgent = 2;
+            return 2;
+          }
         }
       }
+      return 0;
     }
-  }
-  dispCancel();
-  return 0;
-}
-
 //選択肢の非表示
-void FieldSquare::dispCancel() {
-  if (canCancel && rect.leftClicked()) {
-    canCancel = false;
-    isSquareDisp = false;
-  }
-}
 
 //whatColorに合わせてマスの色を描画
 void FieldSquare::normalSquare() {
