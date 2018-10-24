@@ -70,6 +70,36 @@ std::string Game::getFieldData() {
   return fieldData;
 }
 
+SolverAnswer Game::getSolverAnswer() {
+  namespace asio = boost::asio;
+  using asio::ip::tcp;
+
+  asio::io_service io_service;
+  tcp::socket socket(io_service);
+  boost::system::error_code err;
+
+  socket.connect(tcp::endpoint(asio::ip::address::from_string(kyon::tcp::IP_ADDRESS), kyon::tcp::PORT));
+  asio::write(socket, asio::buffer(kyon::tcp::GET::answer + "\n"), err);
+
+  asio::streambuf receive_buffer;
+  asio::read(socket, receive_buffer, asio::transfer_all(), err);
+
+  std::string moveDataString = "";
+  if (err && err != asio::error::eof) {
+    std::cerr << "receive failed: " << err.message() << std::endl;
+  } else {
+    moveDataString = std::string(asio::buffer_cast<const char *>(receive_buffer.data()));
+  }
+
+  std::istringstream iss(moveDataString);
+  std::istream is(iss.rdbuf());
+
+  SolverAnswer answer;
+  is >> answer;
+
+  return answer;
+}
+
 void Game::postMoveData() {
   std::string send_message = field.to_string();
 
