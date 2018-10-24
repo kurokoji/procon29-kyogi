@@ -1,19 +1,19 @@
-#ifndef PROCON29_MOVE_DATA_HPP_
-#define PROCON29_MOVE_DATA_HPP_
+#ifndef PROCON29_SOLVER_ANSWER_HPP_
+#define PROCON29_SOLVER_ANSWER_HPP_
 
 #include <array>
 
 #include <Siv3D.hpp>
 
 namespace kyon {
-struct MoveData {
+struct SolverAnswer {
   Array<int32> blue, red;
 
-  MoveData();
+  SolverAnswer();
 
   std::string to_string();
-  friend std::ostream& operator<<(std::ostream&, const MoveData&);
-  friend std::istream& operator>>(std::istream&, MoveData&);
+  friend std::ostream& operator<<(std::ostream&, const SolverAnswer&);
+  friend std::istream& operator>>(std::istream&, SolverAnswer&);
 };
 }
 

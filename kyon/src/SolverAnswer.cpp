@@ -1,9 +1,9 @@
-#include "MoveData.hpp"
+#include "SolverAnswer.hpp"
 
 namespace kyon {
-MoveData::MoveData() {}
+SolverAnswer::SolverAnswer() {}
 
-std::string MoveData::to_string() {
+std::string SolverAnswer::to_string() {
   std::string str = "";
 
   for (auto& e : blue) {
@@ -17,7 +17,7 @@ std::string MoveData::to_string() {
   return str;
 }
 
-std::ostream& operator<<(std::ostream& os, const MoveData& md) {
+std::ostream& operator<<(std::ostream& os, const SolverAnswer& md) {
   for (auto& e : md.blue) {
     os << e << std::endl;
   }
@@ -29,7 +29,7 @@ std::ostream& operator<<(std::ostream& os, const MoveData& md) {
   return os;
 }
 
-std::istream& operator>>(std::istream& is, MoveData& md) {
+std::istream& operator>>(std::istream& is, SolverAnswer& md) {
   for (int i = 0; i < 2; i++) {
     int32 tmp;
     is >> tmp;
