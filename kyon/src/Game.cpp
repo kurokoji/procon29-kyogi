@@ -8,7 +8,9 @@ const std::string problem = "GET problem";
 const std::string answer = "GET answer";
 }  // namespace GET
 
-namespace POST {}  // namespace POST
+namespace POST {  // namespace POST
+const std::string move = "POST move";
+}
 }  // namespace tcp
 
 void Game::getInformation() {
@@ -68,6 +70,29 @@ std::string Game::getFieldData() {
   }
 
   return fieldData;
+}
+
+void Game::postMoveData(MoveData& moveData) {
+  std::string send_message = moveData.to_string();
+
+  namespace asio = boost::asio;
+  using asio::ip::tcp;
+
+  asio::io_service io_service;
+  tcp::socket socket(io_service);
+  boost::system::error_code err;
+
+  const std::string IP_ADDRESS = "127.0.0.1";
+  const unsigned short PORT = 20000;
+
+  socket.connect(tcp::endpoint(asio::ip::address::from_string(IP_ADDRESS), PORT));
+  asio::write(socket, asio::buffer(kyon::tcp::POST::move + "\n"), err);
+
+  if (err && err != asio::error::eof) {
+    std::cerr << "send failed: " << err.message() << std::endl;
+  } else {
+    asio::write(socket, asio::buffer(send_message), err);
+  }
 }
 
 }  // namespace kyon
