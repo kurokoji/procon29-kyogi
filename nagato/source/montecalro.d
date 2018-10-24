@@ -23,12 +23,14 @@ struct Node {
   int visitCount;
   uint nowTurn;
   Color playerColor;
+  bool isMoveToVisited;
 
-  this(ref State s, Node* pN, uint nt, Color c) {
+  this(ref State s, Node* pN, uint nt, Color c, bool v = false) {
     st = s;
     parentNode = pN;
     nowTurn = nt;
     playerColor = c;
+    isMoveToVisited = v;
   }
 
   import nagato.color : Color;
@@ -58,6 +60,7 @@ struct Node {
     foreach (i; 1 .. 9) {
       foreach (j; 1 .. 9) {
         State nextState = st;
+        bool nextMoveToVisited;
         with (nextState) {
           import nagato.color : Color;
 
@@ -73,12 +76,13 @@ struct Node {
               fieldState.changeColor(o.y, o.x, Color.none);
               o.backTrans(c);
             } else {
+              if (fieldState.getColor(o.y, o.x) == playerColor) nextMoveToVisited = true;
               fieldState.changeColor(o.y, o.x, playerColor);
             }
           }
         }
         if (nextState.isValidState()) {
-          ret ~= new Node(nextState, &this, nowTurn + 1, invColor);
+          ret ~= new Node(nextState, &this, nowTurn + 1, invColor, nextMoveToVisited);
           untriedNodes ~= ret.back;
         }
       }
@@ -236,8 +240,10 @@ class NeoMonteCalroTreeSearch : PrimitiveMonteCalroTreeSearch {
   import nagato.state : State;
   import nagato.color : Color;
 
-  this(ref State s, uint tries, uint nowTurn, uint maxTurn, Color c) {
+  double cUCB;
+  this(ref State s, uint tries, uint nowTurn, uint maxTurn, Color c, double ucb = 1) {
     super(s, tries, nowTurn, maxTurn, c);
+    cUCB = ucb;
   }
 
   /// UCB1の値に従ってexpandするノードを決定する
@@ -249,8 +255,9 @@ class NeoMonteCalroTreeSearch : PrimitiveMonteCalroTreeSearch {
     auto cn = rootNode.childNodes;
 
     // TODO: パラメータの調整が必要
-    return cn[cn.map!(x => cast(double)x.winCount / cast(
-        double)x.visitCount + sqrt(2.0) * sqrt(log(tv) / cast(double)x.visitCount)).maxIndex];
+    return cn[cn.map!(
+        x => cast(double)x.winCount / cast(double)x.visitCount + cUCB * sqrt(
+        log(tv) / cast(double)x.visitCount)).maxIndex];
   }
 
   // まだ調べてない子ノードから選択する
@@ -297,9 +304,11 @@ class NeoMonteCalroTreeSearch : PrimitiveMonteCalroTreeSearch {
     }
 
     debug writeln(rootNode.childNodes.map!"cast(double)a.winCount / cast(double)a.visitCount");
-    debug writeln(rootNode.childNodes.map!"cast(double)a.winCount / cast(double)a.visitCount".maxElement);
+    debug writeln(
+        rootNode.childNodes.map!"cast(double)a.winCount / cast(double)a.visitCount".maxElement);
     // 勝率よりも最もプレイアウト回数が高い手のほうが安定性がある
-    return rootNode.childNodes.maxElement!("a.visitCount").st;
+    return rootNode.childNodes.maxElement!(a => a.visitCount * (a.isMoveToVisited ? 0.82 : 1.0)).st;
+    //return rootNode.childNodes.maxElement!("a.visitCount").st;
     //return rootNode.childNodes.maxElement!("cast(double)a.winCount / cast(double)a.visitCount").st;
   }
 }
