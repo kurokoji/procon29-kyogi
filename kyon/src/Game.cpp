@@ -3,6 +3,9 @@
 namespace kyon {
 
 namespace tcp {
+const std::string IP_ADDRESS = "127.0.0.1";
+const unsigned short PORT = 20000;
+
 namespace GET {
 const std::string problem = "GET problem";
 const std::string answer = "GET answer";
@@ -53,10 +56,7 @@ std::string Game::getFieldData() {
   tcp::socket socket(io_service);
   boost::system::error_code err;
 
-  const std::string IP_ADDRESS = "127.0.0.1";
-  const unsigned short PORT = 20000;
-
-  socket.connect(tcp::endpoint(asio::ip::address::from_string(IP_ADDRESS), PORT));
+  socket.connect(tcp::endpoint(asio::ip::address::from_string(kyon::tcp::IP_ADDRESS), kyon::tcp::PORT));
   asio::write(socket, asio::buffer(kyon::tcp::GET::problem + "\n"), err);
 
   asio::streambuf receive_buffer;
@@ -82,10 +82,7 @@ void Game::postMoveData(MoveData& moveData) {
   tcp::socket socket(io_service);
   boost::system::error_code err;
 
-  const std::string IP_ADDRESS = "127.0.0.1";
-  const unsigned short PORT = 20000;
-
-  socket.connect(tcp::endpoint(asio::ip::address::from_string(IP_ADDRESS), PORT));
+  socket.connect(tcp::endpoint(asio::ip::address::from_string(kyon::tcp::IP_ADDRESS), kyon::tcp::PORT));
   asio::write(socket, asio::buffer(kyon::tcp::POST::move + "\n"), err);
 
   if (err && err != asio::error::eof) {
