@@ -287,18 +287,34 @@ class NeoMonteCalroTreeSearch : PrimitiveMonteCalroTreeSearch {
     auto mut = new Mutex;
 
     // TODO: プレイアウトの高速化
-    foreach (i; parallel(playoutN.iota)) {
-      Node* node = rootNode;
+    version (OSX) {
+      foreach (i; parallel(playoutN.iota)) {
+        Node* node = rootNode;
 
-      // 次の手に関してすべて調べていた場合，有利な手に関して木を成長させる
-      while (node.untriedNodes.length == 0 && node.childNodes.length != 0)
-        node = selectChild(node);
+        // 次の手に関してすべて調べていた場合，有利な手に関して木を成長させる
+        while (node.untriedNodes.length == 0 && node.childNodes.length != 0)
+          node = selectChild(node);
 
-      if (node.untriedNodes.length != 0)
-        node = expandChild(node);
+        if (node.untriedNodes.length != 0)
+          node = expandChild(node);
 
-      auto res = node.playout(maxTurn);
-      synchronized (mut) {
+        auto res = node.playout(maxTurn);
+        synchronized (mut) {
+          res.propagate(judge(res.st) == playerColor);
+        }
+      }
+    } else {
+      foreach (i; playoutN.iota) {
+        Node* node = rootNode;
+
+        // 次の手に関してすべて調べていた場合，有利な手に関して木を成長させる
+        while (node.untriedNodes.length == 0 && node.childNodes.length != 0)
+          node = selectChild(node);
+
+        if (node.untriedNodes.length != 0)
+          node = expandChild(node);
+
+        auto res = node.playout(maxTurn);
         res.propagate(judge(res.st) == playerColor);
       }
     }
