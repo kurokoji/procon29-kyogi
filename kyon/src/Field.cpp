@@ -161,7 +161,7 @@ namespace kyon {
       for (int y : step(H)) {
         for (int x : step(W)) {
 
-          squares[y][x].setpos(10 + x * squSize, 10 + y * squSize);
+          squares[y][x].setPos(10 + x * squSize, 10 + y * squSize);
           squares[y][x].draw();
           squares[y][x].rect.drawFrame(1.0, 1.0, Palette::Gray);
 
