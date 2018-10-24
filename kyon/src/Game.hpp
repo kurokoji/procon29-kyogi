@@ -12,7 +12,6 @@
 #include "FieldSquare.hpp"
 #include "Field.hpp"
 #include "ProblemState.hpp"
-#include "MoveData.hpp"
 
 namespace kyon {
 
