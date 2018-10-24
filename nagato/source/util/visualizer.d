@@ -48,9 +48,9 @@ void visualize(ref State st) {
 
         // back
         if (color == Color.own) {
-          backgroundColor = 41;
-        } else if (color == Color.opponent) {
           backgroundColor = 44;
+        } else if (color == Color.opponent) {
+          backgroundColor = 41;
         } else {
           backgroundColor = 40;
         }
@@ -78,5 +78,5 @@ void visualize(ref State st) {
   write(res);
 
   immutable auto sc = st.getScoreSum();
-  writefln("Red: %s, Blue: %s", sc.own, sc.opponent);
+  writefln("Blue: %s, Red: %s", sc.own, sc.opponent);
 }
