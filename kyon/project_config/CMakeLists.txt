@@ -34,7 +34,6 @@ add_executable(kyon
   "../../src/Field.cpp"
   "../../src/FieldSquare.cpp"
   "../../src/ProblemState.cpp"
-  "../../src/SolverAnswer.cpp"
 )
 
 target_link_libraries(kyon
