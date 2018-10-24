@@ -67,15 +67,6 @@ struct State {
     _opponent = _opponent.dup;
   }
 
-
-  ref State opAssign(State s) {
-    _field = s.field;
-    _fieldState = s.fieldState;
-    _own = s.own.dup;
-    _opponent = s.opponent.dup;
-    return this;
-  }
-
   ref State opAssign(ref State s) {
     _field = s.field;
     _fieldState = s.fieldState;
