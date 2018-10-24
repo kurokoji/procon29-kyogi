@@ -7,11 +7,11 @@ std::string MoveData::to_string() {
   std::string str = "";
 
   for (auto& e : blue) {
-    str += Format(e.first).narrow() + " " + Format(e.second).narrow() + "\n";
+    str += Format(e).narrow() + "\n";
   }
 
   for (auto& e : red) {
-    str += Format(e.first).narrow() + " " + Format(e.second).narrow() + "\n";
+    str += Format(e).narrow() + "\n";
   }
 
   return str;
@@ -19,23 +19,27 @@ std::string MoveData::to_string() {
 
 std::ostream& operator<<(std::ostream& os, const MoveData& md) {
   for (auto& e : md.blue) {
-    os << e.first << " " << e.second << std::endl;
+    os << e << std::endl;
   }
 
   for (auto& e : md.red) {
-    os << e.first << " " << e.second << std::endl;
+    os << e << std::endl;
   }
 
   return os;
 }
 
 std::istream& operator>>(std::istream& is, MoveData& md) {
-  for (auto& e : md.blue) {
-    is >> e.first >> e.second;
+  for (int i = 0; i < 2; i++) {
+    int32 tmp;
+    is >> tmp;
+    md.blue.emplace_back(tmp);
   }
 
-  for (auto& e : md.red) {
-    is >> e.first >> e.second;
+  for (int i = 0; i < 2; i++) {
+    int32 tmp;
+    is >> tmp;
+    md.red.emplace_back(tmp);
   }
 
   return is;

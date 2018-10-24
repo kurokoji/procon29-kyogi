@@ -7,7 +7,7 @@
 
 namespace kyon {
 struct MoveData {
-  std::array<std::pair<int32, int32>, 2> blue, red;
+  Array<int32> blue, red;
 
   MoveData();
 
