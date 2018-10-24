@@ -8,6 +8,7 @@
 namespace kyon {
 struct SolverAnswer {
   Array<int32> blue, red;
+  int32 bluePoint, redPoint;
 
   SolverAnswer();
 
