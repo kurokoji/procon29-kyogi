@@ -11,9 +11,7 @@ const std::string problem = "GET problem";
 const std::string answer = "GET answer";
 }  // namespace GET
 
-namespace POST {  // namespace POST
-const std::string move = "POST move";
-}
+namespace POST {}  // namespace POST
 }  // namespace tcp
 
 void Game::getInformation() {
