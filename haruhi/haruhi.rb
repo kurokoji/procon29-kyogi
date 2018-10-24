@@ -11,6 +11,8 @@ def main()
   problem_str = ''
   # 答えのデータ文字列
   answer_str = ''
+  # move状況の文字列
+  move_str = ''
 
   # TCPサーバ
   server = TCPServer.open(Port)
@@ -56,6 +58,25 @@ def main()
       if res.chomp == Protocol::GET::Answer
         if answer_str != ''
           client.puts(answer_str)
+          answer_str = ''
+        else
+          client.puts('NG')
+        end
+      end
+
+      # moveのPOST要求(kyon -> haruhi)
+      if res.chomp == Protocol::POST::Move
+        move_str = ''
+        while buf = client.gets
+          move_str << buf
+        end
+      end
+
+      # moveのGET要求(haruhi -> nagato)
+      if res.chomp == Protocol::GET::Move
+        if move_str != ''
+          client.puts(move_str)
+          move_str = ''
         else
           client.puts('NG')
         end
