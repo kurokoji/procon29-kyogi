@@ -52,7 +52,12 @@ class NagatoSocket {
     }
     while (ret.indexOf("NG") != -1);
 
-    return ret;
+    string fix;
+    for (int i = 0; ret[i] != '\0'; ++i) {
+      fix ~= ret[i];
+    }
+
+    return fix;
   }
 
   void postAnswer(ref State s) {
@@ -89,7 +94,11 @@ class NagatoSocket {
     }
     while (ret.indexOf("NG") != -1);
 
-    return ret;
+    string fix;
+    for (int i = 0; ret[i] != '\0'; ++i) {
+      fix ~= ret[i];
+    }
+    return fix;
   }
 
   void postTurn(ref State s) {
