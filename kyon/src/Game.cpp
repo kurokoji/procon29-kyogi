@@ -16,7 +16,14 @@ const std::string move = "POST move";
 }  // namespace POST
 }  // namespace tcp
 
-Game::Game() : TurnFinish(90, 60, 45, U"終"), startButton(90, 60, 45, U"始"), undoButton(90, 60, 45, U"戻") {}
+Game::Game() {
+  turnNum = Font(20);
+  turnTimes = U"";
+  TurnFinish = Button(90, 60, 45, U"終");
+  startButton = Button(90, 60, 45 ,U"始");
+  undoButton = Button(90, 60, 45, U"戻");
+  inputTurn = TextBox(turnNum, Vec2(50, 50), 200);
+}
 
 void Game::getInformation() {
   // getFieldData() でharuhi(server)に取りにいく
@@ -158,6 +165,16 @@ void Game::undo(int32 x ,int32 y) {
   if (undoButton.isClick()) {
     Print << U"hoge";
     //ここにundo動作を書く
+  }
+}
+
+void Game::getTurn() {
+  const auto result = inputTurn.update();
+  inputTurn.setActive(true);
+  inputTurn.draw();
+  inputTurn.drawOverlay();
+  if (KeyEnter.down()) {
+    turnTimes = inputTurn.getText();
   }
 }
 
