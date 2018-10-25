@@ -188,8 +188,6 @@ void Field::drawField() {
     }
   }
 }
-}
-}
 
 std::string Field::to_string() {
   auto itos = [](int32 n) { return Format(n).narrow(); };
