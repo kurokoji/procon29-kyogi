@@ -80,6 +80,14 @@ struct Node {
               fieldState.changeColor(o.y, o.x, playerColor);
             }
           }
+
+          if (playerColor == Color.own) {
+            agentVec[0] = i;
+            agentVec[1] = j;
+          } else {
+            agentVec[2] = i;
+            agentVec[3] = j;
+          }
         }
         if (nextState.isValidState()) {
           ret ~= new Node(nextState, &this, nowTurn + 1, invColor, nextMoveToVisited);

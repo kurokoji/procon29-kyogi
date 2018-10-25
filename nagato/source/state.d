@@ -24,6 +24,7 @@ struct State {
     Field!ScoreType _field;
     FieldState _fieldState;
     Agent[2] _own, _opponent;
+    int[4] _agentVec;
   }
 
   this(ref in string s) {
@@ -45,6 +46,12 @@ struct State {
     }
 
     _field = Field!ScoreType(h, w, ar);
+
+    foreach (i; 0 .. h) {
+      foreach (j; 0 .. w) {
+        _fieldState.changeColor(i, j, cast(Color)sc.next!int);
+      }
+    }
 
     foreach (ref e; _own) {
       int y, x;
@@ -72,6 +79,7 @@ struct State {
     _fieldState = s.fieldState;
     _own = s.own.dup;
     _opponent = s.opponent.dup;
+    _agentVec = s.agentVec.dup;
     return this;
   }
 
@@ -80,6 +88,7 @@ struct State {
     _fieldState = s.fieldState;
     _own = s.own.dup;
     _opponent = s.opponent.dup;
+    _agentVec = s.agentVec.dup;
     return this;
   }
 
@@ -98,6 +107,10 @@ struct State {
 
     ref inout(Agent[2]) opponent() inout {
       return _opponent;
+    }
+
+    ref inout(int[4]) agentVec() inout {
+      return _agentVec;
     }
   }
 
