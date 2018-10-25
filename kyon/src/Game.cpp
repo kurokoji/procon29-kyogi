@@ -57,10 +57,12 @@ std::string Game::getFieldData() {
   boost::system::error_code err;
 
   socket.connect(tcp::endpoint(asio::ip::address::from_string(kyon::tcp::IP_ADDRESS), kyon::tcp::PORT));
+
   asio::write(socket, asio::buffer(kyon::tcp::GET::problem + "\n"), err);
 
   asio::streambuf receive_buffer;
-  asio::read(socket, receive_buffer, asio::transfer_all(), err);
+  asio::read_until(socket, receive_buffer, "\n", err);
+  socket.shutdown(boost::asio::ip::tcp::socket::shutdown_both, err);
 
   std::string fieldData = "";
   if (err && err != asio::error::eof) {
@@ -84,7 +86,8 @@ SolverAnswer Game::getSolverAnswer() {
   asio::write(socket, asio::buffer(kyon::tcp::GET::answer + "\n"), err);
 
   asio::streambuf receive_buffer;
-  asio::read(socket, receive_buffer, asio::transfer_all(), err);
+  asio::read_until(socket, receive_buffer, "\n", err);
+  socket.shutdown(boost::asio::ip::tcp::socket::shutdown_both, err);
 
   std::string moveDataString = "";
   if (err && err != asio::error::eof) {
