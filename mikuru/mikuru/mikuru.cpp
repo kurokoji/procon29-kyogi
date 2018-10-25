@@ -12,6 +12,7 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <cstdlib>
 #include <zbar.h>
 #include <opencv2/opencv.hpp>
 
@@ -36,9 +37,11 @@ const std::string answer = "POST answer";
 }  // namespace mikuru
 
 int main(int argc, char* argv[]) {
-  if (argc < 2) {
-    std::cerr << "argument error" << std::endl;
-    return -1;
+  std::string ip_address = "127.0.0.1";
+  mikuru::int32 port = 20000;
+  if (argc > 2) {
+    ip_address = argv[1];
+    port = std::atoi(argv[2]);
   }
 
   namespace asio = boost::asio;
@@ -63,7 +66,7 @@ int main(int argc, char* argv[]) {
   tcp::socket socket(io_service);
   boost::system::error_code err;
 
-  socket.connect(tcp::endpoint(asio::ip::address::from_string(argv[1]), 20000));
+  socket.connect(tcp::endpoint(asio::ip::address::from_string(ip_address), port));
 
   asio::write(socket, asio::buffer(mikuru::tcp::POST::problem + "\n"), err);
 
