@@ -152,6 +152,7 @@ void Game::finishTurn(int32 x, int32 y) {
     problemState.red = field.redPos;
 
     //ここでharuhiにデータを送る
+    postMoveData();
   }
 }
 
