@@ -5,9 +5,7 @@ namespace kyon {
 FieldSquare::FieldSquare() {
   onAgent = 0;
   squareNum = U"None";
-  choiceColor = Rect(0, 0, 30, 30);
   agent1Marker = Circle(10, 10, 10);
-  isSquareDisp = false;
   canCancel = false;
   whatColor = Color::None;
   solverArrowPath = U"../../../image/ArrowImage/Yellow.png";
@@ -22,8 +20,6 @@ FieldSquare& FieldSquare::setPos(uint32 x, uint32 y) {
   rect.setPos(x, y);
   agent1Marker.setPos(x + 50, y + 50);
   agent2Marker = Triangle(x + 50, y + 53, 20, 0_deg);
-
-  choiceColor.setPos(x + 60, y);
 
   arrowX[0] = x;
   arrowY[0] = y + 25;
@@ -148,11 +144,10 @@ FieldSquare& FieldSquare::draw() {
             return 2;
           }
         }
+
       }
       return 0;
     }
-//選択肢の非表示
-
 //whatColorに合わせてマスの色を描画
 void FieldSquare::normalSquare() {
   if (whatColor == Color::None) {
@@ -179,3 +174,4 @@ void FieldSquare::dispArrow(int32 solverDirection, bool canMove[]) {
   }
 }
 }
+

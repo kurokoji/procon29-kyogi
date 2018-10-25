@@ -34,6 +34,7 @@ public:
     bool updateField(const int32, const int32);
     void updateAgentPos();
     void drawField();
+    std::string to_string();
 };
 
 }

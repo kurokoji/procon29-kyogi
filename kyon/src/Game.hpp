@@ -12,6 +12,7 @@
 #include "FieldSquare.hpp"
 #include "Field.hpp"
 #include "ProblemState.hpp"
+#include "SolverAnswer.hpp"
 
 namespace kyon {
 
@@ -20,11 +21,12 @@ public:
   ProblemState problemState;
   Field field;
 
-  Game();
-
+  void getInformation();
   void update();
   void draw();
   std::string getFieldData();
+  SolverAnswer getSolverAnswer();
+  void postMoveData();
 };
 
 }  // namespace kyon
