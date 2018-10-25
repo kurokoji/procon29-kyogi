@@ -21,11 +21,12 @@ private:
   bool clicked;
   std::array<int32, 9> dy = {0, 0, -1, -1, -1, 0, 1, 1, 1};
   std::array<int32, 9> dx = {0, -1, -1, 0, 1, 1, 1, 0, -1};
-  std::array<std::pair<size_t, size_t>, 2> bluePos, redPos;
   Array<Array<int32>> fieldPoints;
-  Array<Array<int32>> fColor;
   Array<Array<FieldSquare>> squares;
 public:
+  std::array<std::pair<size_t, size_t>, 2> bluePos, redPos;
+  Array<Array<int32>> fColor;
+
     Field();
     void InitData(ProblemState);
     String convStr(int32);
