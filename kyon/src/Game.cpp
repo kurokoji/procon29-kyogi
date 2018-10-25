@@ -3,12 +3,17 @@
 namespace kyon {
 
 namespace tcp {
+const std::string IP_ADDRESS = "127.0.0.1";
+const unsigned short PORT = 20000;
+
 namespace GET {
 const std::string problem = "GET problem";
 const std::string answer = "GET answer";
 }  // namespace GET
 
-namespace POST {}  // namespace POST
+namespace POST {
+const std::string move = "POST move";
+}  // namespace POST
 }  // namespace tcp
 
 Game::Game() : TurnFinish(90, 60, 45, U"終") {}
@@ -53,10 +58,7 @@ std::string Game::getFieldData() {
   tcp::socket socket(io_service);
   boost::system::error_code err;
 
-  const std::string IP_ADDRESS = "127.0.0.1";
-  const unsigned short PORT = 20000;
-
-  socket.connect(tcp::endpoint(asio::ip::address::from_string(IP_ADDRESS), PORT));
+  socket.connect(tcp::endpoint(asio::ip::address::from_string(kyon::tcp::IP_ADDRESS), kyon::tcp::PORT));
   asio::write(socket, asio::buffer(kyon::tcp::GET::problem + "\n"), err);
 
   asio::streambuf receive_buffer;
@@ -64,7 +66,7 @@ std::string Game::getFieldData() {
 
   std::string fieldData = "";
   if (err && err != asio::error::eof) {
-    std::cerr << "recieve failed: " << err.message() << std::endl;
+    std::cerr << "receive failed: " << err.message() << std::endl;
   } else {
     fieldData = std::string(asio::buffer_cast<const char *>(receive_buffer.data()));
   }
@@ -77,6 +79,56 @@ void Game::finishTurn(int32 x, int32 y) {
   TurnFinish.draw();
   if (TurnFinish.isClick()) {
     //ここでharuhiにデータを送る
+  }
+}
+
+SolverAnswer Game::getSolverAnswer() {
+  namespace asio = boost::asio;
+  using asio::ip::tcp;
+
+  asio::io_service io_service;
+  tcp::socket socket(io_service);
+  boost::system::error_code err;
+
+  socket.connect(tcp::endpoint(asio::ip::address::from_string(kyon::tcp::IP_ADDRESS), kyon::tcp::PORT));
+  asio::write(socket, asio::buffer(kyon::tcp::GET::answer + "\n"), err);
+
+  asio::streambuf receive_buffer;
+  asio::read(socket, receive_buffer, asio::transfer_all(), err);
+
+  std::string moveDataString = "";
+  if (err && err != asio::error::eof) {
+    std::cerr << "receive failed: " << err.message() << std::endl;
+  } else {
+    moveDataString = std::string(asio::buffer_cast<const char *>(receive_buffer.data()));
+  }
+
+  std::istringstream iss(moveDataString);
+  std::istream is(iss.rdbuf());
+
+  SolverAnswer answer;
+  is >> answer;
+
+  return answer;
+}
+
+void Game::postMoveData() {
+  std::string send_message = field.to_string();
+
+  namespace asio = boost::asio;
+  using asio::ip::tcp;
+
+  asio::io_service io_service;
+  tcp::socket socket(io_service);
+  boost::system::error_code err;
+
+  socket.connect(tcp::endpoint(asio::ip::address::from_string(kyon::tcp::IP_ADDRESS), kyon::tcp::PORT));
+  asio::write(socket, asio::buffer(kyon::tcp::POST::move + "\n"), err);
+
+  if (err && err != asio::error::eof) {
+    std::cerr << "send failed: " << err.message() << std::endl;
+  } else {
+    asio::write(socket, asio::buffer(send_message), err);
   }
 }
 

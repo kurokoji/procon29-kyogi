@@ -12,6 +12,7 @@
 #include "FieldSquare.hpp"
 #include "Field.hpp"
 #include "ProblemState.hpp"
+#include "SolverAnswer.hpp"
 
 namespace kyon {
 
@@ -27,6 +28,8 @@ public:
   void draw();
   void finishTurn(int32 x, int32 y);
   std::string getFieldData();
+  SolverAnswer getSolverAnswer();
+  void postMoveData();
 };
 
 }  // namespace kyon
