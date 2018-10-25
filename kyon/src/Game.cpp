@@ -76,7 +76,6 @@ void Game::finishTurn(int32 x, int32 y) {
   TurnFinish.setPos(x, y);
   TurnFinish.draw();
   if (TurnFinish.isClick()) {
-    Print << U"hoge";
     //ここでharuhiにデータを送る
   }
 }
