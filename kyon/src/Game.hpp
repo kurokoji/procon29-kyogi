@@ -28,11 +28,11 @@ public:
   void getInformation();
   void update();
   void draw();
-  void finishTurn(int32 x, int32 y);
-  bool startGame(int32 x, int32 y);
   std::string getFieldData();
   SolverAnswer getSolverAnswer();
   void postMoveData();
+  bool startGame(int32 x, int32 y);
+  void finishTurn(int32 x, int32 y);
   void undo(int32 x, int32 y);
 };
 
