@@ -147,6 +147,10 @@ void Game::finishTurn(int32 x, int32 y) {
   TurnFinish.setPos(x, y);
   TurnFinish.draw();
   if (TurnFinish.isClick()) {
+    problemState.fieldColor = field.fColor;
+    problemState.blue = field.bluePos;
+    problemState.red = field.redPos;
+
     //ここでharuhiにデータを送る
   }
 }
