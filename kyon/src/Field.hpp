@@ -27,15 +27,15 @@ public:
   std::array<std::pair<size_t, size_t>, 2> bluePos, redPos;
   Array<Array<int32>> fColor;
 
-    Field();
-    void InitData(ProblemState);
-    String convStr(int32);
-    void InitField();
-    bool isInside(const int32, const int32);
-    bool updateField(const int32, const int32);
-    void updateAgentPos();
-    void drawField();
-    std::string to_string();
+  Field();
+  void InitData(ProblemState);
+  String convStr(int32);
+  void InitField();
+  bool isInside(const int32, const int32);
+  bool updateField(const int32, const int32);
+  void updateAgentPos();
+  void drawField();
+  std::string to_string();
 };
 
 }
