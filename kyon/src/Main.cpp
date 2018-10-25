@@ -26,5 +26,6 @@ void Main() {
       game.draw();
     }
     game.finishTurn(840, 100);
+    game.undo(840, 200);
   }
 }
