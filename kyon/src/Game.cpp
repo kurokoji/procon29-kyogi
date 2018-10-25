@@ -16,6 +16,8 @@ const std::string move = "POST move";
 }  // namespace POST
 }  // namespace tcp
 
+Game::Game() : TurnFinish(90, 60, 45, U"終") {}
+
 void Game::getInformation() {
   // getFieldData() でharuhi(server)に取りにいく
   std::string fieldData = getFieldData();
@@ -70,6 +72,14 @@ std::string Game::getFieldData() {
   }
 
   return fieldData;
+}
+
+void Game::finishTurn(int32 x, int32 y) {
+  TurnFinish.setPos(x, y);
+  TurnFinish.draw();
+  if (TurnFinish.isClick()) {
+    //ここでharuhiにデータを送る
+  }
 }
 
 SolverAnswer Game::getSolverAnswer() {

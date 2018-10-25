@@ -20,10 +20,13 @@ class Game {
 public:
   ProblemState problemState;
   Field field;
+  Button TurnFinish;
 
+  Game();
   void getInformation();
   void update();
   void draw();
+  void finishTurn(int32 x, int32 y);
   std::string getFieldData();
   SolverAnswer getSolverAnswer();
   void postMoveData();

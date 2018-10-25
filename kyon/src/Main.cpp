@@ -6,9 +6,9 @@ void Main() {
   Window::Resize(1280, 780);
 
   kyon::Game game;
-  kyon::Button start(60, 60, 40, U"始");
+  kyon::Button start(90, 60, 45, U"始");
 
-  start.setPos(10, 10);
+  start.setPos(840, 10);
   bool canStart = false;
 
 
@@ -25,5 +25,6 @@ void Main() {
     if (canStart) {
       game.draw();
     }
+    game.finishTurn(840, 100);
   }
 }
