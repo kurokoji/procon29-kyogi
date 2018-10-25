@@ -16,7 +16,7 @@ const std::string move = "POST move";
 }  // namespace POST
 }  // namespace tcp
 
-Game::Game() : TurnFinish(90, 60, 45, U"終") {}
+Game::Game() : TurnFinish(90, 60, 45, U"終"), undoButton(90, 60, 45, U"戻") {}
 
 void Game::getInformation() {
   // getFieldData() でharuhi(server)に取りにいく
@@ -134,4 +134,14 @@ void Game::postMoveData() {
   }
 }
 
-}  // namespace kyon
+void Game::undo(int32 x ,int32 y) {
+  undoButton.setPos(x, y);
+  undoButton.draw();
+
+  if (undoButton.isClick()) {
+    Print << U"hoge";
+    //ここにundo動作を書く
+  }
+}
+
+} // namespace kyon

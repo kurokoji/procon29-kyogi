@@ -65,6 +65,7 @@ namespace kyon {
     String whichColor;
     auto c = squares[y][x].onAgent;
 
+    squares[y][x].rect.drawFrame(2.0, 2.0, Palette::Yellow);
     switch (c) {
       case 1:
         whichColor = U"b1";
@@ -125,8 +126,8 @@ namespace kyon {
     }
     return false;
   }
-
-    void Field::updateAgentPos(){
+    
+  void Field::updateAgentPos(){
       //Agent位置の更新
       for (int y : step(H)){
         for (int x : step(W)){
@@ -155,8 +156,8 @@ namespace kyon {
           fColor[y][x] = static_cast<int>(squares[y][x].whatColor);
         }
       }
-    }
-    //H * W　マスの描画*
+    }   
+  //H * W　マスの描画*
     void Field::drawField() {
       for (int y : step(H)) {
         for (int x : step(W)) {
@@ -178,14 +179,10 @@ namespace kyon {
             if (updateField(y, x)) {
               clicked = false;
             }
-            /*
-            else if (squares[y][x].isClick()){
-              clicked = false;
-            }*/
           }
-          updateAgentPos();
         }
       }
+      updateAgentPos();
     }
   }
 }

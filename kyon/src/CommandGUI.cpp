@@ -56,7 +56,7 @@ void CommandGUI::selectImg(int32 cmd){
 }
 
 void CommandGUI::dispCmd(){
-  const Rect rect(x, y, x + 770, y + 430);
+  const Rect rect(x, y, 340, y + 250);
   const Texture rImg(rPath);
   const Texture lImg(lPath);
   const Font rUpp(50);
@@ -64,10 +64,10 @@ void CommandGUI::dispCmd(){
 
   rect.draw(Palette::Skyblue);
 
-  rImg.draw(x + 510, y + 140);
-  lImg.draw(x + 130, y + 140);
+  rImg.draw(x + 200, y + 70);
+  lImg.draw(x + 50, y + 70);
 
-  rUpp(U'R').draw(x + 380, y, Palette::Black);
+  rUpp(U'R').draw(x + 180, y, Palette::Black);
   lUpp(U'L').draw(x, y, Palette::Black);
 }  
 }

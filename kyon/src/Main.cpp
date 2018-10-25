@@ -4,7 +4,7 @@
 
 void Main() {
   Window::Resize(1280, 780);
-
+  
   kyon::Game game;
   kyon::Button start(90, 60, 45, U"始");
 
