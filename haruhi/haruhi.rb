@@ -35,6 +35,8 @@ def main()
         while buf = client.gets
           problem_str << buf
         end
+        # 問題データの表示
+        logger.info('Problem Data >> ' + problem_str)
       end
 
       # 問題のGET要求(haruhi -> nagato, kyon)
@@ -52,6 +54,8 @@ def main()
         while buf = client.gets
           answer_str << buf
         end
+        # 答えデータの表示
+        logger.info('Answer Data >> ' + answer_str)
       end
 
       # 答えのGET要求(haruhi -> kyon)
@@ -83,8 +87,6 @@ def main()
       end
     end
 
-    # 問題データの表示
-    logger.info('Problem Data >> ' + problem_str)
     # 接続終了
     client.close
   end
