@@ -62,6 +62,7 @@ struct Node {
         State nextState = st;
         bool nextMoveToVisited;
         with (nextState) {
+          nowTurn++;
           import nagato.color : Color;
 
           Agent[] ag = playerColor == Color.own ? own : opponent;

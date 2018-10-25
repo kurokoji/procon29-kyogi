@@ -15,6 +15,7 @@ class NagatoSocket {
   import std.socket : Socket;
   import std.socket : getAddress, AddressFamily, SocketType, ProtocolType;
   import std.socket : SocketShutdown;
+  import std.string : indexOf;
   import nagato.state : State;
   import std.format : format;
 
@@ -33,17 +34,23 @@ class NagatoSocket {
   }
 
   string getProblem() {
-    setup();
     long size;
+    string ret;
     ubyte[1024] buf;
-    do {
-      socket.send("GET problem\n");
-      size = socket.receive(buf);
-    } while (size == 0);
 
-    socket.shutdown(SocketShutdown.BOTH);
-    socket.close;
-    auto ret = cast(string)buf;
+    do {
+      setup();
+      ret = "";
+      do {
+        socket.send("GET problem\n");
+        size = socket.receive(buf);
+        ret ~= cast(string)buf;
+      }
+      while (size == 0);
+      socket.shutdown(SocketShutdown.BOTH);
+      socket.close;
+    }
+    while (ret.indexOf("NG") != -1);
 
     return ret;
   }
@@ -56,9 +63,41 @@ class NagatoSocket {
       res ~= format("%s\n", e);
     }
 
-    auto wl = s.getScoreSum;
-    res ~= format("%s %s", wl.own, wl.opponent);
+    res ~= format("%s %s\n", s.nowTurn / 2, s.maxTurn);
     socket.send("POST answer\n");
+    socket.send(res);
+    socket.shutdown(SocketShutdown.BOTH);
+    socket.close;
+  }
+
+  string getTurn() {
+    long size;
+    string ret;
+    ubyte[1024] buf;
+
+    do {
+      setup();
+      ret = "";
+      do {
+        socket.send("GET turn\n");
+        size = socket.receive(buf);
+        ret ~= cast(string)buf;
+      }
+      while (size == 0);
+      socket.shutdown(SocketShutdown.BOTH);
+      socket.close;
+    }
+    while (ret.indexOf("NG") != -1);
+
+    return ret;
+  }
+
+  void postTurn(ref State s) {
+    setup();
+
+    string res;
+    res ~= format("%s %s\n", s.nowTurn, s.maxTurn);
+    socket.send("POST turn");
     socket.send(res);
     socket.shutdown(SocketShutdown.BOTH);
     socket.close;

@@ -26,6 +26,7 @@ struct State {
     Agent[2] _own, _opponent;
     int[4] _agentVec;
   }
+  uint nowTurn, maxTurn;
 
   this(ref in string s) {
     import std.conv : to;
@@ -67,6 +68,7 @@ struct State {
       _fieldState.changeColor(y, x, Color.opponent);
     }
 
+    sc.scan(nowTurn, maxTurn);
   }
 
   this(this) {
@@ -80,6 +82,8 @@ struct State {
     _own = s.own.dup;
     _opponent = s.opponent.dup;
     _agentVec = s.agentVec.dup;
+    nowTurn = s.nowTurn;
+    maxTurn = s.maxTurn;
     return this;
   }
 
@@ -89,6 +93,8 @@ struct State {
     _own = s.own.dup;
     _opponent = s.opponent.dup;
     _agentVec = s.agentVec.dup;
+    nowTurn = s.nowTurn;
+    maxTurn = s.maxTurn;
     return this;
   }
 
@@ -271,11 +277,10 @@ struct State {
 
     return res.chomp;
   }
-
 }
 
 unittest {
-  string s = "2 2\n1 2\n3 4\n0 0\n1 0\n0 1\n1 1";
+  string s = "2 2\n1 2\n3 4\n1 2\n1 2\n0 0\n1 0\n0 1\n1 1";
   auto state = State(s);
   assert(state.toString() == "2 2\n1 2\n3 4\n1 2\n1 2\n0 0\n1 0\n0 1\n1 1");
   state.opponent[0].trans(1);
