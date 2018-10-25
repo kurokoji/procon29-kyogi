@@ -23,6 +23,9 @@ public:
   Button TurnFinish;
   Button startButton;
   Button undoButton;
+  Font turnNum;
+  TextBox inputTurn;
+  String turnTimes;
 
   Game();
   void getInformation();
@@ -34,6 +37,7 @@ public:
   SolverAnswer getSolverAnswer();
   void postMoveData();
   void undo(int32 x, int32 y);
+  void getTurn();
 };
 
 }  // namespace kyon
