@@ -102,6 +102,7 @@ def main()
         else
           client.puts('NG')
         end
+      end
     end
 
     # 接続終了
