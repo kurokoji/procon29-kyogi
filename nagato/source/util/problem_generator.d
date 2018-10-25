@@ -113,6 +113,25 @@ string generateProblem() {
       ret ~= format("%s%s", field[i][j], j == w - 1 ? '\n' : ' ');
     }
   }
+
+  foreach (i; 0 .. h) {
+    foreach (j; 0 .. w) {
+      bool f;
+      foreach (idx, const ref e; agents[]) {
+        if (i == e.y && j == e.x) {
+          if (idx == 0 || idx == 1) {
+            ret ~= format("%s%s", 1, j == w - 1 ? '\n' : ' ');
+          } else {
+            ret ~= format("%s%s", 2, j == w - 1 ? '\n' : ' ');
+          }
+          f = true;
+        }
+      }
+      if (!f)
+        ret ~= format("%s%s", 0, j == w - 1 ? '\n' : ' ');
+    }
+  }
+
   foreach (const ref e; agents[]) {
     ret ~= format("%s %s\n", e.y, e.x);
   }
