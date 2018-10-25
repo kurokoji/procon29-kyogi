@@ -57,7 +57,6 @@ std::string Game::getFieldData() {
   boost::system::error_code err;
 
   socket.connect(tcp::endpoint(asio::ip::address::from_string(kyon::tcp::IP_ADDRESS), kyon::tcp::PORT));
-
   asio::write(socket, asio::buffer(kyon::tcp::GET::problem + "\n"), err);
 
   asio::streambuf receive_buffer;
