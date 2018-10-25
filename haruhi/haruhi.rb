@@ -13,6 +13,8 @@ def main()
   answer_str = ''
   # move状況の文字列
   move_str = ''
+  # Turn状況の文字列
+  turn_str = ''
 
   # TCPサーバ
   server = TCPServer.open(Port)
@@ -85,6 +87,21 @@ def main()
           client.puts('NG')
         end
       end
+
+      if res.chomp == Protocol::POST::Turn
+        turn_str = ''
+        while buf = client.gets
+          turn_str << buf
+        end
+      end
+
+      if res.chomp == Protocol::GET::Turn
+        if turn_str != ''
+          client.puts(turn_str)
+          turn_str = ''
+        else
+          client.puts('NG')
+        end
     end
 
     # 接続終了
