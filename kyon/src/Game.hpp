@@ -21,6 +21,7 @@ public:
   ProblemState problemState;
   Field field;
   Button TurnFinish;
+  Button undoButton;
 
   Game();
   void getInformation();
@@ -30,6 +31,7 @@ public:
   std::string getFieldData();
   SolverAnswer getSolverAnswer();
   void postMoveData();
+  void undo(int32 x, int32 y);
 };
 
 }  // namespace kyon
