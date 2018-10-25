@@ -153,6 +153,8 @@ void Game::finishTurn(int32 x, int32 y) {
 
     //ここでharuhiにデータを送る
     postMoveData();
+
+    // turnのデータをpostする
   }
 }
 
