@@ -22,7 +22,8 @@ Game::Game() {
   TurnFinish = Button(90, 60, 45, U"終");
   startButton = Button(90, 60, 45 ,U"始");
   undoButton = Button(90, 60, 45, U"戻");
-  inputTurn = TextBox(turnNum, Vec2(50, 50), 200);
+  enterButton = Button(90, 30, 23, U"Enter");
+  inputTurn = TextBox(turnNum, Vec2(940, 10), 200);
 }
 
 void Game::getInformation() {
@@ -169,11 +170,13 @@ void Game::undo(int32 x ,int32 y) {
 }
 
 void Game::getTurn() {
+  enterButton.setPos(1145, 10);
+  enterButton.draw();
   const auto result = inputTurn.update();
   inputTurn.setActive(true);
   inputTurn.draw();
   inputTurn.drawOverlay();
-  if (KeyEnter.down()) {
+  if (enterButton.isClick()) {
     turnTimes = inputTurn.getText();
   }
 }

@@ -23,6 +23,7 @@ public:
   Button TurnFinish;
   Button startButton;
   Button undoButton;
+  Button enterButton;
   Font turnNum;
   TextBox inputTurn;
   String turnTimes;
