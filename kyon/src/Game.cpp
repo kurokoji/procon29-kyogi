@@ -178,6 +178,7 @@ void Game::undo(int32 x ,int32 y) {
   }
 }
 
+
 void Game::toggleColor(int32 x, int32 y) {
   if (toggleColorButton.isClick()) {
     colorRev = !colorRev;

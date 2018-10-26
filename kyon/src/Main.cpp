@@ -4,6 +4,7 @@
 
 void Main() {
   Window::Resize(1280, 780);
+
   Graphics::SetBackground(ColorF(0.8, 0.9, 1.0));
 
   kyon::Game game;

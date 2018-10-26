@@ -10,8 +10,7 @@ FieldSquare::FieldSquare() {
   canCancel = false;
   whatColor = Color::None;
   solverArrowPath = U"../../../image/ArrowImage/Yellow.png";
-  normalArrowPath = U"../../../image/ArrowImage/Gray.png";
-  solverArrow = Texture(solverArrowPath);
+  normalArrowPath = U"../../../image/ArrowImage/Gray.png"; solverArrow = Texture(solverArrowPath);
   normalArrow = Texture(normalArrowPath);
 }
 
@@ -67,7 +66,7 @@ FieldSquare& FieldSquare::draw() {
     int FieldSquare::update(const String whichAgent) {
       if (whichAgent == U"r1") {
 //マスにアップデートがかかっているかの表示
-    agent1Marker.draw(Palette::Green);
+    //agent1Marker.draw(Palette::Green);
         if (whatColor == Color::None) {
           if (rect.leftClicked()) {
             whatColor = Color::Red;
@@ -87,7 +86,7 @@ FieldSquare& FieldSquare::draw() {
         }
       } else if (whichAgent == U"r2") {
 //マスにアップデートがかかっているかの表示
-    agent2Marker.draw(Palette::Green);
+    //agent2Marker.draw(Palette::Green);
         if (whatColor == Color::None) {
           if (rect.leftClicked()) {
             whatColor = Color::Red;
@@ -107,7 +106,7 @@ FieldSquare& FieldSquare::draw() {
         }
       } else if (whichAgent == U"b1") {
 //マスにアップデートがかかっているかの表示
-    agent1Marker.draw(Palette::Yellow);
+    //agent1Marker.draw(Palette::Yellow);
         if(whatColor == Color::None) {
           if (rect.leftClicked()) {
             whatColor = Color::Blue;
@@ -127,7 +126,7 @@ FieldSquare& FieldSquare::draw() {
         }
       } else if (whichAgent == U"b2") {
 //マスにアップデートがかかっているかの表示
-    agent2Marker.draw(Palette::Yellow);
+    //agent2Marker.draw(Palette::Yellow);
         if(whatColor == Color::None) {
           if (rect.leftClicked()) {
             whatColor = Color::Blue;
@@ -176,5 +175,6 @@ void FieldSquare::dispArrow(int32 solverDirection, bool canMove[]) {
     }
   }
 }
+
 }
 
