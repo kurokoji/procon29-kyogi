@@ -12,6 +12,7 @@ void Main() {
   bool canStart = false;
 
   while (System::Update()) {
+    Profiler::EnableAssetCreationWarning(false);
     game.getTurn();
 
     if (game.startGame(840, 10)) {

@@ -2,6 +2,8 @@
 #include <Siv3D.hpp>
 
 namespace kyon {
+CommandGUI::CommandGUI() {}
+
 CommandGUI::CommandGUI(int32 recX, int32 recY){
   x = recX;
   y = recY;
@@ -76,6 +78,8 @@ void CommandGUI::dispCmd(int32 b1, int32 b2){
   const Rect rect(x, y, 380, 270);
   const Texture rImg(higashi);
   const Texture lImg(nemu);
+  const Circle agent1(x + 40, y + 40, 20);
+  const Triangle agent2(x + 200, y + 40, 40);
   const Font Agents(50);
   const Font str40(40);
   String str1, str2;
@@ -89,8 +93,8 @@ void CommandGUI::dispCmd(int32 b1, int32 b2){
   rImg.draw(x + 220, y + 80);
   lImg.draw(x + 40, y + 80);
 
-  Agents(U"B2").draw(x + 190, y, Palette::Black);
-  Agents(U"B1").draw(x, y, Palette::Black);
+  agent2.draw(Palette::Blueviolet);
+  agent1.draw(Palette::Blueviolet);
 
   str40(str1).draw(x + 140, y + 30, Palette::Crimson);
   str40(str2).draw(x + 320, y + 30, Palette::Crimson);
@@ -101,5 +105,5 @@ void CommandGUI::dispCmd(int32 b1, int32 b2){
   if (b2 >= 6){
     str40(U"裏").draw(x + 260, y + 30, Palette::Black);
   }
-}  
+}
 }
