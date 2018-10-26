@@ -30,7 +30,8 @@ public:
   Font turnNum;
   Font pointSumLabel;
   TextBox inputTurn;
-  String turnTimes;
+  String nowTurn;
+  String maxTurn;
 
   Game();
   void getInformation();
@@ -39,6 +40,7 @@ public:
   std::string getFieldData();
   SolverAnswer getSolverAnswer();
   void postMoveData();
+  void postTurnData();
   bool startGame(int32 x, int32 y);
   void finishTurn(int32 x, int32 y);
   void undo(int32 x, int32 y);

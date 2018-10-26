@@ -65,6 +65,7 @@ bool Field::updateField(const int32 y, const int32 x){
   String whichColor;
   auto c = squares[y][x].onAgent;
 
+  squares[y][x].rect.drawFrame(2.0, 2.0, Palette::Yellow);
   switch (c) {
     case 1:
       whichColor = U"b1";
@@ -159,10 +160,10 @@ void Field::updateAgentPos(){
 
 //H * W　マスの描画*
 void Field::drawField() {
-  for (int y : step(H)) {
+  for (int y = H - 1; y >= 0; --y) {
     for (int x : step(W)) {
 
-      squares[y][x].setPos(10 + x * squSize, 10 + y * squSize);
+      squares[y][x].setPos(10 + (H - 1 - y) * squSize, 10 + x * squSize);
       squares[y][x].draw();
       squares[y][x].rect.drawFrame(1.0, 1.0, Palette::Gray);
 
