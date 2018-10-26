@@ -17,11 +17,11 @@ std::ostream& operator<<(std::ostream& os, const ProblemState& ps) {
     }
   }
 
-  for (const auto& agent : ps.red) {
+  for (const auto& agent : ps.blue) {
     os << agent.first << " " << agent.second << std::endl;
   }
 
-  for (const auto& agent : ps.blue) {
+  for (const auto& agent : ps.red) {
     os << agent.first << " " << agent.second << std::endl;
   }
 
@@ -42,9 +42,9 @@ std::istream& operator>>(std::istream& is, ProblemState& ps) {
 
   for (size_t i = 0; i < ps.h; ++i) {
     ps.fieldColor.emplace_back(Array<int32>(ps.w));
-      for (size_t j = 0; j < ps.w; ++j) {
-        is >> ps.fieldColor[i][j];
-      }
+    for (size_t j = 0; j < ps.w; ++j) {
+      is >> ps.fieldColor[i][j];
+    }
   }
 
   for (auto& e : ps.blue) {

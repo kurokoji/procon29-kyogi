@@ -28,8 +28,6 @@ std::ostream& operator<<(std::ostream& os, const SolverAnswer& md) {
     os << e << std::endl;
   }
 
-  os << md.bluePoint << " " << md.redPoint << std::endl;
-
   return os;
 }
 
@@ -45,8 +43,6 @@ std::istream& operator>>(std::istream& is, SolverAnswer& md) {
     is >> tmp;
     md.red.emplace_back(tmp);
   }
-
-  is >> md.bluePoint >> md.redPoint;
 
   return is;
 }

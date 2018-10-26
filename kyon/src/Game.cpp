@@ -1,7 +1,7 @@
 #include "Game.hpp"
 
 namespace kyon {
-
+extern bool colorRev;
 namespace tcp {
 const std::string IP_ADDRESS = "127.0.0.1";
 const unsigned short PORT = 20000;
@@ -16,7 +16,17 @@ const std::string move = "POST move";
 }  // namespace POST
 }  // namespace tcp
 
-Game::Game() : TurnFinish(90, 60, 45, U"終"), undoButton(90, 60, 45, U"戻") {}
+Game::Game() {
+  turnNum = Font(20);
+  pointSumLabel = Font(41);
+  turnTimes = U"";
+  TurnFinish = Button(90, 60, 45, U"終");
+  startButton = Button(90, 60, 45 ,U"始");
+  undoButton = Button(90, 60, 45, U"戻");
+  toggleColorButton = Button(90, 30, 23, U"青チーム");
+  enterButton = Button(90, 30, 23, U"Enter");
+  inputTurn = TextBox(turnNum, Vec2(940, 10), 200);
+}
 
 void Game::getInformation() {
   // getFieldData() でharuhi(server)に取りにいく
@@ -35,6 +45,7 @@ void Game::getInformation() {
                            2 1";
 */
 
+  std::cout << fieldData << std::endl;
   std::istringstream iss(fieldData);
   std::istream is(iss.rdbuf());
   is >> problemState;
@@ -61,26 +72,24 @@ std::string Game::getFieldData() {
   socket.connect(tcp::endpoint(asio::ip::address::from_string(kyon::tcp::IP_ADDRESS), kyon::tcp::PORT));
   asio::write(socket, asio::buffer(kyon::tcp::GET::problem + "\n"), err);
 
-  asio::streambuf receive_buffer;
-  asio::read_until(socket, receive_buffer, "\n", err);
+  std::string ret;
+
+  std::size_t sz = 0;
+  do {
+    asio::streambuf receive_buffer;
+    sz = asio::read_until(socket, receive_buffer, "\n", err);
+    ret += asio::buffer_cast<const char *>(receive_buffer.data());
+  } while (sz != 0);
   socket.shutdown(boost::asio::ip::tcp::socket::shutdown_both, err);
 
   std::string fieldData = "";
   if (err && err != asio::error::eof) {
     std::cerr << "receive failed: " << err.message() << std::endl;
   } else {
-    fieldData = std::string(asio::buffer_cast<const char *>(receive_buffer.data()));
+    fieldData = ret;
   }
 
   return fieldData;
-}
-
-void Game::finishTurn(int32 x, int32 y) {
-  TurnFinish.setPos(x, y);
-  TurnFinish.draw();
-  if (TurnFinish.isClick()) {
-    //ここでharuhiにデータを送る
-  }
 }
 
 SolverAnswer Game::getSolverAnswer() {
@@ -134,6 +143,31 @@ void Game::postMoveData() {
   }
 }
 
+bool Game::startGame(int32 x, int32 y) {
+  startButton.setPos(x, y);
+  startButton.draw();
+  if (startButton.isClick()) {
+    getInformation();
+    return true;
+  }
+  return false;
+}
+
+void Game::finishTurn(int32 x, int32 y) {
+  TurnFinish.setPos(x, y);
+  TurnFinish.draw();
+  if (TurnFinish.isClick()) {
+    problemState.fieldColor = field.fColor;
+    problemState.blue = field.bluePos;
+    problemState.red = field.redPos;
+
+    //ここでharuhiにデータを送る
+    postMoveData();
+
+    // turnのデータをpostする
+  }
+}
+
 void Game::undo(int32 x ,int32 y) {
   undoButton.setPos(x, y);
   undoButton.draw();
@@ -144,4 +178,31 @@ void Game::undo(int32 x ,int32 y) {
   }
 }
 
-} // namespace kyon
+
+void Game::toggleColor(int32 x, int32 y) {
+  if (toggleColorButton.isClick()) {
+    colorRev = !colorRev;
+    toggleColorButton.rectStr = toggleColorButton.rectStr == U"青チーム" ? U"赤チーム" : U"青チーム";
+  }
+  toggleColorButton.setPos(x, y);
+  toggleColorButton.draw();
+}
+
+void Game::getTurn() {
+  enterButton.setPos(1145, 10);
+  enterButton.draw();
+  const auto result = inputTurn.update();
+  inputTurn.setActive(true);
+  inputTurn.draw();
+  inputTurn.drawOverlay();
+  if (enterButton.isClick()) {
+    turnTimes = inputTurn.getText();
+  }
+}
+
+void Game::pointSum(int32 x, int32 y) {
+  auto [blue, red] = field.countPoint();
+  pointSumLabel(U"自{} vs {}相"_fmt(blue, red)).draw(x, y, Palette::Black);
+}
+
+}  // namespace kyon

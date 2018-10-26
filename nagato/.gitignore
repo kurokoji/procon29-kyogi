@@ -1,0 +1,16 @@
+.dub
+docs.json
+__dummy.html
+docs/
+nagato.so
+nagato.dylib
+nagato.dll
+nagato.a
+nagato.lib
+nagato-test-*
+*.exe
+*.o
+*.obj
+*.lst
+nagato
+dub.selections.json

@@ -19,7 +19,7 @@
 namespace mikuru {
 class color_field : public field {
 private:
-  std::array<std::array<color, MAX_FIELD_SIZE>, MAX_FIELD_SIZE> field_;
+  std::array<std::array<score_type, MAX_FIELD_SIZE>, MAX_FIELD_SIZE> field_;
 
 public:
   color_field() noexcept;

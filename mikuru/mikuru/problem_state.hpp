@@ -25,7 +25,7 @@ namespace mikuru {
 class problem_state {
 private:
   field field_;
-  field color_field_;
+  color_field color_field_;
   std::array<std::pair<size_t, size_t>, 2> blue_, red_;
 
 public:

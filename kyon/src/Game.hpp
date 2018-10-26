@@ -21,15 +21,28 @@ public:
   ProblemState problemState;
   Field field;
   Button TurnFinish;
+  Button startButton;
+  Button undoButton;
+  Button enterButton;
+  Button toggleColorButton;
+  Font turnNum;
+  Font pointSumLabel;
+  TextBox inputTurn;
+  String turnTimes;
 
   Game();
   void getInformation();
   void update();
   void draw();
-  void finishTurn(int32 x, int32 y);
   std::string getFieldData();
   SolverAnswer getSolverAnswer();
   void postMoveData();
+  bool startGame(int32 x, int32 y);
+  void finishTurn(int32 x, int32 y);
+  void undo(int32 x, int32 y);
+  void toggleColor(int32 x, int32 y);
+  void pointSum(int32 x, int32 y);
+  void getTurn();
 };
 
 }  // namespace kyon

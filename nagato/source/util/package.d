@@ -9,6 +9,8 @@
 //
 //====================================================
 
-namespace nagato {} // namespace nagato
+module nagato.util;
 
-int main() {}
+public import nagato.util.judge;
+public import nagato.util.visualizer;
+public import nagato.util.problem_generator;

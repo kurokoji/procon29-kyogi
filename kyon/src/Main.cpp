@@ -4,27 +4,26 @@
 
 void Main() {
   Window::Resize(1280, 780);
-  
-  kyon::Game game;
-  kyon::Button start(90, 60, 45, U"始");
 
-  start.setPos(840, 10);
+  Graphics::SetBackground(ColorF(0.8, 0.9, 1.0));
+
+  kyon::Game game;
+
   bool canStart = false;
 
-
-  const Font font(50);
-
   while (System::Update()) {
+    game.getTurn();
 
-    start.draw();
-
-    if (start.isClick()) {
-      game.getInformation();
+    if (game.startGame(840, 10)) {
       canStart = true;
     }
     if (canStart) {
       game.draw();
     }
+
     game.finishTurn(840, 100);
+    game.undo(840, 200);
+    game.toggleColor(840, 300);
+    game.pointSum(970, 100);
   }
 }

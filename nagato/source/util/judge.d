@@ -9,4 +9,19 @@
 //
 //====================================================
 
-namespace nagato {} // namespace nagato
+module nagato.util.judge;
+
+import nagato.color;
+import nagato.state;
+
+Color judge(State st) {
+  auto res = st.getScoreSum();
+
+  if (res.own > res.opponent) {
+    return Color.own;
+  } else if (res.own < res.opponent) {
+    return Color.opponent;
+  }
+  
+  return Color.none;
+}
