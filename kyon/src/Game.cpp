@@ -59,6 +59,7 @@ void Game::update() {
 
 void Game::draw() {
   field.drawField();
+  getSolverAnswer();
 }
 
 std::string Game::getFieldData() {
@@ -114,11 +115,17 @@ SolverAnswer Game::getSolverAnswer() {
     moveDataString = std::string(asio::buffer_cast<const char *>(receive_buffer.data()));
   }
 
+  if (moveDataString.substr(0, 2) == "NG") {
+    return solverAnswer;
+  }
+
   std::istringstream iss(moveDataString);
   std::istream is(iss.rdbuf());
 
   SolverAnswer answer;
   is >> answer;
+
+  solverAnswer = answer;
 
   return answer;
 }
