@@ -202,8 +202,10 @@ void Game::undo(int32 x ,int32 y) {
   undoButton.draw();
 
   if (undoButton.isClick()) {
-    Print << U"hoge";
-    //ここにundo動作を書く
+    field.squares = field.prev;
+    field.fColor = problemState.fieldColor;
+    field.bluePos = problemState.blue;
+    field.redPos = problemState.red;
   }
 }
 

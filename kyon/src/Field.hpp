@@ -22,8 +22,8 @@ private:
   std::array<int32, 9> dy = {0, 0, -1, -1, -1, 0, 1, 1, 1};
   std::array<int32, 9> dx = {0, -1, -1, 0, 1, 1, 1, 0, -1};
   Array<Array<int32>> fieldPoints;
-  Array<Array<FieldSquare>> squares;
 public:
+  Array<Array<FieldSquare>> squares, prev;
   std::array<std::pair<size_t, size_t>, 2> bluePos, redPos;
   Array<Array<int32>> fColor;
 
