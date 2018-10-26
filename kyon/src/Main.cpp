@@ -17,13 +17,14 @@ void Main() {
     if (game.startGame(840, 10)) {
       canStart = true;
     }
+
     if (canStart) {
       game.draw();
+      game.pointSum(970, 100);
     }
 
     game.finishTurn(840, 100);
     game.undo(840, 200);
     game.toggleColor(840, 300);
-    game.pointSum(970, 100);
   }
 }
