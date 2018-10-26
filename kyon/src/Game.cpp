@@ -19,7 +19,7 @@ const std::string move = "POST move";
 Game::Game() {
   turnNum = Font(20);
   pointSumLabel = Font(41);
-  turnTimes = U"";
+  maxTurn = U"";
   TurnFinish = Button(90, 60, 45, U"終");
   startButton = Button(90, 60, 45 ,U"始");
   undoButton = Button(90, 60, 45, U"戻");
@@ -203,9 +203,9 @@ void Game::getTurn() {
   inputTurn.draw();
   inputTurn.drawOverlay();
   if (enterButton.isClick()) {
-    turnTimes = inputTurn.getText();
+    maxTurn = inputTurn.getText();
   } else if (KeyEnter.down()) {
-    turnTimes = inputTurn.getText();
+    maxTurn = inputTurn.getText();
   }
 }
 

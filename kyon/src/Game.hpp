@@ -31,7 +31,7 @@ public:
   Font pointSumLabel;
   TextBox inputTurn;
   String nowTurn;
-  String turnTimes;
+  String maxTurn;
 
   Game();
   void getInformation();
