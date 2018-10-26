@@ -20,6 +20,8 @@ class Game {
 public:
   ProblemState problemState;
   Field field;
+  SolverAnswer solverAnswer;
+
   Button TurnFinish;
   Button startButton;
   Button undoButton;
