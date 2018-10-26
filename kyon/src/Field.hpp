@@ -28,6 +28,8 @@ public:
   Array<Array<int32>> fColor;
 
   Field();
+  bool b1Move[8];
+  bool b2Move[8];
   void InitData(ProblemState);
   String convStr(int32);
   void InitField();
@@ -37,6 +39,8 @@ public:
   void drawField();
   std::string to_string();
   std::pair<int32, int32> countPoint();
+  void b1Direction(int y, int x);
+  void b2Direction(int y, int x);
 };
 
 }
