@@ -146,7 +146,27 @@ void Game::postMoveData() {
   asio::write(socket, asio::buffer(kyon::tcp::POST::move + "\n"), err);
 
   if (err && err != asio::error::eof) {
-    std::cerr << "send failed: " << err.message() << std::endl;
+    std::cerr << "[POST move send failed] " << err.message() << std::endl;
+  } else {
+    asio::write(socket, asio::buffer(send_message), err);
+  }
+}
+
+void Game::postTurnData() {
+  std::string send_message = nowTurn.narrow() + " " + maxTurn.narrow() + "\n";
+
+  namespace asio = boost::asio;
+  using asio::ip::tcp;
+
+  asio::io_service io_service;
+  tcp::socket socket(io_service);
+  boost::system::error_code err;
+
+  socket.connect(tcp::endpoint(asio::ip::address::from_string(kyon::tcp::IP_ADDRESS), kyon::tcp::PORT));
+  asio::write(socket, asio::buffer(send_message), err);
+
+  if (err && err != asio::error::eof) {
+    std::cerr << "[POST turn send failed] " << err.message() << std::endl;
   } else {
     asio::write(socket, asio::buffer(send_message), err);
   }
@@ -204,10 +224,9 @@ void Game::getTurn() {
   inputTurn.setActive(true);
   inputTurn.draw();
   inputTurn.drawOverlay();
-  if (enterButton.isClick()) {
+  if (enterButton.isClick() || KeyEnter.down()) {
     maxTurn = inputTurn.getText();
-  } else if (KeyEnter.down()) {
-    maxTurn = inputTurn.getText();
+    postTurnData();
   }
 }
 
