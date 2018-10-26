@@ -18,8 +18,8 @@ FieldSquare::FieldSquare() {
 FieldSquare& FieldSquare::setPos(uint32 x, uint32 y) {
   pos = Vec2(x, y);
   rect.setPos(x, y);
-  agent1Marker.setPos(x + 50, y + 50);
-  agent2Marker = Triangle(x + 50, y + 53, 20, 0_deg);
+  agent1Marker.setPos(x + 30, y + 30);
+  agent2Marker = Triangle(x + 30, y + 33, 20, 0_deg);
 
   arrowX[0] = x + 25;
   arrowY[0] = y;
