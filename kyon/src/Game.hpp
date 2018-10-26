@@ -26,6 +26,7 @@ public:
   Button enterButton;
   Button toggleColorButton;
   Font turnNum;
+  Font pointSumLabel;
   TextBox inputTurn;
   String turnTimes;
 
@@ -40,6 +41,7 @@ public:
   void finishTurn(int32 x, int32 y);
   void undo(int32 x, int32 y);
   void toggleColor(int32 x, int32 y);
+  void pointSum(int32 x, int32 y);
   void getTurn();
 };
 

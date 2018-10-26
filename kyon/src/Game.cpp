@@ -18,6 +18,7 @@ const std::string move = "POST move";
 
 Game::Game() {
   turnNum = Font(20);
+  pointSumLabel = Font(41);
   turnTimes = U"";
   TurnFinish = Button(90, 60, 45, U"終");
   startButton = Button(90, 60, 45 ,U"始");
@@ -196,6 +197,11 @@ void Game::getTurn() {
   if (enterButton.isClick()) {
     turnTimes = inputTurn.getText();
   }
+}
+
+void Game::pointSum(int32 x, int32 y) {
+  auto [blue, red] = field.countPoint();
+  pointSumLabel(U"自{} vs {}相"_fmt(blue, red)).draw(x, y, Palette::Black);
 }
 
 }  // namespace kyon
