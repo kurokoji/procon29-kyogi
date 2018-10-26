@@ -10,13 +10,17 @@ void Main() {
   kyon::Game game;
 
   bool canStart = false;
+  bool dispStartButton = true;
 
   while (System::Update()) {
     Profiler::EnableAssetCreationWarning(false);
     game.getTurn();
 
-    if (game.startGame(840, 10)) {
-      canStart = true;
+    if (dispStartButton) {
+      if (game.startGame(840, 10)) {
+        canStart = true;
+        dispStartButton = false;
+      }
     }
 
     if (canStart) {
