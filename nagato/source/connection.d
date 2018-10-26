@@ -123,7 +123,7 @@ class NagatoSocket {
       setup();
       ret = "";
       do {
-        socket.send("GET turn\n");
+        socket.send("GET move\n");
         size = socket.receive(buf);
         ret ~= cast(string)buf;
       }
