@@ -21,6 +21,7 @@ const std::string turn = "POST turn";
 Game::Game() {
   turnNum = Font(20);
   pointSumLabel = Font(41);
+  turnLabel = Font(41);
   nowTurn = U"0";
   maxTurn = U"80";
   TurnFinish = Button(90, 60, 45, U"終");
@@ -60,8 +61,8 @@ void Game::update() {
 }
 
 void Game::draw() {
-  auto sa = getSolverAnswer();
-  field.drawField(sa.blue);
+  field.drawField(solverAnswer.blue);
+  getSolverAnswer();
   getTurnData();
 }
 
@@ -276,6 +277,10 @@ void Game::getTurn() {
 void Game::pointSum(int32 x, int32 y) {
   auto [blue, red] = field.countPoint();
   pointSumLabel(U"自{} vs {}相"_fmt(blue, red)).draw(x, y, Palette::Black);
+}
+
+void Game::dispTurn(int32 x, int32 y) {
+  turnLabel(U"現在のターン: {}"_fmt(nowTurn)).draw(x, y, Palette::Black);
 }
 
 }  // namespace kyon
