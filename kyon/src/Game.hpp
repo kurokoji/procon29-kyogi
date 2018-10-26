@@ -39,6 +39,7 @@ public:
   void draw();
   std::string getFieldData();
   SolverAnswer getSolverAnswer();
+  void getTurnData();
   void postMoveData();
   void postTurnData();
   bool startGame(int32 x, int32 y);
