@@ -33,7 +33,7 @@ Game::Game() {
   cmdGUI = CommandGUI(840, 400); 
 }
 
-void Game::getInformation() {
+bool Game::getInformation() {
   // haruhi(server)を動かさないでやるときはコメントアウトを外す
 /*
   std::string fieldData = "4 4\
@@ -54,7 +54,9 @@ void Game::getInformation() {
     is >> problemState;
     field.InitData(problemState);
     field.InitField();
+    return true;
   }
+  return false;
 }
 
 void Game::update() {
@@ -220,8 +222,7 @@ bool Game::startGame(int32 x, int32 y) {
   startButton.setPos(x, y);
   startButton.draw();
   if (startButton.isClick()) {
-    getInformation();
-    return true;
+    return getInformation();
   }
   return false;
 }
