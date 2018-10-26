@@ -37,7 +37,7 @@ public:
   CommandGUI cmdGUI;
 
   Game();
-  void getInformation();
+  bool getInformation();
   void update();
   void draw();
   std::string getFieldData();
