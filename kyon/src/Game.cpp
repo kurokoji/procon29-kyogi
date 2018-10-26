@@ -82,24 +82,6 @@ std::string Game::getFieldData() {
   return fieldData;
 }
 
-void Game::finishTurn(int32 x, int32 y) {
-  TurnFinish.setPos(x, y);
-  TurnFinish.draw();
-  if (TurnFinish.isClick()) {
-    //ここでharuhiにデータを送る
-  }
-}
-
-bool Game::startGame(int32 x, int32 y) {
-  startButton.setPos(x, y);
-  startButton.draw();
-  if (startButton.isClick()) {
-    getInformation();
-    return true;
-  }
-  return false;
-}
-
 SolverAnswer Game::getSolverAnswer() {
   namespace asio = boost::asio;
   using asio::ip::tcp;
@@ -148,6 +130,31 @@ void Game::postMoveData() {
     std::cerr << "send failed: " << err.message() << std::endl;
   } else {
     asio::write(socket, asio::buffer(send_message), err);
+  }
+}
+
+bool Game::startGame(int32 x, int32 y) {
+  startButton.setPos(x, y);
+  startButton.draw();
+  if (startButton.isClick()) {
+    getInformation();
+    return true;
+  }
+  return false;
+}
+
+void Game::finishTurn(int32 x, int32 y) {
+  TurnFinish.setPos(x, y);
+  TurnFinish.draw();
+  if (TurnFinish.isClick()) {
+    problemState.fieldColor = field.fColor;
+    problemState.blue = field.bluePos;
+    problemState.red = field.redPos;
+
+    //ここでharuhiにデータを送る
+    postMoveData();
+
+    // turnのデータをpostする
   }
 }
 
