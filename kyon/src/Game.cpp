@@ -178,6 +178,10 @@ void Game::getTurn() {
   inputTurn.drawOverlay();
   if (enterButton.isClick()) {
     turnTimes = inputTurn.getText();
+    Print << turnTimes;
+  } else if (KeyEnter.down()) {
+    turnTimes = inputTurn.getText();
+    Print << turnTimes;
   }
 }
 
