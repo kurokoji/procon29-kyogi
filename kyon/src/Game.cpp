@@ -31,9 +31,6 @@ Game::Game() {
 }
 
 void Game::getInformation() {
-  // getFieldData() でharuhi(server)に取りにいく
-  std::string fieldData = getFieldData();
-
   // haruhi(server)を動かさないでやるときはコメントアウトを外す
 /*
   std::string fieldData = "4 4\
@@ -47,12 +44,14 @@ void Game::getInformation() {
                            2 1";
 */
 
-  std::cout << fieldData << std::endl;
-  std::istringstream iss(fieldData);
-  std::istream is(iss.rdbuf());
-  is >> problemState;
-  field.InitData(problemState);
-  field.InitField();
+  std::string str_fieldData = getFieldData();
+  if (str_fieldData != "") {
+    std::istringstream iss(str_fieldData);
+    std::istream is(iss.rdbuf());
+    is >> problemState;
+    field.InitData(problemState);
+    field.InitField();
+  }
 }
 
 void Game::update() {
@@ -85,9 +84,14 @@ std::string Game::getFieldData() {
   } while (sz != 0);
   socket.shutdown(boost::asio::ip::tcp::socket::shutdown_both, err);
 
+  if (ret.substr(0, 2) == "NG") {
+    return "";
+  }
+
   std::string fieldData = "";
   if (err && err != asio::error::eof) {
     std::cerr << "receive failed: " << err.message() << std::endl;
+    return "";
   } else {
     fieldData = ret;
   }
