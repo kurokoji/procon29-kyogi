@@ -200,7 +200,7 @@ void Game::postTurnData() {
   boost::system::error_code err;
 
   socket.connect(tcp::endpoint(asio::ip::address::from_string(kyon::tcp::IP_ADDRESS), kyon::tcp::PORT));
-  asio::write(socket, asio::buffer(send_message), err);
+  asio::write(socket, asio::buffer(kyon::tcp::POST::turn + "\n"), err);
 
   if (err && err != asio::error::eof) {
     std::cerr << "[POST turn send failed] " << err.message() << std::endl;
