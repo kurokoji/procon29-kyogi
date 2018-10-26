@@ -22,15 +22,13 @@ private:
   std::array<int32, 9> dy = {0, 0, -1, -1, -1, 0, 1, 1, 1};
   std::array<int32, 9> dx = {0, -1, -1, 0, 1, 1, 1, 0, -1};
   Array<Array<int32>> fieldPoints;
-  Array<Array<FieldSquare>> squares;
 public:
   int solverAnswer[2];
+  Array<Array<FieldSquare>> squares, prev;
   std::array<std::pair<size_t, size_t>, 2> bluePos, redPos;
   Array<Array<int32>> fColor;
 
   Field();
-  bool b1Move[8];
-  bool b2Move[8];
   void InitData(ProblemState);
   String convStr(int32);
   void InitField();
