@@ -108,7 +108,7 @@ class NagatoSocket {
 
     string res;
     res ~= format("%s %s\n", s.nowTurn, s.maxTurn);
-    socket.send("POST turn");
+    socket.send("POST turn\n");
     socket.send(res);
     socket.shutdown(SocketShutdown.BOTH);
     socket.close;
