@@ -1,7 +1,7 @@
 #include "Game.hpp"
 
 namespace kyon {
-
+extern bool colorRev;
 namespace tcp {
 const std::string IP_ADDRESS = "127.0.0.1";
 const unsigned short PORT = 20000;
@@ -22,6 +22,7 @@ Game::Game() {
   TurnFinish = Button(90, 60, 45, U"終");
   startButton = Button(90, 60, 45 ,U"始");
   undoButton = Button(90, 60, 45, U"戻");
+  toggleColorButton = Button(90, 30, 23, U"青チーム");
   enterButton = Button(90, 30, 23, U"Enter");
   inputTurn = TextBox(turnNum, Vec2(940, 10), 200);
 }
@@ -174,6 +175,15 @@ void Game::undo(int32 x ,int32 y) {
     Print << U"hoge";
     //ここにundo動作を書く
   }
+}
+
+void Game::toggleColor(int32 x, int32 y) {
+  if (toggleColorButton.isClick()) {
+    colorRev = !colorRev;
+    toggleColorButton.rectStr = toggleColorButton.rectStr == U"青チーム" ? U"赤チーム" : U"青チーム";
+  }
+  toggleColorButton.setPos(x, y);
+  toggleColorButton.draw();
 }
 
 void Game::getTurn() {
