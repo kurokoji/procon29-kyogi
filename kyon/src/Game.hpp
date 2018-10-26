@@ -29,6 +29,7 @@ public:
   Button toggleColorButton;
   Font turnNum;
   Font pointSumLabel;
+  Font turnLabel;
   TextBox inputTurn;
   String nowTurn;
   String maxTurn;
@@ -47,6 +48,7 @@ public:
   void undo(int32 x, int32 y);
   void toggleColor(int32 x, int32 y);
   void pointSum(int32 x, int32 y);
+  void dispTurn(int32 x, int32 y);
   void getTurn();
 };
 
