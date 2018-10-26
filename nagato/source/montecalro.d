@@ -24,13 +24,15 @@ struct Node {
   uint nowTurn;
   Color playerColor;
   bool isMoveToVisited;
+  bool isPeel;
 
-  this(ref State s, Node* pN, uint nt, Color c, bool v = false) {
+  this(ref State s, Node* pN, uint nt, Color c, bool v = false, bool p = false) {
     st = s;
     parentNode = pN;
     nowTurn = nt;
     playerColor = c;
     isMoveToVisited = v;
+    isPeel = p;
   }
 
   import nagato.color : Color;
@@ -76,6 +78,7 @@ struct Node {
             if (fieldState.getColor(o.y, o.x) == invColor) {
               fieldState.changeColor(o.y, o.x, Color.none);
               o.backTrans(c);
+              isPeel = true;
             } else {
               if (fieldState.getColor(o.y, o.x) == playerColor) nextMoveToVisited = true;
               fieldState.changeColor(o.y, o.x, playerColor);
@@ -91,7 +94,7 @@ struct Node {
           }
         }
         if (nextState.isValidState()) {
-          ret ~= new Node(nextState, &this, nowTurn + 1, invColor, nextMoveToVisited);
+          ret ~= new Node(nextState, &this, nowTurn + 1, invColor, nextMoveToVisited, isPeel);
           untriedNodes ~= ret.back;
         }
       }
@@ -206,16 +209,16 @@ class PrimitiveMonteCalroTreeSearch {
 
   Node* rootNode;
   Node*[] childNodes;
-  uint playoutN, maxTurn, nowTurn;
+  uint secs, maxTurn, nowTurn;
   State state;
   Color playerColor;
 
-  this(ref State s, uint tries, uint nowTurn, uint turn, Color c) {
+  this(ref State s, uint secs, uint nowTurn, uint turn, Color c) {
     rootNode = new Node(s, null, nowTurn, c);
     playerColor = c;
     childNodes = rootNode.makeCandidates();
     state = s;
-    this.playoutN = tries;
+    this.secs = secs;
     this.nowTurn = nowTurn;
     maxTurn = turn;
   }
@@ -226,12 +229,14 @@ class PrimitiveMonteCalroTreeSearch {
     import std.array;
     import std.range : iota;
     import std.stdio : writefln, writeln;
+    import core.time : seconds;
+    import std.datetime : SysTime, Clock;
 
     debug writefln("Start... %s", childNodes.length);
     debug writefln("Now Turn... %s", nowTurn);
+    auto st = Clock.currTime;
     foreach (index, e; childNodes) {
-      auto arr = iota(0, playoutN);
-      foreach (i; parallel(arr)) {
+      while (st - Clock.currTime < secs.seconds) {
         auto res = e.playout(maxTurn);
         res.propagate(judge(res.st) == playerColor);
       }
@@ -250,8 +255,8 @@ class NeoMonteCalroTreeSearch : PrimitiveMonteCalroTreeSearch {
   import nagato.color : Color;
 
   double cUCB;
-  this(ref State s, uint tries, uint nowTurn, uint maxTurn, Color c, double ucb = 1) {
-    super(s, tries, nowTurn, maxTurn, c);
+  this(ref State s, uint secs, uint nowTurn, uint maxTurn, Color c, double ucb = 1) {
+    super(s, secs, nowTurn, maxTurn, c);
     cUCB = ucb;
   }
 
@@ -265,8 +270,8 @@ class NeoMonteCalroTreeSearch : PrimitiveMonteCalroTreeSearch {
 
     // TODO: パラメータの調整が必要
     return cn[cn.map!(
-        x => cast(double)x.winCount / cast(double)x.visitCount + cUCB * sqrt(
-        log(tv) / cast(double)x.visitCount)).maxIndex];
+        x => (cast(double)x.winCount / cast(double)x.visitCount + cUCB * sqrt(
+        log(tv) / cast(double)x.visitCount) + (x.isMoveToVisited ? -2 : x.isPeel ? 5 : 0))).maxIndex];
   }
 
   // まだ調べてない子ノードから選択する
@@ -289,14 +294,18 @@ class NeoMonteCalroTreeSearch : PrimitiveMonteCalroTreeSearch {
     import std.algorithm : maxElement, map;
     import std.range : iota;
     import core.sync.mutex, core.thread : ThreadGroup;
+    import std.datetime : SysTime, Clock;
+    import core.time : seconds;
 
     debug writefln("Start... %s", childNodes.length);
     debug writefln("Now Turn... %s", nowTurn);
 
     auto mut = new Mutex;
+    auto st = Clock.currTime;
 
     // TODO: プレイアウトの高速化
     version (OSX) {
+      /*
       foreach (i; parallel(playoutN.iota)) {
         Node* node = rootNode;
 
@@ -312,8 +321,23 @@ class NeoMonteCalroTreeSearch : PrimitiveMonteCalroTreeSearch {
           res.propagate(judge(res.st) == playerColor);
         }
       }
+      */
+
+      while (Clock.currTime - st < secs.seconds) {
+        Node* node = rootNode;
+
+        // 次の手に関してすべて調べていた場合，有利な手に関して木を成長させる
+        while (node.untriedNodes.length == 0 && node.childNodes.length != 0)
+          node = selectChild(node);
+
+        if (node.untriedNodes.length != 0)
+          node = expandChild(node);
+
+        auto res = node.playout(maxTurn);
+        res.propagate(judge(res.st) == playerColor);
+      }
     } else {
-      foreach (i; playoutN.iota) {
+      while (Clock.currTime - st < secs.seconds) {
         Node* node = rootNode;
 
         // 次の手に関してすべて調べていた場合，有利な手に関して木を成長させる
@@ -328,12 +352,12 @@ class NeoMonteCalroTreeSearch : PrimitiveMonteCalroTreeSearch {
       }
     }
 
-    debug writeln(rootNode.childNodes.map!"cast(double)a.winCount / cast(double)a.visitCount");
+    writeln(rootNode.childNodes.map!"cast(double)a.winCount / cast(double)a.visitCount");
     debug writeln(
         rootNode.childNodes.map!"cast(double)a.winCount / cast(double)a.visitCount".maxElement);
     // 勝率よりも最もプレイアウト回数が高い手のほうが安定性がある
-    return rootNode.childNodes.maxElement!(a => a.visitCount * (a.isMoveToVisited ? 0.82 : 1.0)).st;
-    //return rootNode.childNodes.maxElement!("a.visitCount").st;
+    //return rootNode.childNodes.maxElement!(a => a.visitCount * (a.isMoveToVisited ? 0.6 : a.isPeel ? 1.4 : 1.0)).st;
+    return rootNode.childNodes.maxElement!("a.visitCount").st;
     //return rootNode.childNodes.maxElement!("cast(double)a.winCount / cast(double)a.visitCount").st;
   }
 }
