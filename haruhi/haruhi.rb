@@ -28,80 +28,80 @@ def main()
     client = server.accept
 
     # 文字列取得
-    while res = client.gets
-      logger.info('Protocol >> ' + res)
+    res = client.gets
+    logger.info('Protocol >> ' + res)
 
-      # 問題のPOST要求(mikuru -> haruhi)
-      if res.chomp == Protocol::POST::Problem
-        problem_str = ''
-        while buf = client.gets
-          problem_str << buf
-        end
-        # 問題データの表示
-        logger.info('Problem Data >> ' + problem_str)
+    # 問題のPOST要求(mikuru -> haruhi)
+    if res.chomp == Protocol::POST::Problem
+      problem_str = ''
+      while buf = client.gets
+        problem_str << buf
       end
+      # 問題データの表示
+      logger.info('Problem Data >> ' + problem_str)
+    end
 
-      # 問題のGET要求(haruhi -> nagato, kyon)
-      if res.chomp == Protocol::GET::Problem
-        if problem_str != ''
-          client.puts(problem_str)
-        else
-          client.puts('NG')
-        end
+    # 問題のGET要求(haruhi -> nagato, kyon)
+    if res.chomp == Protocol::GET::Problem
+      if problem_str != ''
+        client.puts(problem_str)
+      else
+        client.puts('NG')
       end
+      
+    end
 
-      # 答えのPOST要求(nagato -> haruhi)
-      if res.chomp == Protocol::POST::Answer
+    # 答えのPOST要求(nagato -> haruhi)
+    if res.chomp == Protocol::POST::Answer
+      answer_str = ''
+      while buf = client.gets
+        answer_str << buf
+      end
+      # 答えデータの表示
+      logger.info('Answer Data >> ' + answer_str)
+    end
+
+    # 答えのGET要求(haruhi -> kyon)
+    if res.chomp == Protocol::GET::Answer
+      if answer_str != ''
+        client.puts(answer_str)
         answer_str = ''
-        while buf = client.gets
-          answer_str << buf
-        end
-        # 答えデータの表示
-        logger.info('Answer Data >> ' + answer_str)
+      else
+        client.puts('NG')
       end
+    end
 
-      # 答えのGET要求(haruhi -> kyon)
-      if res.chomp == Protocol::GET::Answer
-        if answer_str != ''
-          client.puts(answer_str)
-          answer_str = ''
-        else
-          client.puts('NG')
-        end
+    # moveのPOST要求(kyon -> haruhi)
+    if res.chomp == Protocol::POST::Move
+      move_str = ''
+      while buf = client.gets
+        move_str << buf
       end
+    end
 
-      # moveのPOST要求(kyon -> haruhi)
-      if res.chomp == Protocol::POST::Move
+    # moveのGET要求(haruhi -> nagato)
+    if res.chomp == Protocol::GET::Move
+      if move_str != ''
+        client.puts(move_str)
         move_str = ''
-        while buf = client.gets
-          move_str << buf
-        end
+      else
+        client.puts('NG')
       end
+    end
 
-      # moveのGET要求(haruhi -> nagato)
-      if res.chomp == Protocol::GET::Move
-        if move_str != ''
-          client.puts(move_str)
-          move_str = ''
-        else
-          client.puts('NG')
-        end
+    if res.chomp == Protocol::POST::Turn
+      turn_str = ''
+      while buf = client.gets
+        turn_str << buf
       end
+    end
 
-      if res.chomp == Protocol::POST::Turn
+    if res.chomp == Protocol::GET::Turn
+      if turn_str != ''
+        client.puts(turn_str)
         turn_str = ''
-        while buf = client.gets
-          turn_str << buf
-        end
-      end
-
-      if res.chomp == Protocol::GET::Turn
-        if turn_str != ''
-          client.puts(turn_str)
-          turn_str = ''
-        else
-          client.puts('NG')
-        end
+      else
+        client.puts('NG')
       end
     end
 
