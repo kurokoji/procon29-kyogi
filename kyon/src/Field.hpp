@@ -27,6 +27,8 @@ public:
   Array<Array<FieldSquare>> squares, prev;
   std::array<std::pair<size_t, size_t>, 2> bluePos, redPos;
   Array<Array<int32>> fColor;
+  bool b1DispArrow;
+  bool b2DispArrow;
 
   Field();
   void InitData(ProblemState);
