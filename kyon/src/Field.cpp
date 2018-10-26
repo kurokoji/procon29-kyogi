@@ -221,4 +221,70 @@ std::string Field::to_string() {
 
   return ret;
 }
+
+std::pair<int32, int32> Field::countPoint() {
+  int32 blue = 0, red = 0;
+
+  for (int32 i : step(H)) {
+    for (int32 j : step(W)) {
+      const int32 c = fColor[i][j];
+      const int32 score = fieldPoints[i][j];
+      if (c == 1) {
+        blue += score;
+      } else if (c == 2) {
+        red += score;
+      }
+    }
+  }
+
+  auto countAreaPoint = [&](int32 c) {
+    const int32 dy[] = {0, 1, 0, -1};
+    const int32 dx[] = {1, 0, -1, 0};
+    Array<Array<bool>> visited(H, Array<bool>(W));
+    int32 ret = 0;
+
+    for (int32 i : step(H)) {
+      for (int32 j : step(W)) {
+        if (visited[i][j]) continue;
+        if (c == 1 && fColor[i][j] == 1) continue;
+        if (c == 2 && fColor[i][j] == 2) continue;
+
+        std::stack<std::pair<int32, int32>> stc;
+        stc.emplace(i, j);
+        visited[i][j] = true;
+
+        int32 sum = 0;
+        bool outSide = false;
+        while (!stc.empty()) {
+          const int32 y = stc.top().first;
+          const int32 x = stc.top().second;
+          stc.pop();
+          for (int32 k : step(4)) {
+            const int32 ny = y + dy[k];
+            const int32 nx = x + dx[k];
+            if (!(0 <= ny && ny < H && 0 <= nx && nx < W)) {
+              outSide = true;
+              continue;
+            }
+
+            if (visited[ny][nx]) continue;
+            if (c == 1 && fColor[ny][nx] == 1) continue;
+            if (c == 2 && fColor[ny][nx] == 2) continue;
+
+            visited[ny][nx] = true;
+            stc.emplace(ny, nx);
+          }
+          sum += std::abs(fieldPoints[y][x]);
+        }
+        if (!outSide) ret += sum;
+      }
+    }
+    return ret;
+  };
+
+  blue += countAreaPoint(1);
+  red += countAreaPoint(2);
+
+  return std::make_pair(blue, red);
+}
 }
