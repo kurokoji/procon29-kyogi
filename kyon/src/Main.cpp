@@ -4,6 +4,7 @@
 
 void Main() {
   Window::Resize(1280, 780);
+  Graphics::SetBackground(ColorF(0.8, 0.9, 1.0));
 
   kyon::Game game;
 
@@ -22,5 +23,6 @@ void Main() {
     game.finishTurn(840, 100);
     game.undo(840, 200);
     game.toggleColor(840, 300);
+    game.pointSum(970, 100);
   }
 }
