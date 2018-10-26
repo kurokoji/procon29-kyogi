@@ -2,6 +2,7 @@
 
 
 namespace kyon {
+bool colorRev = false;
 FieldSquare::FieldSquare() {
   onAgent = 0;
   squareNum = U"None";
@@ -153,9 +154,11 @@ void FieldSquare::normalSquare() {
   if (whatColor == Color::None) {
     rect.draw(Palette::White);
   } else if (whatColor == Color::Red) {
-    rect.draw(Palette::Red);
+    if (colorRev) rect.draw(Palette::Blue);
+    else rect.draw(Palette::Red);
   } else if (whatColor == Color::Blue) {
-    rect.draw(Palette::Blue);
+    if (colorRev) rect.draw(Palette::Red);
+    else rect.draw(Palette::Blue);
   }
 }
 

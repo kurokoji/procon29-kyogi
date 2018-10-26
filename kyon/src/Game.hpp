@@ -24,6 +24,7 @@ public:
   Button startButton;
   Button undoButton;
   Button enterButton;
+  Button toggleColorButton;
   Font turnNum;
   TextBox inputTurn;
   String turnTimes;
@@ -38,6 +39,7 @@ public:
   bool startGame(int32 x, int32 y);
   void finishTurn(int32 x, int32 y);
   void undo(int32 x, int32 y);
+  void toggleColor(int32 x, int32 y);
   void getTurn();
 };
 
