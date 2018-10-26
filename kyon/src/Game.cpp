@@ -237,6 +237,9 @@ void Game::finishTurn(int32 x, int32 y) {
     postMoveData();
 
     // turnのデータをpostする
+
+    field.b1DispArrow = true;
+    field.b2DispArrow = true;
   }
 }
 
@@ -249,6 +252,8 @@ void Game::undo(int32 x ,int32 y) {
     field.fColor = problemState.fieldColor;
     field.bluePos = problemState.blue;
     field.redPos = problemState.red;
+    field.b1DispArrow = true;
+    field.b2DispArrow = true;
   }
 }
 
