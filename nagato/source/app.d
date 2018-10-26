@@ -27,8 +27,9 @@ void main() {
       string next = sc.getMove ~ sc.getTurn;
       st = State(next);
     }
+    i.writeln;
     import std.math : sqrt;
-    auto solver = new NeoMonteCalroTreeSearch(st, 1000, i * 2, st.maxTurn, Color.own, sqrt(2.0));
+    auto solver = new NeoMonteCalroTreeSearch(st, 2, i * 2, st.maxTurn, Color.own, sqrt(2.0));
     st = solver.solve;
 
     sc.postAnswer(st);
