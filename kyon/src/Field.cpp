@@ -53,6 +53,8 @@ void Field::InitField(){
   for (auto [i, j]: Indexed(redPos)){
     squares[j.first][j.second].onAgent = i + 3;
   }
+
+  prev = squares;
 }
 
 bool Field::isInside(const int32 y, const int32 x) {
