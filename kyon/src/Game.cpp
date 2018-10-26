@@ -20,7 +20,8 @@ const std::string turn = "POST turn";
 Game::Game() {
   turnNum = Font(20);
   pointSumLabel = Font(41);
-  maxTurn = U"";
+  nowTurn = U"0";
+  maxTurn = U"80";
   TurnFinish = Button(90, 60, 45, U"終");
   startButton = Button(90, 60, 45 ,U"始");
   undoButton = Button(90, 60, 45, U"戻");
