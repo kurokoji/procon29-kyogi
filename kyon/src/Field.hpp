@@ -36,6 +36,7 @@ public:
   void updateAgentPos();
   void drawField();
   std::string to_string();
+  std::pair<int32, int32> countPoint();
 };
 
 }
