@@ -13,6 +13,7 @@ const std::string answer = "GET answer";
 
 namespace POST {
 const std::string move = "POST move";
+const std::string turn = "POST turn";
 }  // namespace POST
 }  // namespace tcp
 
