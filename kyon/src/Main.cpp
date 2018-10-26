@@ -9,10 +9,8 @@ void Main() {
 
   bool canStart = false;
 
-
-  const Font font(50);
-
   while (System::Update()) {
+    game.getTurn();
 
     if (game.startGame(840, 10)) {
       canStart = true;
