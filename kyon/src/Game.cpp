@@ -60,8 +60,8 @@ void Game::update() {
 }
 
 void Game::draw() {
-  field.drawField();
-  getSolverAnswer();
+  auto sa = getSolverAnswer();
+  field.drawField(sa.blue);
   getTurnData();
 }
 
