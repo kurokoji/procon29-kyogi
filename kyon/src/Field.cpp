@@ -166,6 +166,16 @@ void Field::drawField() {
       squares[y][x].setPos(10 + (H - 1 - y) * squSize, 10 + x * squSize);
       squares[y][x].draw();
       squares[y][x].rect.drawFrame(1.0, 1.0, Palette::Gray);
+      if (squares[y][x].onAgent != 0) {
+        squares[y][x].rect.drawFrame();
+        if (squares[y][x].onAgent == 1) {
+          b1Direction(y, x);
+          squares[y][x].dispArrow(1, b1Move);
+        } else if (squares[y][x].onAgent == 2) {
+            b2Direction(y, x);
+            squares[y][x].dispArrow(4, b2Move);
+        }
+      }
 
       if (squares[y][x].isClick() && squares[y][x].onAgent != 0) {
         clicked = true;
@@ -288,4 +298,25 @@ std::pair<int32, int32> Field::countPoint() {
 
   return std::make_pair(blue, red);
 }
+
+void Field::b1Direction(int y, int x) {
+  for (int i = 1; i < 9; ++i) {
+    if (isInside(y + dy[i], x + dx[i]) && squares[y + dy[i]][x + dx[i]].onAgent == 0) {
+      b1Move[i - 1] = true;
+    } else {
+      b1Move[i - 1] = false;
+    }
+  }
+}
+
+void Field::b2Direction(int y, int x) {
+  for (int i = 1; i < 9; ++i) {
+    if (isInside(y + dy[i], x + dx[i]) && squares[y + dy[i]][x + dx[i]].onAgent == 0) {
+      b2Move[i - 1] = true;
+    } else {
+      b2Move[i - 1] = false;
+    }
+  }
+}
+
 }
