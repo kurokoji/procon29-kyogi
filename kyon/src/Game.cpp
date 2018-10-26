@@ -9,6 +9,7 @@ const unsigned short PORT = 20000;
 namespace GET {
 const std::string problem = "GET problem";
 const std::string answer = "GET answer";
+const std::string turn = "GET turn";
 }  // namespace GET
 
 namespace POST {
@@ -62,6 +63,7 @@ void Game::update() {
 void Game::draw() {
   field.drawField();
   getSolverAnswer();
+  getTurnData();
 }
 
 std::string Game::getFieldData() {
@@ -130,6 +132,41 @@ SolverAnswer Game::getSolverAnswer() {
   solverAnswer = answer;
 
   return answer;
+}
+
+void Game::getTurnData() {
+  namespace asio = boost::asio;
+  using asio::ip::tcp;
+
+  asio::io_service io_service;
+  tcp::socket socket(io_service);
+  boost::system::error_code err;
+
+  socket.connect(tcp::endpoint(asio::ip::address::from_string(kyon::tcp::IP_ADDRESS), kyon::tcp::PORT));
+  asio::write(socket, asio::buffer(kyon::tcp::GET::turn + "\n"), err);
+
+  std::string ret;
+
+  std::size_t sz = 0;
+  do {
+    asio::streambuf receive_buffer;
+    sz = asio::read_until(socket, receive_buffer, "\n", err);
+    ret += asio::buffer_cast<const char *>(receive_buffer.data());
+  } while (sz != 0);
+  socket.shutdown(boost::asio::ip::tcp::socket::shutdown_both, err);
+
+  if (ret.substr(0, 2) == "NG") {
+    return;
+  }
+
+  if (err && err != asio::error::eof) {
+    std::cerr << "receive failed: " << err.message() << std::endl;
+  } else {
+    std::istringstream iss(ret);
+    std::istream is(iss.rdbuf());
+
+    is >> nowTurn >> maxTurn;
+  }
 }
 
 void Game::postMoveData() {
