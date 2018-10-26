@@ -28,6 +28,8 @@ class NagatoSocket {
   }
 
   void setup() {
+    import core.thread;
+    Thread.sleep(300.msecs);
     socket = new Socket(AddressFamily.INET, SocketType.STREAM, ProtocolType.TCP);
     auto addresses = getAddress(ip, port);
     socket.connect(addresses[0]);
@@ -110,5 +112,31 @@ class NagatoSocket {
     socket.send(res);
     socket.shutdown(SocketShutdown.BOTH);
     socket.close;
+  }
+
+  string getMove() {
+    long size;
+    string ret;
+    ubyte[1024] buf;
+
+    do {
+      setup();
+      ret = "";
+      do {
+        socket.send("GET turn\n");
+        size = socket.receive(buf);
+        ret ~= cast(string)buf;
+      }
+      while (size == 0);
+      socket.shutdown(SocketShutdown.BOTH);
+      socket.close;
+    }
+    while (ret.indexOf("NG") != -1);
+
+    string fix;
+    for (int i = 0; ret[i] != '\0'; ++i) {
+      fix ~= ret[i];
+    }
+    return fix;
   }
 }
