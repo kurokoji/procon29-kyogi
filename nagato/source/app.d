@@ -13,7 +13,8 @@ import std.stdio;
 import nagato.montecalro,
        nagato.connection,
        nagato.color,
-       nagato.state;
+       nagato.state,
+       nagato.util;
 
 void main() {
   auto sc = new NagatoSocket("127.0.0.1", 20000);
@@ -32,5 +33,6 @@ void main() {
 
     sc.postAnswer(st);
     sc.postTurn(st);
+    st.visualize;
   }
 }
