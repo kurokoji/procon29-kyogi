@@ -13,6 +13,7 @@
 #include "Field.hpp"
 #include "ProblemState.hpp"
 #include "SolverAnswer.hpp"
+#include "CommandGUI.hpp"
 
 namespace kyon {
 
@@ -32,6 +33,7 @@ public:
   TextBox inputTurn;
   String nowTurn;
   String maxTurn;
+  CommandGUI cmdGUI;
 
   Game();
   void getInformation();

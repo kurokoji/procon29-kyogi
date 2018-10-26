@@ -6,6 +6,7 @@
 namespace kyon {
 class CommandGUI {
 public:
+    CommandGUI();
     CommandGUI(int32, int32); 
     void selectImg(int32, int32);
     void dispCmd(int32, int32);

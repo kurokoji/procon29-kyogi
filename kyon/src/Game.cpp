@@ -29,6 +29,7 @@ Game::Game() {
   toggleColorButton = Button(90, 30, 23, U"青チーム");
   enterButton = Button(90, 30, 23, U"Enter");
   inputTurn = TextBox(turnNum, Vec2(940, 10), 200);
+  cmdGUI = CommandGUI(840, 400); 
 }
 
 void Game::getInformation() {
@@ -62,6 +63,7 @@ void Game::update() {
 void Game::draw() {
   auto sa = getSolverAnswer();
   field.drawField(sa.blue);
+  cmdGUI.dispCmd(sa.blue[0], sa.blue[1]);
   getTurnData();
 }
 
