@@ -24,6 +24,7 @@ private:
   Array<Array<int32>> fieldPoints;
   Array<Array<FieldSquare>> squares;
 public:
+  int solverAnswer[2];
   std::array<std::pair<size_t, size_t>, 2> bluePos, redPos;
   Array<Array<int32>> fColor;
 
@@ -36,11 +37,9 @@ public:
   bool isInside(const int32, const int32);
   bool updateField(const int32, const int32);
   void updateAgentPos();
-  void drawField();
+  void drawField(Array<int> blue);
   std::string to_string();
   std::pair<int32, int32> countPoint();
-  void b1Direction(int y, int x);
-  void b2Direction(int y, int x);
 };
 
 }
