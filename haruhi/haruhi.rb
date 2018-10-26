@@ -99,7 +99,6 @@ def main()
     if res.chomp == Protocol::GET::Turn
       if turn_str != ''
         client.puts(turn_str)
-        turn_str = ''
       else
         client.puts('NG')
       end
