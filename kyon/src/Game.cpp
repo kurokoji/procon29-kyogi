@@ -31,6 +31,7 @@ Game::Game() {
   toggleColorButton = Button(90, 30, 23, U"青チーム");
   toggleLRButton = Button(90, 30, 23, U"右");
   enterButton = Button(90, 30, 23, U"Enter");
+  allMove = Button(90, 30, 23, U"青移動");
   inputTurn = TextBox(turnNum, Vec2(940, 10), 200);
   cmdGUI = CommandGUI(840, 400);
 }
@@ -312,6 +313,41 @@ void Game::pointSum(int32 x, int32 y) {
 
 void Game::dispTurn(int32 x, int32 y) {
   turnLabel(U"現在のターン: {}"_fmt(nowTurn)).draw(x, y, Palette::Black);
+}
+
+void Game::myTeamAllMove(int32 x, int32 y) {
+  int32 b1X = field.bluePos[0].second;
+  int32 b1Y = field.bluePos[0].first;
+  int32 b2X = field.bluePos[1].second;
+  int32 b2Y = field.bluePos[1].first;
+  std::array<int32, 9> dy = {0, 0, -1, -1, -1, 0, 1, 1, 1};
+  std::array<int32, 9> dx = {0, -1, -1, 0, 1, 1, 1, 0, -1};
+  allMove.setPos(x, y);
+  allMove.draw();
+
+  if (allMove.isClick()) {
+    if (field.squares[b1Y + dy[solverAnswer.blue[0]]][b1X + dx[solverAnswer.blue[0]]].whatColor == Color::None) {
+      field.squares[b1Y + dy[solverAnswer.blue[0]]][b1X + dx[solverAnswer.blue[0]]].whatColor = Color::Blue;
+      field.squares[b1Y + dy[solverAnswer.blue[0]]][b1X + dx[solverAnswer.blue[0]]].onAgent = field.squares[b1Y][b1X].onAgent;
+      field.squares[b1Y][b1X].onAgent = 0;
+    } else if (field.squares[b1Y + dy[solverAnswer.blue[0]]][b1X + dx[solverAnswer.blue[0]]].whatColor == Color::Blue) {
+      field.squares[b1Y + dy[solverAnswer.blue[0]]][b1X + dx[solverAnswer.blue[0]]].onAgent = field.squares[b1Y][b1X].onAgent;
+      field.squares[b1Y][b1X].onAgent = 0;
+    } else if (field.squares[b1Y + dy[solverAnswer.blue[0]]][b1X + dx[solverAnswer.blue[0]]].whatColor == Color::Red) {
+      field.squares[b1Y + dy[solverAnswer.blue[0]]][b1X + dx[solverAnswer.blue[0]]].whatColor = Color::None;
+    }
+
+    if (field.squares[b2Y + dy[solverAnswer.blue[1]]][b2X + dx[solverAnswer.blue[1]]].whatColor == Color::None) {
+      field.squares[b2Y + dy[solverAnswer.blue[1]]][b2X + dx[solverAnswer.blue[1]]].whatColor = Color::Blue;
+      field.squares[b2Y + dy[solverAnswer.blue[1]]][b2X + dx[solverAnswer.blue[1]]].onAgent = field.squares[b2Y][b2X].onAgent;
+      field.squares[b2Y][b2X].onAgent = 0;
+    } else if (field.squares[b2Y + dy[solverAnswer.blue[1]]][b2X + dx[solverAnswer.blue[1]]].whatColor == Color::Blue) {
+      field.squares[b2Y + dy[solverAnswer.blue[1]]][b2X + dx[solverAnswer.blue[1]]].onAgent = field.squares[b2Y][b2X].onAgent;
+      field.squares[b2Y][b2X].onAgent = 0;
+    } else if (field.squares[b2Y + dy[solverAnswer.blue[1]]][b2X + dx[solverAnswer.blue[1]]].whatColor == Color::Red) {
+      field.squares[b2Y + dy[solverAnswer.blue[1]]][b2X + dx[solverAnswer.blue[1]]].whatColor = Color::None;
+    }
+  }
 }
 
 } // namespace kyon
