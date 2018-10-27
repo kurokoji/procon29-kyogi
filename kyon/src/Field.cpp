@@ -163,10 +163,10 @@ void Field::updateAgentPos() {
 // H * W　マスの描画*
 void Field::drawField(Array<int> blue) {
   if (fieldRev) {
-    for (int y : step(H)) {
-      for (int x = W - 1; x >= 0; --x) {
+    for (int x = W - 1; x >= 0; --x) {
+      for (int y : step(H)) {
 
-        squares[y][x].setPos(10 + (H - 1 - y) * squSize, 10 + x * squSize);
+        squares[y][x].setPos(10 + y * squSize, 10 + (W - 1 - x) * squSize);
         squares[y][x].draw();
         squares[y][x].rect.drawFrame(1.0, 1.0, Palette::Gray);
 
