@@ -85,11 +85,11 @@ void CommandGUI::dispCmd(int32 b1, int32 b2) {
   String str1, str2;
 
   if (fieldRev) {
-    agent1 = Circle(x + 200, y + 40, 20);
-    agent2 = Triangle(x + 40, y + 40, 40);
-  } else {
     agent1 = Circle(x + 40, y + 40, 20);
     agent2 = Triangle(x + 200, y + 40, 40);
+  } else {
+    agent1 = Circle(x + 200, y + 40, 20);
+    agent2 = Triangle(x + 40, y + 40, 40);
   }
 
   str1 = Format(b1);
