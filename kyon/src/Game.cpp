@@ -10,13 +10,13 @@ namespace GET {
 const std::string problem = "GET problem";
 const std::string answer = "GET answer";
 const std::string turn = "GET turn";
-}  // namespace GET
+} // namespace GET
 
 namespace POST {
 const std::string move = "POST move";
 const std::string turn = "POST turn";
-}  // namespace POST
-}  // namespace tcp
+} // namespace POST
+} // namespace tcp
 
 Game::Game() {
   turnNum = Font(20);
@@ -25,27 +25,27 @@ Game::Game() {
   nowTurn = U"0";
   maxTurn = U"80";
   TurnFinish = Button(90, 60, 45, U"終");
-  startButton = Button(90, 60, 45 ,U"始");
+  startButton = Button(90, 60, 45, U"始");
   undoButton = Button(90, 60, 45, U"戻");
   toggleColorButton = Button(90, 30, 23, U"青チーム");
   enterButton = Button(90, 30, 23, U"Enter");
   inputTurn = TextBox(turnNum, Vec2(940, 10), 200);
-  cmdGUI = CommandGUI(840, 400); 
+  cmdGUI = CommandGUI(840, 400);
 }
 
 bool Game::getInformation() {
   // haruhi(server)を動かさないでやるときはコメントアウトを外す
-/*
-  std::string fieldData = "4 4\
-                           1 2 2 1\
-                           2 3 3 2\
-                           2 3 3 2\
-                           1 2 2 1\
-                           1 1\
-                           2 2\
-                           1 2\
-                           2 1";
-*/
+  /*
+    std::string fieldData = "4 4\
+                             1 2 2 1\
+                             2 3 3 2\
+                             2 3 3 2\
+                             1 2 2 1\
+                             1 1\
+                             2 2\
+                             1 2\
+                             2 1";
+  */
 
   std::string str_fieldData = getFieldData();
   if (str_fieldData != "") {
@@ -59,9 +59,7 @@ bool Game::getInformation() {
   return false;
 }
 
-void Game::update() {
-  ;
-}
+void Game::update() { ; }
 
 void Game::draw() {
   auto sa = getSolverAnswer();
@@ -78,7 +76,8 @@ std::string Game::getFieldData() {
   tcp::socket socket(io_service);
   boost::system::error_code err;
 
-  socket.connect(tcp::endpoint(asio::ip::address::from_string(kyon::tcp::IP_ADDRESS), kyon::tcp::PORT));
+  socket.connect(tcp::endpoint(
+      asio::ip::address::from_string(kyon::tcp::IP_ADDRESS), kyon::tcp::PORT));
   asio::write(socket, asio::buffer(kyon::tcp::GET::problem + "\n"), err);
 
   std::string ret;
@@ -114,7 +113,8 @@ SolverAnswer Game::getSolverAnswer() {
   tcp::socket socket(io_service);
   boost::system::error_code err;
 
-  socket.connect(tcp::endpoint(asio::ip::address::from_string(kyon::tcp::IP_ADDRESS), kyon::tcp::PORT));
+  socket.connect(tcp::endpoint(
+      asio::ip::address::from_string(kyon::tcp::IP_ADDRESS), kyon::tcp::PORT));
   asio::write(socket, asio::buffer(kyon::tcp::GET::answer + "\n"), err);
 
   asio::streambuf receive_buffer;
@@ -125,7 +125,8 @@ SolverAnswer Game::getSolverAnswer() {
   if (err && err != asio::error::eof) {
     std::cerr << "receive failed: " << err.message() << std::endl;
   } else {
-    moveDataString = std::string(asio::buffer_cast<const char *>(receive_buffer.data()));
+    moveDataString =
+        std::string(asio::buffer_cast<const char *>(receive_buffer.data()));
   }
 
   if (moveDataString.substr(0, 2) == "NG") {
@@ -151,7 +152,8 @@ void Game::getTurnData() {
   tcp::socket socket(io_service);
   boost::system::error_code err;
 
-  socket.connect(tcp::endpoint(asio::ip::address::from_string(kyon::tcp::IP_ADDRESS), kyon::tcp::PORT));
+  socket.connect(tcp::endpoint(
+      asio::ip::address::from_string(kyon::tcp::IP_ADDRESS), kyon::tcp::PORT));
   asio::write(socket, asio::buffer(kyon::tcp::GET::turn + "\n"), err);
 
   std::string ret;
@@ -188,7 +190,8 @@ void Game::postMoveData() {
   tcp::socket socket(io_service);
   boost::system::error_code err;
 
-  socket.connect(tcp::endpoint(asio::ip::address::from_string(kyon::tcp::IP_ADDRESS), kyon::tcp::PORT));
+  socket.connect(tcp::endpoint(
+      asio::ip::address::from_string(kyon::tcp::IP_ADDRESS), kyon::tcp::PORT));
   asio::write(socket, asio::buffer(kyon::tcp::POST::move + "\n"), err);
 
   if (err && err != asio::error::eof) {
@@ -208,7 +211,8 @@ void Game::postTurnData() {
   tcp::socket socket(io_service);
   boost::system::error_code err;
 
-  socket.connect(tcp::endpoint(asio::ip::address::from_string(kyon::tcp::IP_ADDRESS), kyon::tcp::PORT));
+  socket.connect(tcp::endpoint(
+      asio::ip::address::from_string(kyon::tcp::IP_ADDRESS), kyon::tcp::PORT));
   asio::write(socket, asio::buffer(kyon::tcp::POST::turn + "\n"), err);
 
   if (err && err != asio::error::eof) {
@@ -246,7 +250,7 @@ void Game::finishTurn(int32 x, int32 y) {
   }
 }
 
-void Game::undo(int32 x ,int32 y) {
+void Game::undo(int32 x, int32 y) {
   undoButton.setPos(x, y);
   undoButton.draw();
 
@@ -260,11 +264,11 @@ void Game::undo(int32 x ,int32 y) {
   }
 }
 
-
 void Game::toggleColor(int32 x, int32 y) {
   if (toggleColorButton.isClick()) {
     colorRev = !colorRev;
-    toggleColorButton.rectStr = toggleColorButton.rectStr == U"青チーム" ? U"赤チーム" : U"青チーム";
+    toggleColorButton.rectStr =
+        toggleColorButton.rectStr == U"青チーム" ? U"赤チーム" : U"青チーム";
   }
   toggleColorButton.setPos(x, y);
   toggleColorButton.draw();
@@ -292,4 +296,4 @@ void Game::dispTurn(int32 x, int32 y) {
   turnLabel(U"現在のターン: {}"_fmt(nowTurn)).draw(x, y, Palette::Black);
 }
 
-}  // namespace kyon
+} // namespace kyon

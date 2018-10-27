@@ -1,7 +1,6 @@
 #ifndef PROCON29_KYON_FIELD_HPP_
 #define PROCON29_KYON_FIELD_HPP_
 
-
 #include <Siv3D.hpp>
 #include "FieldSquare.hpp"
 #include "ProblemState.hpp"
@@ -22,6 +21,7 @@ private:
   std::array<int32, 9> dy = {0, 0, -1, -1, -1, 0, 1, 1, 1};
   std::array<int32, 9> dx = {0, -1, -1, 0, 1, 1, 1, 0, -1};
   Array<Array<int32>> fieldPoints;
+
 public:
   int solverAnswer[2];
   Array<Array<FieldSquare>> squares, prev;
@@ -42,6 +42,6 @@ public:
   std::pair<int32, int32> countPoint();
 };
 
-}
+} // namespace kyon
 
 #endif

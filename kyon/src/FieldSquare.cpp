@@ -1,6 +1,5 @@
 #include "FieldSquare.hpp"
 
-
 namespace kyon {
 bool colorRev = false;
 FieldSquare::FieldSquare() {
@@ -10,12 +9,13 @@ FieldSquare::FieldSquare() {
   canCancel = false;
   whatColor = Color::None;
   solverArrowPath = U"../../../image/ArrowImage/Yellow.png";
-  normalArrowPath = U"../../../image/ArrowImage/Gray.png"; solverArrow = Texture(solverArrowPath);
+  normalArrowPath = U"../../../image/ArrowImage/Gray.png";
+  solverArrow = Texture(solverArrowPath);
   normalArrow = Texture(normalArrowPath);
 }
 
 //座標設定
-FieldSquare& FieldSquare::setPos(uint32 x, uint32 y) {
+FieldSquare &FieldSquare::setPos(uint32 x, uint32 y) {
   pos = Vec2(x, y);
   rect.setPos(x, y);
   agent1Marker.setPos(x + 30, y + 30);
@@ -59,23 +59,31 @@ FieldSquare& FieldSquare::setPos(uint32 x, uint32 y) {
 }
 
 //マスを表示
-FieldSquare& FieldSquare::draw() {
+FieldSquare &FieldSquare::draw() {
   if (onAgent == 0) {
     normalSquare();
   } else {
     normalSquare();
     if (onAgent == 1) {
-      if (colorRev) agent1Marker.draw(Palette::Orange);
-      else agent1Marker.draw(Palette::Purple);
+      if (colorRev)
+        agent1Marker.draw(Palette::Orange);
+      else
+        agent1Marker.draw(Palette::Purple);
     } else if (onAgent == 2) {
-      if (colorRev) agent2Marker.draw(Palette::Orange);
-      else agent2Marker.draw(Palette::Purple);
+      if (colorRev)
+        agent2Marker.draw(Palette::Orange);
+      else
+        agent2Marker.draw(Palette::Purple);
     } else if (onAgent == 3) {
-      if (colorRev) agent1Marker.draw(Palette::Purple);
-      else agent1Marker.draw(Palette::Orange);
+      if (colorRev)
+        agent1Marker.draw(Palette::Purple);
+      else
+        agent1Marker.draw(Palette::Orange);
     } else if (onAgent == 4) {
-      if (colorRev) agent2Marker.draw(Palette::Purple);
-      else agent2Marker.draw(Palette::Orange);
+      if (colorRev)
+        agent2Marker.draw(Palette::Purple);
+      else
+        agent2Marker.draw(Palette::Orange);
     }
   }
   font(squareNum).draw(pos, Palette::Black);
@@ -84,101 +92,104 @@ FieldSquare& FieldSquare::draw() {
 }
 
 //マスをクリックしたときの挙動
-    int FieldSquare::update(const String whichAgent) {
-      if (whichAgent == U"r1") {
-//マスにアップデートがかかっているかの表示
-    //agent1Marker.draw(Palette::Green);
-        if (whatColor == Color::None) {
-          if (rect.leftClicked()) {
-            whatColor = Color::Red;
-            onAgent = 3;
-            return 2;
-          }
-        } else if (whatColor == Color::Red) {
-          if (rect.leftClicked()) {
-            onAgent = 3;
-            return 2;
-          }
-        } else if (whatColor == Color::Blue) {
-          if (rect.leftClicked()) {
-            whatColor = Color::None;
-            return 1;
-          }
-        }
-      } else if (whichAgent == U"r2") {
-//マスにアップデートがかかっているかの表示
-    //agent2Marker.draw(Palette::Green);
-        if (whatColor == Color::None) {
-          if (rect.leftClicked()) {
-            whatColor = Color::Red;
-            onAgent = 4;
-            return 2;
-          }
-        } else if (whatColor == Color::Red) {
-          if (rect.leftClicked()) {
-            onAgent = 4;
-            return 2;
-          }
-        } else if (whatColor == Color::Blue) {
-          if (rect.leftClicked()) {
-            whatColor = Color::None;
-            return 1;
-          }
-        }
-      } else if (whichAgent == U"b1") {
-//マスにアップデートがかかっているかの表示
-    //agent1Marker.draw(Palette::Yellow);
-        if(whatColor == Color::None) {
-          if (rect.leftClicked()) {
-            whatColor = Color::Blue;
-            onAgent = 1;
-            return 2;
-          }
-        } else if (whatColor == Color::Red) {
-          if (rect.leftClicked()) {
-            whatColor = Color::None;
-            return 1;
-          }
-        } else if (whatColor == Color::Blue) {
-          if (rect.leftClicked()) {
-            onAgent = 1;
-            return 2;
-          }
-        }
-      } else if (whichAgent == U"b2") {
-//マスにアップデートがかかっているかの表示
-    //agent2Marker.draw(Palette::Yellow);
-        if(whatColor == Color::None) {
-          if (rect.leftClicked()) {
-            whatColor = Color::Blue;
-            onAgent = 2;
-            return 2;
-          }
-        } else if (whatColor == Color::Red) {
-          if (rect.leftClicked()) {
-            whatColor = Color::None;
-            return 1;
-          }
-        } else if (whatColor == Color::Blue) {
-          if (rect.leftClicked()) {
-            onAgent = 2;
-            return 2;
-          }
-        }
-
+int FieldSquare::update(const String whichAgent) {
+  if (whichAgent == U"r1") {
+    //マスにアップデートがかかっているかの表示
+    // agent1Marker.draw(Palette::Green);
+    if (whatColor == Color::None) {
+      if (rect.leftClicked()) {
+        whatColor = Color::Red;
+        onAgent = 3;
+        return 2;
       }
-      return 0;
+    } else if (whatColor == Color::Red) {
+      if (rect.leftClicked()) {
+        onAgent = 3;
+        return 2;
+      }
+    } else if (whatColor == Color::Blue) {
+      if (rect.leftClicked()) {
+        whatColor = Color::None;
+        return 1;
+      }
     }
-//whatColorに合わせてマスの色を描画
+  } else if (whichAgent == U"r2") {
+    //マスにアップデートがかかっているかの表示
+    // agent2Marker.draw(Palette::Green);
+    if (whatColor == Color::None) {
+      if (rect.leftClicked()) {
+        whatColor = Color::Red;
+        onAgent = 4;
+        return 2;
+      }
+    } else if (whatColor == Color::Red) {
+      if (rect.leftClicked()) {
+        onAgent = 4;
+        return 2;
+      }
+    } else if (whatColor == Color::Blue) {
+      if (rect.leftClicked()) {
+        whatColor = Color::None;
+        return 1;
+      }
+    }
+  } else if (whichAgent == U"b1") {
+    //マスにアップデートがかかっているかの表示
+    // agent1Marker.draw(Palette::Yellow);
+    if (whatColor == Color::None) {
+      if (rect.leftClicked()) {
+        whatColor = Color::Blue;
+        onAgent = 1;
+        return 2;
+      }
+    } else if (whatColor == Color::Red) {
+      if (rect.leftClicked()) {
+        whatColor = Color::None;
+        return 1;
+      }
+    } else if (whatColor == Color::Blue) {
+      if (rect.leftClicked()) {
+        onAgent = 1;
+        return 2;
+      }
+    }
+  } else if (whichAgent == U"b2") {
+    //マスにアップデートがかかっているかの表示
+    // agent2Marker.draw(Palette::Yellow);
+    if (whatColor == Color::None) {
+      if (rect.leftClicked()) {
+        whatColor = Color::Blue;
+        onAgent = 2;
+        return 2;
+      }
+    } else if (whatColor == Color::Red) {
+      if (rect.leftClicked()) {
+        whatColor = Color::None;
+        return 1;
+      }
+    } else if (whatColor == Color::Blue) {
+      if (rect.leftClicked()) {
+        onAgent = 2;
+        return 2;
+      }
+    }
+  }
+  return 0;
+}
+// whatColorに合わせてマスの色を描画
 void FieldSquare::normalSquare() {
   if (whatColor == Color::None) {
     rect.draw(Palette::White);
   } else if (whatColor == Color::Red) {
-    if (colorRev) rect.draw(Palette::Blue);
-    else rect.draw(Palette::Red);
+    if (colorRev)
+      rect.draw(Palette::Blue);
+    else
+      rect.draw(Palette::Red);
   } else if (whatColor == Color::Blue) {
-    if (colorRev) rect.draw(Palette::Red);
-    else rect.draw(Palette::Blue);
+    if (colorRev)
+      rect.draw(Palette::Red);
+    else
+      rect.draw(Palette::Blue);
   }
 }
 
@@ -186,10 +197,14 @@ void FieldSquare::dispArrow(int32 solverDirection, bool canMove[]) {
   int32 arrowRadians = 90;
   for (auto i : step(8)) {
     if (canMove[i] && i != solverDirection - 1) {
-      normalArrow.scaled(0.02).rotated(Radians(arrowRadians)).draw(arrowX[i], arrowY[i]);
+      normalArrow.scaled(0.02)
+          .rotated(Radians(arrowRadians))
+          .draw(arrowX[i], arrowY[i]);
       arrowRadians += 45;
     } else if (canMove[i] && i == solverDirection - 1) {
-      solverArrow.scaled(0.02).rotated(Radians(arrowRadians)).draw(arrowX[i], arrowY[i]);
+      solverArrow.scaled(0.02)
+          .rotated(Radians(arrowRadians))
+          .draw(arrowX[i], arrowY[i]);
       arrowRadians += 45;
     } else {
       arrowRadians += 45;
@@ -197,5 +212,4 @@ void FieldSquare::dispArrow(int32 solverDirection, bool canMove[]) {
   }
 }
 
-}
-
+} // namespace kyon

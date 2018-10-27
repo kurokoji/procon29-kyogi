@@ -54,6 +54,6 @@ public:
   void getTurn();
 };
 
-}  // namespace kyon
+} // namespace kyon
 
 #endif
