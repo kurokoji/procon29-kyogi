@@ -80,7 +80,8 @@ struct Node {
               o.backTrans(c);
               isPeel = true;
             } else {
-              if (fieldState.getColor(o.y, o.x) == playerColor) nextMoveToVisited = true;
+              if (fieldState.getColor(o.y, o.x) == playerColor)
+                nextMoveToVisited = true;
               fieldState.changeColor(o.y, o.x, playerColor);
             }
           }
@@ -149,7 +150,8 @@ struct Node {
           }
         }
       }
-    } while (!nextState.isValidState());
+    }
+    while (!nextState.isValidState());
 
     return new Node(nextState, &this, nowTurn + 2, playerColor);
   }
@@ -186,7 +188,8 @@ struct Node {
           }
         }
       }
-    } while (!nextState.isValidState());
+    }
+    while (!nextState.isValidState());
 
     return new Node(nextState, &this, nowTurn + 1, invColor);
   }
@@ -269,9 +272,9 @@ class NeoMonteCalroTreeSearch : PrimitiveMonteCalroTreeSearch {
     auto cn = rootNode.childNodes;
 
     // TODO: パラメータの調整が必要
-    return cn[cn.map!(
-        x => (cast(double)x.winCount / cast(double)x.visitCount + cUCB * sqrt(
-        log(tv) / cast(double)x.visitCount) + (x.isMoveToVisited ? -2 : x.isPeel ? 5 : 0))).maxIndex];
+    return cn[cn.map!(x => (cast(double)x.winCount / cast(
+        double)x.visitCount + cUCB * sqrt(log(tv) / cast(double)x.visitCount) + (x.isMoveToVisited
+        ? -2 : x.isPeel ? 10 : 0))).maxIndex];
   }
 
   // まだ調べてない子ノードから選択する
@@ -337,22 +340,26 @@ class NeoMonteCalroTreeSearch : PrimitiveMonteCalroTreeSearch {
         res.propagate(judge(res.st) == playerColor);
       }
     } else {
-      while (Clock.currTime - st < secs.seconds) {
+      loop: while (Clock.currTime - st < secs.seconds) {
         Node* node = rootNode;
 
         // 次の手に関してすべて調べていた場合，有利な手に関して木を成長させる
-        while (node.untriedNodes.length == 0 && node.childNodes.length != 0)
+        while (node.untriedNodes.length == 0 && node.childNodes.length != 0) {
+          if (Clock.currTime - st >= secs.seconds) break loop;
           node = selectChild(node);
+        }
 
-        if (node.untriedNodes.length != 0)
+        if (node.untriedNodes.length != 0) {
+          if (Clock.currTime - st >= secs.seconds) break loop;
           node = expandChild(node);
+        }
 
         auto res = node.playout(maxTurn);
         res.propagate(judge(res.st) == playerColor);
       }
     }
 
-    writeln(rootNode.childNodes.map!"cast(double)a.winCount / cast(double)a.visitCount");
+    debug writeln(rootNode.childNodes.map!"cast(double)a.winCount / cast(double)a.visitCount");
     debug writeln(
         rootNode.childNodes.map!"cast(double)a.winCount / cast(double)a.visitCount".maxElement);
     // 勝率よりも最もプレイアウト回数が高い手のほうが安定性がある

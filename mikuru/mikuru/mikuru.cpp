@@ -59,6 +59,7 @@ int main(int argc, char* argv[]) {
   ss >> problem;
 
   ss << problem;
+  std::cout << ss.str() << std::endl;
 
   // TCP通信(送信)
 

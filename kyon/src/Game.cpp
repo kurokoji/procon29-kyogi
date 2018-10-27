@@ -119,20 +119,24 @@ SolverAnswer Game::getSolverAnswer() {
       asio::ip::address::from_string(kyon::tcp::IP_ADDRESS), kyon::tcp::PORT));
   asio::write(socket, asio::buffer(kyon::tcp::GET::answer + "\n"), err);
 
-  asio::streambuf receive_buffer;
-  asio::read_until(socket, receive_buffer, "\n", err);
+  std::string ret;
+  std::size_t sz = 0;
+  do {
+    asio::streambuf receive_buffer;
+    sz = asio::read_until(socket, receive_buffer, "\n", err);
+    ret += asio::buffer_cast<const char *>(receive_buffer.data());
+  } while (sz != 0);
   socket.shutdown(boost::asio::ip::tcp::socket::shutdown_both, err);
+  if (ret.substr(0, 2) == "NG") {
+    return solverAnswer;
+  }
 
   std::string moveDataString = "";
   if (err && err != asio::error::eof) {
     std::cerr << "receive failed: " << err.message() << std::endl;
-  } else {
-    moveDataString =
-        std::string(asio::buffer_cast<const char *>(receive_buffer.data()));
-  }
-
-  if (moveDataString.substr(0, 2) == "NG") {
     return solverAnswer;
+  } else {
+    moveDataString = ret;
   }
 
   std::istringstream iss(moveDataString);
@@ -140,9 +144,8 @@ SolverAnswer Game::getSolverAnswer() {
 
   SolverAnswer answer;
   is >> answer;
-
+  
   solverAnswer = answer;
-
   return answer;
 }
 

@@ -1,7 +1,10 @@
 #include "SolverAnswer.hpp"
 
 namespace kyon {
-SolverAnswer::SolverAnswer() {}
+SolverAnswer::SolverAnswer() {
+  blue = {0, 0};
+  red = {0, 0};
+}
 
 std::string SolverAnswer::to_string() {
   std::string str = "";
@@ -32,6 +35,8 @@ std::ostream &operator<<(std::ostream &os, const SolverAnswer &md) {
 }
 
 std::istream &operator>>(std::istream &is, SolverAnswer &md) {
+  md.blue.clear();
+  md.red.clear();
   for (int i = 0; i < 2; i++) {
     int32 tmp;
     is >> tmp;
