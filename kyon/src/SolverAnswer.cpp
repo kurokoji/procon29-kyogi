@@ -1,16 +1,19 @@
 #include "SolverAnswer.hpp"
 
 namespace kyon {
-SolverAnswer::SolverAnswer() {}
+SolverAnswer::SolverAnswer() {
+  blue = {0, 0};
+  red = {0, 0};
+}
 
 std::string SolverAnswer::to_string() {
   std::string str = "";
 
-  for (auto& e : blue) {
+  for (auto &e : blue) {
     str += Format(e).narrow() + "\n";
   }
 
-  for (auto& e : red) {
+  for (auto &e : red) {
     str += Format(e).narrow() + "\n";
   }
 
@@ -19,19 +22,21 @@ std::string SolverAnswer::to_string() {
   return str;
 }
 
-std::ostream& operator<<(std::ostream& os, const SolverAnswer& md) {
-  for (auto& e : md.blue) {
+std::ostream &operator<<(std::ostream &os, const SolverAnswer &md) {
+  for (auto &e : md.blue) {
     os << e << std::endl;
   }
 
-  for (auto& e : md.red) {
+  for (auto &e : md.red) {
     os << e << std::endl;
   }
 
   return os;
 }
 
-std::istream& operator>>(std::istream& is, SolverAnswer& md) {
+std::istream &operator>>(std::istream &is, SolverAnswer &md) {
+  md.blue.clear();
+  md.red.clear();
   for (int i = 0; i < 2; i++) {
     int32 tmp;
     is >> tmp;
@@ -46,4 +51,4 @@ std::istream& operator>>(std::istream& is, SolverAnswer& md) {
 
   return is;
 }
-}
+} // namespace kyon

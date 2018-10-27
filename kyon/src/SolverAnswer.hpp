@@ -13,9 +13,9 @@ struct SolverAnswer {
   SolverAnswer();
 
   std::string to_string();
-  friend std::ostream& operator<<(std::ostream&, const SolverAnswer&);
-  friend std::istream& operator>>(std::istream&, SolverAnswer&);
+  friend std::ostream &operator<<(std::ostream &, const SolverAnswer &);
+  friend std::istream &operator>>(std::istream &, SolverAnswer &);
 };
-}
+} // namespace kyon
 
 #endif

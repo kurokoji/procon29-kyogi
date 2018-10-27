@@ -22,18 +22,27 @@ void main() {
 
   State ini = State(s);
   State st = ini;
-  foreach (i; 0 .. ini.maxTurn) {
-    if (i != 0) {
+  foreach (i; 0 .. 80) {
+    if (i == 0) {
+      i.writeln;
+      import std.math : sqrt;
+      auto solver = new NeoMonteCalroTreeSearch(st, 6, st.nowTurn * 2, st.maxTurn, Color.own, sqrt(2.0));
+      st = solver.solve;
+
+      sc.postAnswer(st);
+      sc.postTurn(st);
+      st.visualize;
+    } else {
       string next = sc.getMove ~ sc.getTurn;
       st = State(next);
-    }
-    i.writeln;
-    import std.math : sqrt;
-    auto solver = new NeoMonteCalroTreeSearch(st, 2, i * 2, st.maxTurn, Color.own, sqrt(2.0));
-    st = solver.solve;
+      i.writeln;
+      import std.math : sqrt;
+      auto solver = new NeoMonteCalroTreeSearch(st, 1, st.nowTurn * 2, st.maxTurn, Color.own, sqrt(2.0));
+      st = solver.solve;
 
-    sc.postAnswer(st);
-    sc.postTurn(st);
-    st.visualize;
+      sc.postAnswer(st);
+      sc.postTurn(st);
+      st.visualize;
+    }
   }
 }

@@ -6,14 +6,15 @@
 namespace kyon {
 class CommandGUI {
 public:
-    CommandGUI();
-    CommandGUI(int32, int32); 
-    void selectImg(int32, int32);
-    void dispCmd(int32, int32);
+  CommandGUI();
+  CommandGUI(int32, int32);
+  void selectImg(int32, int32);
+  void dispCmd(int32, int32);
+
 private:
-    FilePath nemu, higashi;
-    int32 x, y;
+  FilePath nemu, higashi;
+  int32 x, y;
 };
-}
+} // namespace kyon
 
 #endif
