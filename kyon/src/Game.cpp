@@ -33,7 +33,7 @@ Game::Game() {
   enterButton = Button(90, 30, 23, U"Enter");
   allMove = Button(90, 30, 23, U"青移動");
   inputTurn = TextBox(turnNum, Vec2(940, 10), 200);
-  cmdGUI = CommandGUI(840, 400);
+  cmdGUI = CommandGUI(840, 450);
 }
 
 bool Game::getInformation() {
