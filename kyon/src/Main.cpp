@@ -1,6 +1,6 @@
 ﻿#include "Game.hpp"
 #include <HamFramework.hpp>
-#include <Siv3D.hpp>  // OpenSiv3D v0.2.6
+#include <Siv3D.hpp> // OpenSiv3D v0.2.6
 
 void Main() {
   Window::Resize(1280, 780);
@@ -31,6 +31,7 @@ void Main() {
     game.finishTurn(840, 100);
     game.undo(840, 200);
     game.toggleColor(840, 300);
+    game.toggleLR(840, 350);
     game.dispTurn(940, 300);
   }
 }

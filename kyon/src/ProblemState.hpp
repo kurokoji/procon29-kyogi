@@ -21,8 +21,8 @@ struct ProblemState {
 
   ProblemState();
 
-  friend std::ostream& operator<<(std::ostream&, const ProblemState&);
-  friend std::istream& operator>>(std::istream&, ProblemState&);
+  friend std::ostream &operator<<(std::ostream &, const ProblemState &);
+  friend std::istream &operator>>(std::istream &, ProblemState &);
 };
 } // namespace kyon
 

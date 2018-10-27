@@ -8,7 +8,7 @@ namespace kyon {
 class FieldSquare : public Button {
 public:
   //どのエージェントがマスにいるかの判断
-  int32 onAgent; //0はなし,1はb1,2はb2,3はr1,4はr2です
+  int32 onAgent; // 0はなし,1はb1,2はb2,3はr1,4はr2です
   //マスの点数
   String squareNum;
   //エージェントの有無を表す
@@ -28,17 +28,17 @@ public:
 
   FieldSquare();
   //座標設定
-  FieldSquare& setPos(uint32 x, uint32 y);
+  FieldSquare &setPos(uint32 x, uint32 y);
   //マスを表示
-  FieldSquare& draw();
+  FieldSquare &draw();
   //選択肢の非表示
-  //whatColorに合わせてマスの色を描画
+  // whatColorに合わせてマスの色を描画
   void normalSquare();
   //マスをクリックしたときの挙動
   int update(const String whichAgent);
   //行動できる場所へ矢印を表示する
   void dispArrow(int32 solverDirection, bool canMove[]);
 };
-}
+} // namespace kyon
 
 #endif

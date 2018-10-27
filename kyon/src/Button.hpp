@@ -16,14 +16,14 @@ struct Button {
   Button(uint32 h, uint32 w, uint32 fontSize, String str);
 
   //座標設定
-  Button& setPos(uint32 x, uint32 y);
+  Button &setPos(uint32 x, uint32 y);
   //マスの描画
-  Button& draw(const String& str);
-  Button& draw();
+  Button &draw(const String &str);
+  Button &draw();
   //クリックした際の挙動
   void update();
   bool isClick();
 };
-}
+} // namespace kyon
 
 #endif
