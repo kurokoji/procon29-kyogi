@@ -2,6 +2,7 @@
 
 namespace kyon {
 bool colorRev = false;
+extern bool fieldRev;
 FieldSquare::FieldSquare() {
   onAgent = 0;
   squareNum = U"None";
@@ -21,22 +22,42 @@ FieldSquare &FieldSquare::setPos(uint32 x, uint32 y) {
   agent1Marker.setPos(x + 30, y + 30);
   agent2Marker = Triangle(x + 30, y + 33, 20, 0_deg);
 
-  arrowX[0] = x + 25;
-  arrowY[0] = y;
-  arrowX[1] = x + 49;
-  arrowY[1] = y;
-  arrowX[2] = x + 49;
-  arrowY[2] = y + 25;
-  arrowX[3] = x + 49;
-  arrowY[3] = y + 49;
-  arrowX[4] = x + 25;
-  arrowY[4] = y + 49;
-  arrowX[5] = x;
-  arrowY[5] = y + 49;
-  arrowX[6] = x;
-  arrowY[6] = y + 25;
-  arrowX[7] = x;
-  arrowY[7] = y;
+  if (fieldRev) {
+    arrowX[0] = x + 25;
+    arrowY[0] = y + 49;
+    arrowX[1] = x;
+    arrowY[1] = y + 49;
+    arrowX[2] = x;
+    arrowY[2] = y + 25;
+    arrowX[3] = x;
+    arrowY[3] = y;
+    arrowX[4] = x + 25;
+    arrowY[4] = y;
+    arrowX[5] = x + 49;
+    arrowY[5] = y;
+    arrowX[6] = x + 49;
+    arrowY[6] = y + 25;
+    arrowX[7] = x + 49;
+    arrowY[7] = y + 49;
+  } else {
+    arrowX[0] = x + 25;
+    arrowY[0] = y;
+    arrowX[1] = x + 49;
+    arrowY[1] = y;
+    arrowX[2] = x + 49;
+    arrowY[2] = y + 25;
+    arrowX[3] = x + 49;
+    arrowY[3] = y + 49;
+    arrowX[4] = x + 25;
+    arrowY[4] = y + 49;
+    arrowX[5] = x;
+    arrowY[5] = y + 49;
+    arrowX[6] = x;
+    arrowY[6] = y + 25;
+    arrowX[7] = x;
+    arrowY[7] = y;
+
+  }
 
   // arrowX[0] = x;
   // arrowY[0] = y + 25;
@@ -194,7 +215,7 @@ void FieldSquare::normalSquare() {
 }
 
 void FieldSquare::dispArrow(int32 solverDirection, bool canMove[]) {
-  int32 arrowRadians = 90;
+  int32 arrowRadians = fieldRev ? 270 : 90;
   for (auto i : step(8)) {
     if (canMove[i] && i != solverDirection - 1) {
       normalArrow.scaled(0.02)
