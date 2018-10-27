@@ -2,6 +2,7 @@
 
 namespace kyon {
 extern bool colorRev;
+bool fieldRev = false;
 namespace tcp {
 const std::string IP_ADDRESS = "127.0.0.1";
 const unsigned short PORT = 20000;
@@ -28,6 +29,7 @@ Game::Game() {
   startButton = Button(90, 60, 45, U"始");
   undoButton = Button(90, 60, 45, U"戻");
   toggleColorButton = Button(90, 30, 23, U"青チーム");
+  toggleLRButton = Button(90, 30, 23, U"右");
   enterButton = Button(90, 30, 23, U"Enter");
   inputTurn = TextBox(turnNum, Vec2(940, 10), 200);
   cmdGUI = CommandGUI(840, 400);
@@ -272,6 +274,15 @@ void Game::toggleColor(int32 x, int32 y) {
   }
   toggleColorButton.setPos(x, y);
   toggleColorButton.draw();
+}
+
+void Game::toggleLR(int32 x, int32 y) {
+  if (toggleLRButton.isClick()) {
+    fieldRev = !fieldRev;
+    toggleLRButton.rectStr = toggleLRButton.rectStr == U"右" ? U"左" : U"右";
+  }
+  toggleLRButton.setPos(x, y);
+  toggleLRButton.draw();
 }
 
 void Game::getTurn() {

@@ -31,6 +31,7 @@ void Main() {
     game.finishTurn(840, 100);
     game.undo(840, 200);
     game.toggleColor(840, 300);
+    game.toggleLR(840, 350);
     game.dispTurn(940, 300);
   }
 }

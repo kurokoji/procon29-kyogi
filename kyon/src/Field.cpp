@@ -2,6 +2,7 @@
 #include <Siv3D.hpp>
 
 namespace kyon {
+extern bool fieldRev;
 Field::Field() : squSize(60) {}
 
 void Field::InitData(ProblemState pState) {
@@ -161,51 +162,102 @@ void Field::updateAgentPos() {
 
 // H * W　マスの描画*
 void Field::drawField(Array<int> blue) {
-  for (int y = H - 1; y >= 0; --y) {
-    for (int x : step(W)) {
+  if (fieldRev) {
+    for (int y : step(H)) {
+      for (int x = W - 1; x >= 0; --x) {
 
-      squares[y][x].setPos(10 + (H - 1 - y) * squSize, 10 + x * squSize);
-      squares[y][x].draw();
-      squares[y][x].rect.drawFrame(1.0, 1.0, Palette::Gray);
+        squares[y][x].setPos(10 + (H - 1 - y) * squSize, 10 + x * squSize);
+        squares[y][x].draw();
+        squares[y][x].rect.drawFrame(1.0, 1.0, Palette::Gray);
 
-      //矢印の描画
-      if (b1DispArrow) {
-        bool canMove[8];
-        for (int i = 0; i < 9; ++i) {
-          canMove[i] = false;
-        }
-
-        if (squares[y][x].onAgent == 1) {
-          for (int i = 1; i < 9; ++i) {
-            if (isInside(y + dy[i], x + dx[i])) {
-              canMove[i - 1] = true;
-            }
+        //矢印の描画
+        if (b1DispArrow) {
+          bool canMove[8];
+          for (int i = 0; i < 9; ++i) {
+            canMove[i] = false;
           }
-          squares[y][x].dispArrow(blue[0], canMove);
-        }
-      }
 
-      if (b2DispArrow) {
-        bool canMove[8];
-        for (int i = 0; i < 9; ++i) {
-          canMove[i] = false;
-        }
-        if (squares[y][x].onAgent == 2) {
-          for (int i = 1; i < 9; ++i) {
-            if (isInside(y + dy[i], x + dx[i])) {
-              canMove[i - 1] = true;
+          if (squares[y][x].onAgent == 1) {
+            for (int i = 1; i < 9; ++i) {
+              if (isInside(y + dy[i], x + dx[i])) {
+                canMove[i - 1] = true;
+              }
             }
+            squares[y][x].dispArrow(blue[0], canMove);
           }
-          squares[y][x].dispArrow(blue[1], canMove);
         }
-      }
 
-      if (squares[y][x].isClick() && squares[y][x].onAgent != 0) {
-        clicked = true;
-        agent_x = x;
-        agent_y = y;
+        if (b2DispArrow) {
+          bool canMove[8];
+          for (int i = 0; i < 9; ++i) {
+            canMove[i] = false;
+          }
+          if (squares[y][x].onAgent == 2) {
+            for (int i = 1; i < 9; ++i) {
+              if (isInside(y + dy[i], x + dx[i])) {
+                canMove[i - 1] = true;
+              }
+            }
+            squares[y][x].dispArrow(blue[1], canMove);
+          }
+        }
+
+        if (squares[y][x].isClick() && squares[y][x].onAgent != 0) {
+          clicked = true;
+          agent_x = x;
+          agent_y = y;
+        }
       }
     }
+
+  } else {
+    for (int y = H - 1; y >= 0; --y) {
+      for (int x : step(W)) {
+
+        squares[y][x].setPos(10 + (H - 1 - y) * squSize, 10 + x * squSize);
+        squares[y][x].draw();
+        squares[y][x].rect.drawFrame(1.0, 1.0, Palette::Gray);
+
+        //矢印の描画
+        if (b1DispArrow) {
+          bool canMove[8];
+          for (int i = 0; i < 9; ++i) {
+            canMove[i] = false;
+          }
+
+          if (squares[y][x].onAgent == 1) {
+            for (int i = 1; i < 9; ++i) {
+              if (isInside(y + dy[i], x + dx[i])) {
+                canMove[i - 1] = true;
+              }
+            }
+            squares[y][x].dispArrow(blue[0], canMove);
+          }
+        }
+
+        if (b2DispArrow) {
+          bool canMove[8];
+          for (int i = 0; i < 9; ++i) {
+            canMove[i] = false;
+          }
+          if (squares[y][x].onAgent == 2) {
+            for (int i = 1; i < 9; ++i) {
+              if (isInside(y + dy[i], x + dx[i])) {
+                canMove[i - 1] = true;
+              }
+            }
+            squares[y][x].dispArrow(blue[1], canMove);
+          }
+        }
+
+        if (squares[y][x].isClick() && squares[y][x].onAgent != 0) {
+          clicked = true;
+          agent_x = x;
+          agent_y = y;
+        }
+      }
+    }
+
   }
   for (int y : step(H)) {
     for (int x : step(W)) {
