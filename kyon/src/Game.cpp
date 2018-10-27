@@ -27,7 +27,8 @@ Game::Game() {
   maxTurn = U"80";
   TurnFinish = Button(90, 60, 45, U"終");
   startButton = Button(90, 60, 45, U"始");
-  undoButton = Button(90, 60, 45, U"戻");
+  undoBlueButton = Button(90, 60, 45, U"青戻");
+  undoRedButton = Button(90, 60, 45, U"赤戻");
   toggleColorButton = Button(90, 30, 23, U"青チーム");
   toggleLRButton = Button(90, 30, 23, U"右");
   enterButton = Button(90, 30, 23, U"Enter");
@@ -255,17 +256,63 @@ void Game::finishTurn(int32 x, int32 y) {
   }
 }
 
-void Game::undo(int32 x, int32 y) {
-  undoButton.setPos(x, y);
-  undoButton.draw();
+void Game::undoBlue(int32 x, int32 y) {
+  undoBlueButton.setPos(x, y);
+  undoBlueButton.draw();
 
-  if (undoButton.isClick()) {
+  if (undoBlueButton.isClick()) {
+    auto nowRed1 = field.redPos[0];
+    auto nowRed2 = field.redPos[1];
+    auto prevRed1 = problemState.red[0];
+    auto prevRed2 = problemState.red[1];
+    auto nowSquareRed1 = field.squares[nowRed1.first][nowRed1.second];
+    auto nowSquareRed2 = field.squares[nowRed2.first][nowRed2.second];
+    auto prevSquareNowRed1 = field.squares[prevRed1.first][prevRed1.second];
+    auto prevSquareNowRed2 = field.squares[prevRed2.first][prevRed2.second];
+    auto fColorRed1 = field.fColor[nowRed1.first][nowRed1.second];
+    auto fColorRed2 = field.fColor[nowRed2.first][nowRed2.second];
+
     field.squares = field.prev;
     field.fColor = problemState.fieldColor;
+    field.squares[nowRed1.first][nowRed1.second] = nowSquareRed1;
+    field.squares[nowRed2.first][nowRed2.second] = nowSquareRed2;
+    field.squares[prevRed1.first][prevRed1.second] = prevSquareNowRed1;
+    field.squares[prevRed2.first][prevRed2.second] = prevSquareNowRed2;
+    field.fColor[nowRed1.first][nowRed1.second] = fColorRed1;
+    field.fColor[nowRed2.first][nowRed2.second] = fColorRed2;
+
     field.bluePos = problemState.blue;
-    field.redPos = problemState.red;
     field.b1DispArrow = true;
     field.b2DispArrow = true;
+  }
+}
+
+void Game::undoRed(int32 x, int32 y) {
+  undoRedButton.setPos(x, y);
+  undoRedButton.draw();
+
+  if (undoRedButton.isClick()) {
+    auto nowBlue1 = field.bluePos[0];
+    auto nowBlue2 = field.bluePos[1];
+    auto prevBlue1 = problemState.blue[0];
+    auto prevBlue2 = problemState.blue[1];
+    auto nowSquareBlue1 = field.squares[nowBlue1.first][nowBlue1.second];
+    auto nowSquareBlue2 = field.squares[nowBlue2.first][nowBlue2.second];
+    auto prevSquareNowBlue1 = field.squares[prevBlue1.first][prevBlue1.second];
+    auto prevSquareNowBlue2 = field.squares[prevBlue2.first][prevBlue2.second];
+    auto fColorBlue1 = field.fColor[nowBlue1.first][nowBlue1.second];
+    auto fColorBlue2 = field.fColor[nowBlue2.first][nowBlue2.second];
+
+    field.squares = field.prev;
+    field.fColor = problemState.fieldColor;
+    field.squares[nowBlue1.first][nowBlue1.second] = nowSquareBlue1;
+    field.squares[nowBlue2.first][nowBlue2.second] = nowSquareBlue2;
+    field.squares[prevBlue1.first][prevBlue1.second] = prevSquareNowBlue1;
+    field.squares[prevBlue2.first][prevBlue2.second] = prevSquareNowBlue2;
+    field.fColor[nowBlue1.first][nowBlue1.second] = fColorBlue1;
+    field.fColor[nowBlue2.first][nowBlue2.second] = fColorBlue2;
+
+    field.redPos = problemState.red;
   }
 }
 
