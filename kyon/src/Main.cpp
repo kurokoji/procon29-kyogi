@@ -33,5 +33,6 @@ void Main() {
     game.toggleColor(840, 300);
     game.toggleLR(840, 350);
     game.dispTurn(940, 300);
+    game.myTeamAllMove(840, 400);
   }
 }
