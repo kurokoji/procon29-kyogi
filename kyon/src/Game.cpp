@@ -66,11 +66,7 @@ void Game::update() { ; }
 void Game::draw() {
   auto sa = getSolverAnswer();
   field.drawField(sa.blue);
-  if (fieldRev) {
-    cmdGUI.dispCmd(sa.blue[1], sa.blue[0]);
-  } else {
-    cmdGUI.dispCmd(sa.blue[0], sa.blue[1]);
-  }
+  cmdGUI.dispCmd(sa.blue[0], sa.blue[1]);
   getTurnData();
 }
 
