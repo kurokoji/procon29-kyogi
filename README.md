@@ -31,18 +31,18 @@ Ubuntu 18.04
 ## モジュールごとのREADME
 ### haruhi
 
-サーバ[README](https://github.com/kurokoji/procon29-kyogi/tree/master/haruhi)
+サーバ [README](https://github.com/kurokoji/procon29-kyogi/tree/master/haruhi)
 
 ### kyon
 
-GUI[README](https://github.com/kurokoji/procon29-kyogi/tree/master/kyon)
+GUI [README](https://github.com/kurokoji/procon29-kyogi/tree/master/kyon)
 
 ### mikuru
 
-QRコードリーダ[README](https://github.com/kurokoji/procon29-kyogi/tree/master/mikuru)
+QRコードリーダ [README](https://github.com/kurokoji/procon29-kyogi/tree/master/mikuru)
 
 ### nagato
 
-ソルバ[README](https://github.com/kurokoji/procon29-kyogi/tree/master/nagato)
+ソルバ [README](https://github.com/kurokoji/procon29-kyogi/tree/master/nagato)
 
 
