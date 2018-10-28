@@ -25,14 +25,16 @@ struct Node {
   Color playerColor;
   bool isMoveToVisited;
   bool isPeel;
+  int m;
 
-  this(ref State s, Node* pN, uint nt, Color c, bool v = false, bool p = false) {
+  this(ref State s, Node* pN, uint nt, Color c, bool v = false, bool p = false, int mn = 0) {
     st = s;
     parentNode = pN;
     nowTurn = nt;
     playerColor = c;
     isMoveToVisited = v;
     isPeel = p;
+    m = mn;
   }
 
   import nagato.color : Color;
@@ -61,6 +63,7 @@ struct Node {
 
     foreach (i; 1 .. 9) {
       foreach (j; 1 .. 9) {
+        int tmp;
         State nextState = st;
         bool nextMoveToVisited;
         with (nextState) {
@@ -79,10 +82,12 @@ struct Node {
               fieldState.changeColor(o.y, o.x, Color.none);
               o.backTrans(c);
               isPeel = true;
+              if (field.getScore(o.y, o.x) < 0) tmp += 3;
             } else {
               if (fieldState.getColor(o.y, o.x) == playerColor)
                 nextMoveToVisited = true;
               fieldState.changeColor(o.y, o.x, playerColor);
+              if (field.getScore(o.y, o.x) < 0) tmp += 3;
             }
           }
 
@@ -95,7 +100,7 @@ struct Node {
           }
         }
         if (nextState.isValidState()) {
-          ret ~= new Node(nextState, &this, nowTurn + 1, invColor, nextMoveToVisited, isPeel);
+          ret ~= new Node(nextState, &this, nowTurn + 1, invColor, nextMoveToVisited, isPeel, tmp);
           untriedNodes ~= ret.back;
         }
       }
@@ -274,7 +279,7 @@ class NeoMonteCalroTreeSearch : PrimitiveMonteCalroTreeSearch {
     // TODO: パラメータの調整が必要
     return cn[cn.map!(x => (cast(double)x.winCount / cast(
         double)x.visitCount + cUCB * sqrt(log(tv) / cast(double)x.visitCount) + (x.isMoveToVisited
-        ? -2 : x.isPeel ? 10 : 0))).maxIndex];
+        ? -2 : x.isPeel ? 10 : 0) - x.m)).maxIndex];
   }
 
   // まだ調べてない子ノードから選択する
