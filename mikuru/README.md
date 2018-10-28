@@ -16,15 +16,16 @@ make
 
 - OpenCV
 - ZBar
+- Boost
 
 ### Mac(brew)
 
 ``` sh
-brew install opencv zbar
+brew install opencv zbar boost
 ```
 
 ### Ubuntu 18.04(apt)
 
 ``` sh
-sudo apt install libopencv-dev libzbar-dev zbar-tools
+sudo apt install libopencv-dev libzbar-dev zbar-tools libboost-dev
 ```
