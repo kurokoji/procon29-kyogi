@@ -27,12 +27,14 @@ Game::Game() {
   maxTurn = U"80";
   TurnFinish = Button(90, 60, 45, U"終");
   startButton = Button(90, 60, 45, U"始");
-  undoButton = Button(90, 60, 45, U"戻");
+  undoBlueButton = Button(90, 60, 45, (colorRev ? U"青戻" : U"赤戻"));
+  undoRedButton = Button(90, 60, 45, (colorRev ? U"赤戻" : U"青戻"));
   toggleColorButton = Button(90, 30, 23, U"青チーム");
   toggleLRButton = Button(90, 30, 23, U"右");
   enterButton = Button(90, 30, 23, U"Enter");
+  allMove = Button(90, 30, 23, U"移動");
   inputTurn = TextBox(turnNum, Vec2(940, 10), 200);
-  cmdGUI = CommandGUI(840, 400);
+  cmdGUI = CommandGUI(840, 450);
 }
 
 bool Game::getInformation() {
@@ -66,7 +68,11 @@ void Game::update() { ; }
 void Game::draw() {
   auto sa = getSolverAnswer();
   field.drawField(sa.blue);
-  cmdGUI.dispCmd(sa.blue[0], sa.blue[1]);
+  if (fieldRev) {
+    cmdGUI.dispCmd(sa.blue[0], sa.blue[1]);
+  } else {
+    cmdGUI.dispCmd(sa.blue[1], sa.blue[0]);
+  }
   getTurnData();
 }
 
@@ -255,17 +261,113 @@ void Game::finishTurn(int32 x, int32 y) {
   }
 }
 
-void Game::undo(int32 x, int32 y) {
-  undoButton.setPos(x, y);
-  undoButton.draw();
+void Game::undoBlue(int32 x, int32 y) {
+  undoBlueButton.setPos(x, y);
+  undoBlueButton.draw();
 
-  if (undoButton.isClick()) {
-    field.squares = field.prev;
-    field.fColor = problemState.fieldColor;
-    field.bluePos = problemState.blue;
-    field.redPos = problemState.red;
-    field.b1DispArrow = true;
-    field.b2DispArrow = true;
+  if (undoBlueButton.isClick()) {
+    if (colorRev) {
+      auto nowRed1 = field.redPos[0];
+      auto nowRed2 = field.redPos[1];
+      auto prevRed1 = problemState.red[0];
+      auto prevRed2 = problemState.red[1];
+      auto nowSquareRed1 = field.squares[nowRed1.first][nowRed1.second];
+      auto nowSquareRed2 = field.squares[nowRed2.first][nowRed2.second];
+      auto prevSquareNowRed1 = field.squares[prevRed1.first][prevRed1.second];
+      auto prevSquareNowRed2 = field.squares[prevRed2.first][prevRed2.second];
+      auto fColorRed1 = field.fColor[nowRed1.first][nowRed1.second];
+      auto fColorRed2 = field.fColor[nowRed2.first][nowRed2.second];
+
+      field.squares = field.prev;
+      field.fColor = problemState.fieldColor;
+      field.squares[nowRed1.first][nowRed1.second] = nowSquareRed1;
+      field.squares[nowRed2.first][nowRed2.second] = nowSquareRed2;
+      field.squares[prevRed1.first][prevRed1.second] = prevSquareNowRed1;
+      field.squares[prevRed2.first][prevRed2.second] = prevSquareNowRed2;
+      field.fColor[nowRed1.first][nowRed1.second] = fColorRed1;
+      field.fColor[nowRed2.first][nowRed2.second] = fColorRed2;
+
+      field.bluePos = problemState.blue;
+      field.b1DispArrow = true;
+      field.b2DispArrow = true;
+    } else {
+      auto nowBlue1 = field.bluePos[0];
+      auto nowBlue2 = field.bluePos[1];
+      auto prevBlue1 = problemState.blue[0];
+      auto prevBlue2 = problemState.blue[1];
+      auto nowSquareBlue1 = field.squares[nowBlue1.first][nowBlue1.second];
+      auto nowSquareBlue2 = field.squares[nowBlue2.first][nowBlue2.second];
+      auto prevSquareNowBlue1 = field.squares[prevBlue1.first][prevBlue1.second];
+      auto prevSquareNowBlue2 = field.squares[prevBlue2.first][prevBlue2.second];
+      auto fColorBlue1 = field.fColor[nowBlue1.first][nowBlue1.second];
+      auto fColorBlue2 = field.fColor[nowBlue2.first][nowBlue2.second];
+
+      field.squares = field.prev;
+      field.fColor = problemState.fieldColor;
+      field.squares[nowBlue1.first][nowBlue1.second] = nowSquareBlue1;
+      field.squares[nowBlue2.first][nowBlue2.second] = nowSquareBlue2;
+      field.squares[prevBlue1.first][prevBlue1.second] = prevSquareNowBlue1;
+      field.squares[prevBlue2.first][prevBlue2.second] = prevSquareNowBlue2;
+      field.fColor[nowBlue1.first][nowBlue1.second] = fColorBlue1;
+      field.fColor[nowBlue2.first][nowBlue2.second] = fColorBlue2;
+
+      field.redPos = problemState.red;
+    }
+  }
+}
+
+void Game::undoRed(int32 x, int32 y) {
+  undoRedButton.setPos(x, y);
+  undoRedButton.draw();
+
+  if (undoRedButton.isClick()) {
+    if (colorRev) {
+      auto nowBlue1 = field.bluePos[0];
+      auto nowBlue2 = field.bluePos[1];
+      auto prevBlue1 = problemState.blue[0];
+      auto prevBlue2 = problemState.blue[1];
+      auto nowSquareBlue1 = field.squares[nowBlue1.first][nowBlue1.second];
+      auto nowSquareBlue2 = field.squares[nowBlue2.first][nowBlue2.second];
+      auto prevSquareNowBlue1 = field.squares[prevBlue1.first][prevBlue1.second];
+      auto prevSquareNowBlue2 = field.squares[prevBlue2.first][prevBlue2.second];
+      auto fColorBlue1 = field.fColor[nowBlue1.first][nowBlue1.second];
+      auto fColorBlue2 = field.fColor[nowBlue2.first][nowBlue2.second];
+
+      field.squares = field.prev;
+      field.fColor = problemState.fieldColor;
+      field.squares[nowBlue1.first][nowBlue1.second] = nowSquareBlue1;
+      field.squares[nowBlue2.first][nowBlue2.second] = nowSquareBlue2;
+      field.squares[prevBlue1.first][prevBlue1.second] = prevSquareNowBlue1;
+      field.squares[prevBlue2.first][prevBlue2.second] = prevSquareNowBlue2;
+      field.fColor[nowBlue1.first][nowBlue1.second] = fColorBlue1;
+      field.fColor[nowBlue2.first][nowBlue2.second] = fColorBlue2;
+
+      field.redPos = problemState.red;
+    } else {
+      auto nowRed1 = field.redPos[0];
+      auto nowRed2 = field.redPos[1];
+      auto prevRed1 = problemState.red[0];
+      auto prevRed2 = problemState.red[1];
+      auto nowSquareRed1 = field.squares[nowRed1.first][nowRed1.second];
+      auto nowSquareRed2 = field.squares[nowRed2.first][nowRed2.second];
+      auto prevSquareNowRed1 = field.squares[prevRed1.first][prevRed1.second];
+      auto prevSquareNowRed2 = field.squares[prevRed2.first][prevRed2.second];
+      auto fColorRed1 = field.fColor[nowRed1.first][nowRed1.second];
+      auto fColorRed2 = field.fColor[nowRed2.first][nowRed2.second];
+
+      field.squares = field.prev;
+      field.fColor = problemState.fieldColor;
+      field.squares[nowRed1.first][nowRed1.second] = nowSquareRed1;
+      field.squares[nowRed2.first][nowRed2.second] = nowSquareRed2;
+      field.squares[prevRed1.first][prevRed1.second] = prevSquareNowRed1;
+      field.squares[prevRed2.first][prevRed2.second] = prevSquareNowRed2;
+      field.fColor[nowRed1.first][nowRed1.second] = fColorRed1;
+      field.fColor[nowRed2.first][nowRed2.second] = fColorRed2;
+
+      field.bluePos = problemState.blue;
+      field.b1DispArrow = true;
+      field.b2DispArrow = true;
+    }
   }
 }
 
@@ -308,6 +410,41 @@ void Game::pointSum(int32 x, int32 y) {
 
 void Game::dispTurn(int32 x, int32 y) {
   turnLabel(U"現在のターン: {}"_fmt(nowTurn)).draw(x, y, Palette::Black);
+}
+
+void Game::myTeamAllMove(int32 x, int32 y) {
+  int32 b1X = field.bluePos[0].second;
+  int32 b1Y = field.bluePos[0].first;
+  int32 b2X = field.bluePos[1].second;
+  int32 b2Y = field.bluePos[1].first;
+  std::array<int32, 9> dy = {0, 0, -1, -1, -1, 0, 1, 1, 1};
+  std::array<int32, 9> dx = {0, -1, -1, 0, 1, 1, 1, 0, -1};
+  allMove.setPos(x, y);
+  allMove.draw();
+
+  if (allMove.isClick()) {
+    if (field.squares[b1Y + dy[solverAnswer.blue[0]]][b1X + dx[solverAnswer.blue[0]]].whatColor == Color::None) {
+      field.squares[b1Y + dy[solverAnswer.blue[0]]][b1X + dx[solverAnswer.blue[0]]].whatColor = Color::Blue;
+      field.squares[b1Y + dy[solverAnswer.blue[0]]][b1X + dx[solverAnswer.blue[0]]].onAgent = field.squares[b1Y][b1X].onAgent;
+      field.squares[b1Y][b1X].onAgent = 0;
+    } else if (field.squares[b1Y + dy[solverAnswer.blue[0]]][b1X + dx[solverAnswer.blue[0]]].whatColor == Color::Blue) {
+      field.squares[b1Y + dy[solverAnswer.blue[0]]][b1X + dx[solverAnswer.blue[0]]].onAgent = field.squares[b1Y][b1X].onAgent;
+      field.squares[b1Y][b1X].onAgent = 0;
+    } else if (field.squares[b1Y + dy[solverAnswer.blue[0]]][b1X + dx[solverAnswer.blue[0]]].whatColor == Color::Red) {
+      field.squares[b1Y + dy[solverAnswer.blue[0]]][b1X + dx[solverAnswer.blue[0]]].whatColor = Color::None;
+    }
+
+    if (field.squares[b2Y + dy[solverAnswer.blue[1]]][b2X + dx[solverAnswer.blue[1]]].whatColor == Color::None) {
+      field.squares[b2Y + dy[solverAnswer.blue[1]]][b2X + dx[solverAnswer.blue[1]]].whatColor = Color::Blue;
+      field.squares[b2Y + dy[solverAnswer.blue[1]]][b2X + dx[solverAnswer.blue[1]]].onAgent = field.squares[b2Y][b2X].onAgent;
+      field.squares[b2Y][b2X].onAgent = 0;
+    } else if (field.squares[b2Y + dy[solverAnswer.blue[1]]][b2X + dx[solverAnswer.blue[1]]].whatColor == Color::Blue) {
+      field.squares[b2Y + dy[solverAnswer.blue[1]]][b2X + dx[solverAnswer.blue[1]]].onAgent = field.squares[b2Y][b2X].onAgent;
+      field.squares[b2Y][b2X].onAgent = 0;
+    } else if (field.squares[b2Y + dy[solverAnswer.blue[1]]][b2X + dx[solverAnswer.blue[1]]].whatColor == Color::Red) {
+      field.squares[b2Y + dy[solverAnswer.blue[1]]][b2X + dx[solverAnswer.blue[1]]].whatColor = Color::None;
+    }
+  }
 }
 
 } // namespace kyon

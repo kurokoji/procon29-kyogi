@@ -25,10 +25,12 @@ public:
 
   Button TurnFinish;
   Button startButton;
-  Button undoButton;
+  Button undoBlueButton;
+  Button undoRedButton;
   Button enterButton;
   Button toggleColorButton;
   Button toggleLRButton;
+  Button allMove;
   Font turnNum;
   Font pointSumLabel;
   Font turnLabel;
@@ -48,7 +50,9 @@ public:
   void postTurnData();
   bool startGame(int32 x, int32 y);
   void finishTurn(int32 x, int32 y);
-  void undo(int32 x, int32 y);
+  void myTeamAllMove(int32 x, int32 y);
+  void undoBlue(int32 x, int32 y);
+  void undoRed(int32 x, int32 y);
   void toggleColor(int32 x, int32 y);
   void toggleLR(int32 x, int32 y);
   void pointSum(int32 x, int32 y);

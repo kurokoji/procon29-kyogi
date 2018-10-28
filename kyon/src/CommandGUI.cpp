@@ -3,7 +3,7 @@
 
 namespace kyon {
 CommandGUI::CommandGUI() {}
-
+extern bool fieldRev;
 CommandGUI::CommandGUI(int32 recX, int32 recY) {
   x = recX;
   y = recY;
@@ -78,11 +78,19 @@ void CommandGUI::dispCmd(int32 b1, int32 b2) {
   const Rect rect(x, y, 380, 270);
   const Texture rImg(higashi);
   const Texture lImg(nemu);
-  const Circle agent1(x + 40, y + 40, 20);
-  const Triangle agent2(x + 200, y + 40, 40);
+  Circle agent1;
+  Triangle agent2;
   const Font Agents(50);
   const Font str40(40);
   String str1, str2;
+
+  if (fieldRev) {
+    agent1 = Circle(x + 40, y + 40, 20);
+    agent2 = Triangle(x + 200, y + 40, 40);
+  } else {
+    agent1 = Circle(x + 200, y + 40, 20);
+    agent2 = Triangle(x + 40, y + 40, 40);
+  }
 
   str1 = Format(b1);
   str2 = Format(b2);
