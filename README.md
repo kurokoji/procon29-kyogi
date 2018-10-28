@@ -17,6 +17,17 @@
 
 Ubuntu 18.04
 
+## メンバー
+
+- [kurokoji](https://twitter.com/kur0k0ji)
+  - ソルバ，サーバ，QR，その他諸々
+- [nemusou](https://twitter.com/nemu_sou)
+  - GUI
+- [higashi](https://twitter.com/higashi136_2)
+  - GUI
+- [Madofuki](https://twitter.com/_madofuki)
+  - GUI
+
 ## モジュールごとのREADME
 ### haruhi
 
@@ -33,3 +44,5 @@ QRコードリーダ[README](https://github.com/kurokoji/procon29-kyogi/tree/mas
 ### nagato
 
 ソルバ[README](https://github.com/kurokoji/procon29-kyogi/tree/master/nagato)
+
+
