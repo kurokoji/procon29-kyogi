@@ -19,7 +19,7 @@ dub --compiler=ldc2 --build=release --
 ## Mac(brew)
 
 ```sh
-brew ldc
+brew install ldc
 ```
 
 ## Ubuntu 18.04*
