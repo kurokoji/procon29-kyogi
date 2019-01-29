@@ -69,7 +69,7 @@ GUI [README](https://github.com/kurokoji/procon29-kyogi/tree/master/kyon/README.
 
 ### mikuru
 
-QRコードリーダ [README](https://github.com/kurokoji/procon29-kyogi/tree/master/mikur/README.md)
+QRコードリーダ [README](https://github.com/kurokoji/procon29-kyogi/tree/master/mikuru/README.md)
 
 ### nagato
 
