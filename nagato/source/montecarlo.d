@@ -9,7 +9,7 @@
 //
 //====================================================
 
-module nagato.montecalro;
+module nagato.montecarlo;
 
 /// ゲームの盤面を表すノード
 struct Node {
@@ -211,7 +211,7 @@ struct Node {
   }
 }
 
-class PrimitiveMonteCalroTreeSearch {
+class PrimitiveMonteCarloTreeSearch {
   import nagato.state;
   import nagato.color : Color;
 
@@ -258,7 +258,7 @@ class PrimitiveMonteCalroTreeSearch {
 }
 
 /// モンテカルロ木探索
-class NeoMonteCalroTreeSearch : PrimitiveMonteCalroTreeSearch {
+class NeoMonteCarloTreeSearch : PrimitiveMonteCarloTreeSearch {
   import nagato.state : State;
   import nagato.color : Color;
 

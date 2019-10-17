@@ -10,7 +10,7 @@
 //====================================================
 
 import std.stdio;
-import nagato.montecalro,
+import nagato.montecarlo,
        nagato.connection,
        nagato.color,
        nagato.state,
@@ -22,11 +22,12 @@ void main() {
 
   State ini = State(s);
   State st = ini;
+  ini.maxTurn.writeln;
   foreach (i; 0 .. 80) {
     if (i == 0) {
       i.writeln;
       import std.math : sqrt;
-      auto solver = new NeoMonteCalroTreeSearch(st, 6, st.nowTurn * 2, st.maxTurn, Color.own, sqrt(2.0));
+      auto solver = new NeoMonteCarloTreeSearch(st, 6, st.nowTurn * 2, st.maxTurn, Color.own, sqrt(2.0));
       st = solver.solve;
 
       sc.postAnswer(st);
@@ -37,7 +38,7 @@ void main() {
       st = State(next);
       i.writeln;
       import std.math : sqrt;
-      auto solver = new NeoMonteCalroTreeSearch(st, 1, st.nowTurn * 2, st.maxTurn, Color.own, sqrt(2.0));
+      auto solver = new NeoMonteCarloTreeSearch(st, 1, st.nowTurn * 2, st.maxTurn, Color.own, sqrt(2.0));
       st = solver.solve;
 
       sc.postAnswer(st);
